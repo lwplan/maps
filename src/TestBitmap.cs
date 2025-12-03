@@ -37,8 +37,8 @@ class Program
             return;
         }
 
-        var bmp = BitmapMapRenderer.Render(map.Nodes, asciiWidth: 80, asciiHeight: 40);
+        var bmp = BitmapMapRenderer.Render(map, pixelsPerUnit: 3f);
         bmp.Save("/tmp/map.png", new PngEncoder());
-        Console.WriteLine("Bitmap rendered to /tmp/map.png");
+        Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {map.RegionSize}.");
     }
 }
