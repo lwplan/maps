@@ -12,9 +12,9 @@ namespace maps
 {
     public static class BitmapMapRenderer
     {
-        private const int BlockSize = 3;
-        private const int MarginBlocks = 1;
-        private const int MaxBitmapDimension = 32000;
+        internal const int BlockSize = 3;
+        internal const int MarginBlocks = 1;
+        internal const int MaxBitmapDimension = 32000;
 
         private static readonly Dictionary<NodeType, Color> NodeColors = new()
         {
@@ -114,13 +114,11 @@ namespace maps
             if (regionSize.X <= 0 || regionSize.Y <= 0)
                 return Image.Load<Rgba32>("empty.png");
 
-            float scaleFactor = CalculateScaleFactor(nodeList, pixelsPerUnit, map.MinNodeDistance, out var minAxisDistancePixels);
             int marginPixels = marginBlocks * BlockSize;
-            scaleFactor = ClampScaleFactor(regionSize, pixelsPerUnit, marginPixels, scaleFactor);
-            int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit * scaleFactor) + marginPixels * 2;
-            int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit * scaleFactor) + marginPixels * 2;
+            int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit) + marginPixels * 2;
+            int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit) + marginPixels * 2;
 
-            ValidateDimensions(width, height, scaleFactor, regionSize, pixelsPerUnit, map.MinNodeDistance, minAxisDistancePixels);
+            ValidateDimensions(width, height, regionSize, pixelsPerUnit);
 
             var img = new Image<Rgba32>(width, height);
             var pen = new SolidPen(Color.White, 1);
@@ -133,8 +131,8 @@ namespace maps
                 {
                     foreach (var to in from.NextLevelNodes)
                     {
-                        var p1 = ToPixel(from, pixelsPerUnit, marginPixels, scaleFactor);
-                        var p2 = ToPixel(to, pixelsPerUnit, marginPixels, scaleFactor);
+                        var p1 = ToPixel(from, pixelsPerUnit, marginPixels);
+                        var p2 = ToPixel(to, pixelsPerUnit, marginPixels);
 
                         p1.X += BlockSize * 0.5f;
                         p1.Y += BlockSize * 0.5f;
@@ -160,7 +158,7 @@ namespace maps
 
                 foreach (var node in nodeList)
                 {
-                    var p = ToPixel(node, pixelsPerUnit, marginPixels, scaleFactor);
+                    var p = ToPixel(node, pixelsPerUnit, marginPixels);
 
                     var color = NodeColors.TryGetValue(node.Type, out var c)
                         ? c
@@ -174,50 +172,11 @@ namespace maps
             return img;
         }
 
-        public static float CalculateScaleFactor(IEnumerable<Node> nodes, float pixelsPerUnit, int? minNodeDistance, out float minAxisDistancePixels)
-        {
-            minAxisDistancePixels = 0f;
-            if (!minNodeDistance.HasValue)
-            {
-                return 1f;
-            }
-
-            var list = nodes.ToList();
-            if (list.Count < 2)
-            {
-                return 1f;
-            }
-
-            minAxisDistancePixels = float.MaxValue;
-            for (int i = 0; i < list.Count; i++)
-            {
-                for (int j = i + 1; j < list.Count; j++)
-                {
-                    var dx = MathF.Abs(list[j].Coordinates.X - list[i].Coordinates.X) * pixelsPerUnit;
-                    var dy = MathF.Abs(list[j].Coordinates.Y - list[i].Coordinates.Y) * pixelsPerUnit;
-                    var axisDistance = dx == 0f ? dy : dy == 0f ? dx : MathF.Min(dx, dy);
-                    minAxisDistancePixels = MathF.Min(minAxisDistancePixels, axisDistance);
-                }
-            }
-
-            if (minAxisDistancePixels <= 0f)
-            {
-                minAxisDistancePixels = float.Epsilon;
-            }
-
-            return minAxisDistancePixels >= minNodeDistance.Value
-                ? 1f
-                : minNodeDistance.Value / minAxisDistancePixels;
-        }
-
         private static void ValidateDimensions(
             int width,
             int height,
-            float scaleFactor,
             Vector2 regionSize,
-            float pixelsPerUnit,
-            int? minNodeDistance,
-            float minAxisDistancePixels)
+            float pixelsPerUnit)
         {
             if (width < MaxBitmapDimension && height < MaxBitmapDimension)
             {
@@ -230,10 +189,7 @@ namespace maps
                 $"Height={height}",
                 $"MaxBitmapDimension={MaxBitmapDimension}",
                 $"RegionSize={regionSize}",
-                $"PixelsPerUnit={pixelsPerUnit}",
-                $"ScaleFactor={scaleFactor}",
-                $"MinNodeDistance={minNodeDistance?.ToString() ?? "<null>"}",
-                $"MinAxisDistancePixels={minAxisDistancePixels}");
+                $"PixelsPerUnit={pixelsPerUnit}");
 
             throw new InvalidOperationException(
                 "Projected bitmap exceeds configured maximum dimension. This usually indicates a " +
@@ -267,36 +223,6 @@ namespace maps
             return new PointF(
                 node.Coordinates.X * pixelsPerUnit + marginPixels,
                 node.Coordinates.Y * pixelsPerUnit + marginPixels);
-        }
-
-        private static PointF ToPixel(Node node, float pixelsPerUnit, int marginPixels, float scaleFactor)
-        {
-            return new PointF(
-                node.Coordinates.X * pixelsPerUnit * scaleFactor + marginPixels,
-                node.Coordinates.Y * pixelsPerUnit * scaleFactor + marginPixels);
-        }
-
-        private static float ClampScaleFactor(Vector2 regionSize, float pixelsPerUnit, int marginPixels, float scaleFactor)
-        {
-            float usableWidth = MathF.Max(MaxBitmapDimension - marginPixels * 2, BlockSize);
-            float usableHeight = MathF.Max(MaxBitmapDimension - marginPixels * 2, BlockSize);
-
-            float widthCap = usableWidth / MathF.Max(regionSize.X * pixelsPerUnit, float.Epsilon);
-            float heightCap = usableHeight / MathF.Max(regionSize.Y * pixelsPerUnit, float.Epsilon);
-
-            var cappedScale = MathF.Min(scaleFactor, MathF.Min(widthCap, heightCap));
-
-            float projectedWidth = MathF.Ceiling(regionSize.X * pixelsPerUnit * cappedScale) + marginPixels * 2;
-            float projectedHeight = MathF.Ceiling(regionSize.Y * pixelsPerUnit * cappedScale) + marginPixels * 2;
-
-            if (projectedWidth > MaxBitmapDimension || projectedHeight > MaxBitmapDimension)
-            {
-                float adjustedWidthCap = (usableWidth - 1f) / MathF.Max(regionSize.X * pixelsPerUnit, float.Epsilon);
-                float adjustedHeightCap = (usableHeight - 1f) / MathF.Max(regionSize.Y * pixelsPerUnit, float.Epsilon);
-                cappedScale = MathF.Min(cappedScale, MathF.Min(adjustedWidthCap, adjustedHeightCap));
-            }
-
-            return cappedScale;
         }
     }
 }

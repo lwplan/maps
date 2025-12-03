@@ -84,7 +84,9 @@ class Program
         var regionSize = new Vector2(regionWidth, regionHeight);
         var map = generator.GenerateMap(regionSize, numLevels, minNodesPerLevel, maxNodesPerLevel, bifurcationFactor, minDistance);
 
-        if (map.Nodes == null || map.Nodes.Count == 0)
+        var scaledMap = GameMapScaler.ScaleForRendering(map, pixelsPerUnit);
+
+        if (scaledMap.Nodes == null || scaledMap.Nodes.Count == 0)
         {
             Console.WriteLine("No nodes generated.");
             return;
@@ -92,13 +94,13 @@ class Program
 
         if (!string.IsNullOrEmpty(yamlOutputPath))
         {
-            WriteMapYaml(map, yamlOutputPath);
+            WriteMapYaml(scaledMap, yamlOutputPath);
             return;
         }
 
-        using var bmp = BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit);
+        using var bmp = BitmapMapRenderer.Render(scaledMap, pixelsPerUnit: pixelsPerUnit);
         bmp.Save("/tmp/map.png", new PngEncoder());
-        Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {map.RegionSize}.");
+        Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {scaledMap.RegionSize}.");
     }
 
     private static void WriteMapYaml(GameMap map, string path)
