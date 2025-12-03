@@ -1,6 +1,6 @@
 using System;
 
-namespace GameBase.UI.Components.Map
+namespace maps.Components.Map
 {
     public static class Log
     {

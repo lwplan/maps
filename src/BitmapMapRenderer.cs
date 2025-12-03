@@ -1,52 +1,36 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Numerics;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Drawing;
 
 namespace maps
 {
-    /// <summary>
-    /// Renders a collection of <see cref="Node"/>s as a monochrome bitmap.
-    /// Each node is rendered as a 3×3 pixel solid block, coloured according to its type.
-    /// Edges are drawn as 1‑pixel wide lines between node centres.
-    /// </summary>
     public static class BitmapMapRenderer
     {
-        private const int BlockSize = 3;          // pixels per ASCII "pixel"
-        private const int MarginBlocks = 1;       // one block margin around the map
+        private const int BlockSize = 3;
+        private const int MarginBlocks = 1;
 
-        /// <summary>
-        /// Map node types to colours for the bitmap output.
-        /// </summary>
         private static readonly Dictionary<NodeType, Color> NodeColors = new()
         {
-            { NodeType.Start,   Color.Yellow },
-            { NodeType.End,     Color.Magenta },
-            { NodeType.Combat,  Color.Red },
+            { NodeType.Start, Color.Yellow },
+            { NodeType.End, Color.Magenta },
+            { NodeType.Combat, Color.Red },
             { NodeType.Trading, Color.Cyan },
-            { NodeType.Event,   Color.Blue },
+            { NodeType.Event, Color.Blue },
             { NodeType.Powerup, Color.Green },
-            // If a new type is added, make sure to add a colour here.
         };
 
-        /// <summary>
-        /// Render nodes and edges to a <see cref="Bitmap"/>.
-        /// Parameters width/height refer to the ASCII width/height that the original
-        /// AsciiMapRenderer would produce. They are used to normalise coordinates.
-        /// </summary>
-        public static Bitmap Render(IEnumerable<Node> nodes, int asciiWidth = 80, int asciiHeight = 24)
+        public static Image<Rgba32> Render(IEnumerable<Node> nodes, int asciiWidth = 80, int asciiHeight = 24)
         {
             var nodeList = nodes.ToList();
             if (!nodeList.Any())
-            {
-                // Return an empty bitmap with a single pixel of black.
-                return new Bitmap(1, 1);
-            }
+                return Image.Load<Rgba32>("empty.png");
 
-            // 1. Determine bounds of the node coordinates
+            // coordinate bounds
             float minX = nodeList.Min(n => n.Coordinates.X);
             float maxX = nodeList.Max(n => n.Coordinates.X);
             float minY = nodeList.Min(n => n.Coordinates.Y);
@@ -55,64 +39,89 @@ namespace maps
             float xRange = Math.Max(maxX - minX, 0.01f);
             float yRange = Math.Max(maxY - minY, 0.01f);
 
-            // 2. Compute bitmap size in pixels
-            int bitmapWidth  = (asciiWidth  + 2 * MarginBlocks) * BlockSize;
-            int bitmapHeight = (asciiHeight + 2 * MarginBlocks) * BlockSize;
+            int width = (asciiWidth + 2 * MarginBlocks) * BlockSize;
+            int height = (asciiHeight + 2 * MarginBlocks) * BlockSize;
 
-            var bitmap = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppArgb);
+            var img = new Image<Rgba32>(width, height);
 
-            using (var g = Graphics.FromImage(bitmap))
+            var pen = new SolidPen(Color.White, 1);
+
+            img.Mutate(ctx =>
             {
-                g.SmoothingMode = SmoothingMode.None;
-                g.Clear(Color.Black);
+                ctx.Fill(Color.Black);
 
-                // Draw edges first so they appear under nodes
+                //
+                // Draw edges
+                //
                 foreach (var from in nodeList)
                 {
-                    foreach (var to in from.NextLevelNodes)
-                    {
-                        var fromPixel = ToPixelCoords(from, minX, maxX, minY, maxY, asciiWidth, asciiHeight, blockSize: BlockSize, marginBlocks: MarginBlocks, xRange: xRange, yRange: yRange);
-                        var toPixel   = ToPixelCoords(to,   minX, maxX, minY, maxY, asciiWidth, asciiHeight, blockSize: BlockSize, marginBlocks: MarginBlocks, xRange: xRange, yRange: yRange);
+foreach (var to in from.NextLevelNodes)
+{
+    var p1 = ToPixel(from, minX, xRange, minY, yRange, asciiWidth, asciiHeight);
+    var p2 = ToPixel(to, minX, xRange, minY, yRange, asciiWidth, asciiHeight);
 
-                        var pen = Pens.White; // simple white lines for edges
-                        g.DrawLine(pen, fromPixel.Item1 + BlockSize / 2, fromPixel.Item2 + BlockSize / 2,
-                                   toPixel.Item1   + BlockSize / 2, toPixel.Item2   + BlockSize / 2);
-                    }
+    // center within node block
+    p1.X += BlockSize * 0.5f;
+    p1.Y += BlockSize * 0.5f;
+    p2.X += BlockSize * 0.5f;
+    p2.Y += BlockSize * 0.5f;
+
+    var pathBuilder = new PathBuilder();
+    if (p1.X == p2.X || p1.Y == p2.Y)
+    {
+        pathBuilder.AddLine(p1, p2);
+    }
+    else
+    {
+        var bend = new PointF(p2.X, p1.Y);
+        pathBuilder.AddLine(p1, bend);
+        pathBuilder.AddLine(bend, p2);
+    }
+    var line = pathBuilder.Build();
+
+    ctx.Draw(pen, line);
+
+}
                 }
 
-                // Draw nodes as solid blocks
+                //
+                // Draw nodes
+                //
                 foreach (var node in nodeList)
                 {
-                    var (px, py) = ToPixelCoords(node, minX, maxX, minY, maxY, asciiWidth, asciiHeight, BlockSize, MarginBlocks, xRange, yRange);
-                    var color = NodeColors.ContainsKey(node.Type) ? NodeColors[node.Type] : Color.Gray;
-                    using var brush = new SolidBrush(color);
-                    g.FillRectangle(brush, px, py, BlockSize, BlockSize);
+                    var p = ToPixel(node, minX, xRange, minY, yRange, asciiWidth, asciiHeight);
+
+                    var color = NodeColors.TryGetValue(node.Type, out var c)
+                        ? c
+                        : Color.Gray;
+
+                    IPath rect = new RectangularPolygon(p.X, p.Y, BlockSize, BlockSize);
+                    ctx.Fill(color, rect);
                 }
-            }
-            return bitmap;
+            });
+
+            return img;
         }
 
-        /// <summary>
-        /// Convert a node's world coordinates into pixel coordinates on the bitmap.
-        /// </summary>
-        private static (int, int) ToPixelCoords(Node node,
-                                                 float minX, float maxX, float minY, float maxY,
-                                                 int asciiWidth, int asciiHeight,
-                                                 int blockSize, int marginBlocks,
-                                                 float xRange, float yRange)
+        private static PointF ToPixel(
+            Node node,
+            float minX,
+            float xRange,
+            float minY,
+            float yRange,
+            int asciiWidth,
+            int asciiHeight)
         {
-            // Normalise to [0,1] based on overall bounds
-            float normX = (node.Coordinates.X - minX) / xRange;
-            float normY = (node.Coordinates.Y - minY) / yRange;
+            float nx = (node.Coordinates.X - minX) / xRange;
+            float ny = (node.Coordinates.Y - minY) / yRange;
 
-            // Scale to ascii grid, subtracting borders as ascii renderer does
-            int asciiX = (int)Math.Floor(normX * (asciiWidth  - 4));
-            int asciiY = (int)Math.Floor(normY * (asciiHeight - 1));
+            int ax = (int)(nx * asciiWidth);
+            int ay = (int)(ny * asciiHeight);
 
-            // Convert grid space to pixel space, adding margin
-            int px = asciiX * blockSize + marginBlocks * blockSize;
-            int py = asciiY * blockSize + marginBlocks * blockSize;
-            return (px, py);
+            return new PointF(
+                (ax + MarginBlocks) * BlockSize,
+                (ay + MarginBlocks) * BlockSize
+            );
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace GameBase.UI.Util
+namespace maps
 {
     public static class RandomUtil
     {

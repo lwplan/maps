@@ -1,27 +1,44 @@
-// Added simple test harness to validate bitmap rendering
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Numerics;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
 
-namespace maps
+namespace maps;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main()
-        {
-            // Create a tiny map with two nodes and one edge
-            var nodes = new List<Node>
-            {
-                new Node(new Vector2(0.1f,0.1f), 0, NodeType.Combat, null),
-                new Node(new Vector2(0.8f,0.9f), 1, NodeType.Trading, null)
-            };
-            nodes[0].NextLevelNodes.Add(nodes[1]);
+        // Default parameters
+        var regionSize = new Vector2(1f, 1f);
+        int numLevels = 4;
+        int minNodesPerLevel = 1;
+        int maxNodesPerLevel = 3;
+        float bifurcationFactor = 0.5f;
+        int? minDistance = null;
 
-            using var bmp = BitmapMapRenderer.Render(nodes, asciiWidth: 10, asciiHeight: 5);
-            bmp.Save("./bitmap_test.png");
-            Console.WriteLine("Bitmap saved to C:\\Temp\\bitmap_test.png");
+        // Simple CLI parsing
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == "--min-distance" && i + 1 < args.Length)
+            {
+                if (int.TryParse(args[i + 1], out var d))
+                    minDistance = d;
+                i++; // skip value
+            }
         }
+
+        var generator = new GameMapGenerator();
+        var map = generator.GenerateMap(regionSize, numLevels, minNodesPerLevel, maxNodesPerLevel, bifurcationFactor, minDistance);
+
+        if (map.Nodes == null || map.Nodes.Count == 0)
+        {
+            Console.WriteLine("No nodes generated.");
+            return;
+        }
+
+        var bmp = BitmapMapRenderer.Render(map.Nodes, asciiWidth: 80, asciiHeight: 40);
+        bmp.Save("/tmp/map.png", new PngEncoder());
+        Console.WriteLine("Bitmap rendered to /tmp/map.png");
     }
 }

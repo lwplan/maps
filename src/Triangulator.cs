@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using DelaunatorSharp;
-using GameBase.Model.Map;
-using GameBase.UI.Core.Implementations;
-using maps;
 
-namespace GameBase.UI.Components.Map
+namespace maps
 {
     public static class Triangulator
     {
@@ -30,7 +27,7 @@ namespace GameBase.UI.Components.Map
                 // Log.Info($"Delaunator triangles length: {delaunator.Triangles.Length}");
                 if (delaunator.Triangles.Length == 0)
                 {
-                    Log.Error("Delaunator produced no triangles.");
+                    Components.Map.Log.Error("Delaunator produced no triangles.");
                     return;
                 }
 
@@ -50,7 +47,7 @@ namespace GameBase.UI.Components.Map
             }
             catch (System.Exception e)
             {
-                Log.Error($"Triangulation exception: {e.Message}");
+                Components.Map.Log.Error($"Triangulation exception: {e.Message}");
             }
         }
 

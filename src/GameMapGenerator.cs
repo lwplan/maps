@@ -1,174 +1,185 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using GameBase.Model.Map;
-using GameBase.UI.Core.Implementations;
-using GameBase.UI.Util;
-using maps;
 
-
-namespace GameBase.UI.Components.Map
+namespace maps
 {
     public class GameMapGenerator
     {
-        public GameMap GenerateMap(Vector2 regionSize, int numLevels, int minNodesPerLevel, int maxNodesPerLevel, float bifurcationFactor)
+        public GameMap GenerateMap(Vector2 regionSize, int numLevels, int minNodesPerLevel, int maxNodesPerLevel, float bifurcationFactor, int? minNodeDistance = null)
         {
-            GameMap map = new GameMap(regionSize, numLevels, minNodesPerLevel, maxNodesPerLevel, bifurcationFactor);
-            GenerateMap(map);
+            var map = new GameMap(regionSize, numLevels, minNodesPerLevel, maxNodesPerLevel, bifurcationFactor);
+            map.MinNodeDistance = minNodeDistance;
+
+            GenerateNodes(map);
+            if (minNodeDistance.HasValue)
+            {
+                AnnealNodes(map, minNodeDistance.Value);
+                FitRegionToNodes(map);
+            }
+            Triangulator.GenerateTriangulatedEdges(map.Nodes);
+            EliminateDisconnectedNodes(map);
+            EnforceConnectivityAndBifurcation(map);
             return map;
         }
 
-        private void GenerateMap(GameMap map)
+        private void GenerateNodes(GameMap map)
         {
             if (map.RegionSize.X <= 0 || map.RegionSize.Y <= 0 || map.NumLevels < 3)
-            {
                 return;
-            }
 
             map.Nodes = NodeGenerator.GenerateNodes(map.RegionSize, map.NumLevels, map.MinNodesPerLevel, map.MaxNodesPerLevel);
-            // Log.Info($"Generated {map.Nodes.Count} nodes across {map.NumLevels} levels.");
             if (map.Nodes.Count < 3)
             {
-                Log.Info($"Map generation failed: Only {map.Nodes.Count} nodes generated (minimum 3 required).");
+                Components.Map.Log.Info($"Map generation failed: Only {map.Nodes.Count} nodes generated (minimum 3 required)." );
                 map.Nodes = null;
                 return;
             }
             map.StartNode = map.Nodes.Find(n => n.Level == 0);
             map.EndNode = map.Nodes.Find(n => n.Level == map.NumLevels - 1);
-            // Log.Info($"Start node: {map.StartNode.Coordinates}, End node: {map.EndNode.Coordinates}");
+        }
 
-            Triangulator.GenerateTriangulatedEdges(map.Nodes);
-            int totalConnections = map.Nodes.Sum(n => n.NextLevelNodes.Count);
-            // Log.Info($"Triangulation completed with {totalConnections} connections.");
-            if (totalConnections == 0)
+        private void AnnealNodes(GameMap map, int minDistance)
+        {
+            float target = minDistance;
+            int iterations = 20;
+            float step = 0.1f;
+            var nodes = map.Nodes;
+            for (int it = 0; it < iterations; it++)
             {
-                Log.Error("No connections generated. Check triangulation or level adjacency.");
+                var dispX = new float[nodes.Count];
+                var dispY = new float[nodes.Count];
+                for (int a = 0; a < nodes.Count; a++)
+                {
+                    for (int b = a + 1; b < nodes.Count; b++)
+                    {
+                        var n1 = nodes[a];
+                        var n2 = nodes[b];
+                        float dx = n2.Coordinates.X - n1.Coordinates.X;
+                        float dy = n2.Coordinates.Y - n1.Coordinates.Y;
+                        float distSq = dx * dx + dy * dy;
+                        if (distSq < target * target && distSq > 0f)
+                        {
+                            var dist = MathF.Sqrt(distSq);
+                            var overlap = target - dist;
+                            float dirX = dx / dist;
+                            float dirY = dy / dist;
+                            dispX[a] -= dirX * overlap * step;
+                            dispY[a] -= dirY * overlap * step;
+                            dispX[b] += dirX * overlap * step;
+                            dispY[b] += dirY * overlap * step;
+                        }
+                    }
+                }
+                for (int a = 0; a < nodes.Count; a++)
+                {
+                    var n = nodes[a];
+                    n.Coordinates = new Vector2(
+                        Math.Clamp(n.Coordinates.X + dispX[a], 0f, 1f),
+                        Math.Clamp(n.Coordinates.Y + dispY[a], 0f, 1f));
+                }
             }
+            foreach (var a in nodes)
+                foreach (var b in nodes)
+                    if (a != b)
+                    {
+                        float dx = b.Coordinates.X - a.Coordinates.X;
+                        float dy = b.Coordinates.Y - a.Coordinates.Y;
+                        float dist = MathF.Sqrt(dx * dx + dy * dy);
+                        if (dist < target)
+                            Console.Error.WriteLine($"Violation: Nodes at {a.Coordinates} & {b.Coordinates} closer than {target} ({dist})");
+                    }
+        }
 
-            EliminateDisconnectedNodes(map);
-            EnforceConnectivityAndBifurcation(map);
-            totalConnections = map.Nodes.Sum(n => n.NextLevelNodes.Count);
-            // Log.Info($"Final connections after enforcement: {totalConnections}");
-            if (totalConnections == 0)
+        private void FitRegionToNodes(GameMap map)
+        {
+            var minX = map.Nodes.Min(n => n.Coordinates.X);
+            var maxX = map.Nodes.Max(n => n.Coordinates.X);
+            var minY = map.Nodes.Min(n => n.Coordinates.Y);
+            var maxY = map.Nodes.Max(n => n.Coordinates.Y);
+            map.RegionSize = new Vector2(maxX - minX + 10f, maxY - minY + 10f);
+            for (int i = 0; i < map.Nodes.Count; i++)
             {
-                Log.Error("Enforcement resulted in no connections.");
+                var n = map.Nodes[i];
+                n.Coordinates = new Vector2(n.Coordinates.X - minX, n.Coordinates.Y - minY);
             }
+            map.StartNode = map.Nodes.Find(n => n.Level == 0);
+            map.EndNode = map.Nodes.Find(n => n.Level == map.NumLevels - 1);
         }
 
         private void EliminateDisconnectedNodes(GameMap map)
         {
-            // Log.Info("Eliminating disconnected nodes...");
-            List<Node> nodesToRemove = new List<Node>();
-
-            foreach (var node in map.Nodes)
+            var toRemove = new List<Node>();
+            foreach (var n in map.Nodes)
             {
-                bool isStart = node.Level == 0;
-                bool isEnd = node.Level == map.NumLevels - 1;
-
-                if (!isStart && node.PrevLevelNodes.Count == 0)
-                {
-                    nodesToRemove.Add(node);
-                    // Log.Info($"Marked for removal (no prev): {node.Coordinates} (Level {node.Level})");
-                }
-                else if (!isEnd && node.NextLevelNodes.Count == 0)
-                {
-                    nodesToRemove.Add(node);
-                 //   Log.Info($"Marked for removal (no next): {node.Coordinates} (Level {node.Level})");
-                }
+                bool isStart = n.Level == 0;
+                bool isEnd = n.Level == map.NumLevels - 1;
+                if (!isStart && n.PrevLevelNodes.Count == 0) toRemove.Add(n);
+                else if (!isEnd && n.NextLevelNodes.Count == 0) toRemove.Add(n);
             }
-
-            foreach (var node in nodesToRemove)
+            foreach (var n in toRemove)
             {
-                foreach (var otherNode in map.Nodes)
+                foreach (var other in map.Nodes)
                 {
-                    otherNode.NextLevelNodes.Remove(node);
-                    otherNode.PrevLevelNodes.Remove(node);
+                    other.NextLevelNodes.Remove(n);
+                    other.PrevLevelNodes.Remove(n);
                 }
-                map.Nodes.Remove(node);
-                // Log.Info($"Removed disconnected node: {node.Coordinates} (Level {node.Level})");
+                map.Nodes.Remove(n);
             }
-
             map.StartNode = map.Nodes.Find(n => n.Level == 0);
             map.EndNode = map.Nodes.Find(n => n.Level == map.NumLevels - 1);
-            // Log.Info($"Remaining nodes: {map.Nodes.Count}");
         }
 
         private void EnforceConnectivityAndBifurcation(GameMap map)
         {
-            // Log.Info("Enforcing connectivity and trimming excess edges with bifurcation factor...");
-
-            // Step 1: Enforce Start node connects to all Level 1 nodes
+            // Original implementation retained
             var level1Nodes = map.Nodes.FindAll(n => n.Level == 1);
-            // Log.Info($"Level 1 nodes: {level1Nodes.Count}");
-            foreach (var level1Node in level1Nodes)
+            foreach (var n in level1Nodes)
             {
-                if (!map.StartNode.NextLevelNodes.Contains(level1Node))
+                if (!map.StartNode.NextLevelNodes.Contains(n))
                 {
-                    map.StartNode.NextLevelNodes.Add(level1Node);
-                    level1Node.PrevLevelNodes.Add(map.StartNode);
-                    // Log.Info($"Added Start -> Level 1: {map.StartNode.Coordinates} -> {level1Node.Coordinates}");
+                    map.StartNode.NextLevelNodes.Add(n);
+                    n.PrevLevelNodes.Add(map.StartNode);
                 }
             }
-
-            // Step 2: Enforce End node connects to all penultimate level nodes
-            var penultimateLevelNodes = map.Nodes.FindAll(n => n.Level == map.NumLevels - 2);
-            // Log.Info($"Penultimate level nodes: {penultimateLevelNodes.Count}");
-            foreach (var penNode in penultimateLevelNodes)
+            var penNodes = map.Nodes.FindAll(n => n.Level == map.NumLevels - 2);
+            foreach (var n in penNodes)
             {
-                if (!map.EndNode.PrevLevelNodes.Contains(penNode))
+                if (!map.EndNode.PrevLevelNodes.Contains(n))
                 {
-                    penNode.NextLevelNodes.Add(map.EndNode);
-                    map.EndNode.PrevLevelNodes.Add(penNode);
-                    // Log.Info($"Added Level {map.NumLevels - 2} -> End: {penNode.Coordinates} -> {map.EndNode.Coordinates}");
+                    n.NextLevelNodes.Add(map.EndNode);
+                    map.EndNode.PrevLevelNodes.Add(n);
                 }
             }
-
-            // Step 3: Eliminate excess edges with bifurcation probability
+            // Bifurcation trimming logic
             bool edgesRemoved;
             int iteration = 0;
             do
             {
                 edgesRemoved = false;
-                foreach (var node in map.Nodes)
+                foreach (var n in map.Nodes)
                 {
-                    if (node.Level == map.NumLevels - 1) continue;
-
-                    var nextNodes = node.NextLevelNodes.ToList();
-                    foreach (var nextNode in nextNodes)
+                    if (n.Level == map.NumLevels - 1) continue;
+                    var nexts = n.NextLevelNodes.ToList();
+                    foreach (var next in nexts)
                     {
-                        var nodeNextTemp = node.NextLevelNodes.ToList();
-                        nodeNextTemp.Remove(nextNode);
-                        var nextPrevTemp = nextNode.PrevLevelNodes.ToList();
-                        nextPrevTemp.Remove(node);
-
-                        bool nodeSafe = node.Level == 0 || nodeNextTemp.Count > 0;
-                        bool nextSafe = nextNode.Level == map.NumLevels - 1 || nextPrevTemp.Count > 0;
-
-                        if (nodeSafe && nextSafe && RandomUtil.Value() < map.BifurcationFactor)
+                        var temp = n.NextLevelNodes.ToList();
+                        temp.Remove(next);
+                        var prevTemp = next.PrevLevelNodes.ToList();
+                        prevTemp.Remove(n);
+                        bool safe1 = n.Level == 0 || temp.Count > 0;
+                        bool safe2 = next.Level == map.NumLevels - 1 || prevTemp.Count > 0;
+                        if (safe1 && safe2 && RandomUtil.Value() < map.BifurcationFactor)
                         {
-                            node.NextLevelNodes.Remove(nextNode);
-                            nextNode.PrevLevelNodes.Remove(node);
+                            n.NextLevelNodes.Remove(next);
+                            next.PrevLevelNodes.Remove(n);
                             edgesRemoved = true;
-                            // Log.Info($"Removed edge (bifurcation factor {map.BifurcationFactor:F2}): {node.Coordinates} (Level {node.Level}) -> {nextNode.Coordinates} (Level {nextNode.Level})");
                         }
                     }
                 }
                 iteration++;
-                // Log.Info($"Iteration {iteration}: Edges removed this pass = {edgesRemoved}");
             } while (edgesRemoved);
-
-            float branchedCount = map.Nodes.Count(n => n.Level != map.NumLevels - 1 && n.NextLevelNodes.Count > 1);
-            float singleCount = map.Nodes.Count(n => n.Level != map.NumLevels - 1 && n.NextLevelNodes.Count == 1);
-            float finalRatio = singleCount > 0 ? branchedCount / (branchedCount + singleCount) : branchedCount > 0 ? 1f : 0f;
-            // Log.Info($"Final bifurcation - branched: {branchedCount}, single: {singleCount}, ratio: {finalRatio:F2} (factor: {map.BifurcationFactor:F2})");
-
-            foreach (var node in map.Nodes)
-            {
-                if (node.Level != 0 && node.PrevLevelNodes.Count == 0)
-                    Log.Warning($"Node {node.Coordinates} (Level {node.Level}) has no PrevLevelNodes after trimming.");
-                if (node.Level != map.NumLevels - 1 && node.NextLevelNodes.Count == 0)
-                    Log.Warning($"Node {node.Coordinates} (Level {node.Level}) has no NextLevelNodes after trimming.");
-            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace CombatEngine.Core.Model
+namespace maps
 {
     public enum CombatLogLevel
     {

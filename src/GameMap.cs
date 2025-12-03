@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Numerics;
-using maps;
 
-namespace GameBase.Model.Map
+namespace maps
 {
     public class GameMap
     {
@@ -10,11 +9,12 @@ namespace GameBase.Model.Map
         public Node StartNode { get; set; }
         public Node EndNode { get; set; }
         public List<Node> VisitedNodes { get; private set; } // Track visited nodes
-        public Vector2 RegionSize { get; private set; }
+        public Vector2 RegionSize { get; set; }
         public int NumLevels { get; private set; }
         public int MinNodesPerLevel { get; private set; }
         public int MaxNodesPerLevel { get; private set; }
         public float BifurcationFactor { get; private set; }
+        public int? MinNodeDistance { get; set; }
 
         public GameMap(Vector2 regionSize, int numLevels, int minNodesPerLevel, int maxNodesPerLevel, float bifurcationFactor)
         {

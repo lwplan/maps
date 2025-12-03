@@ -1,9 +1,6 @@
 using System;
-using CombatEngine.Core.Model;
-using maps;
 
-
-namespace GameBase.UI.Core.Implementations
+namespace maps
 {
     public static class Log
     {
