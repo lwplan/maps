@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -13,6 +14,7 @@ namespace maps
     {
         private const int BlockSize = 3;
         private const int MarginBlocks = 1;
+        private const int MaxBitmapDimension = 32000;
 
         private static readonly Dictionary<NodeType, Color> NodeColors = new()
         {
@@ -114,6 +116,7 @@ namespace maps
 
             float scaleFactor = CalculateScaleFactor(nodeList, pixelsPerUnit, map.MinNodeDistance);
             int marginPixels = marginBlocks * BlockSize;
+            scaleFactor = ClampScaleFactor(regionSize, pixelsPerUnit, marginPixels, scaleFactor);
             int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit * scaleFactor) + marginPixels * 2;
             int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit * scaleFactor) + marginPixels * 2;
 
@@ -237,6 +240,29 @@ namespace maps
             return new PointF(
                 node.Coordinates.X * pixelsPerUnit * scaleFactor + marginPixels,
                 node.Coordinates.Y * pixelsPerUnit * scaleFactor + marginPixels);
+        }
+
+        private static float ClampScaleFactor(Vector2 regionSize, float pixelsPerUnit, int marginPixels, float scaleFactor)
+        {
+            float usableWidth = MathF.Max(MaxBitmapDimension - marginPixels * 2, BlockSize);
+            float usableHeight = MathF.Max(MaxBitmapDimension - marginPixels * 2, BlockSize);
+
+            float widthCap = usableWidth / MathF.Max(regionSize.X * pixelsPerUnit, float.Epsilon);
+            float heightCap = usableHeight / MathF.Max(regionSize.Y * pixelsPerUnit, float.Epsilon);
+
+            var cappedScale = MathF.Min(scaleFactor, MathF.Min(widthCap, heightCap));
+
+            float projectedWidth = MathF.Ceiling(regionSize.X * pixelsPerUnit * cappedScale) + marginPixels * 2;
+            float projectedHeight = MathF.Ceiling(regionSize.Y * pixelsPerUnit * cappedScale) + marginPixels * 2;
+
+            if (projectedWidth > MaxBitmapDimension || projectedHeight > MaxBitmapDimension)
+            {
+                float adjustedWidthCap = (usableWidth - 1f) / MathF.Max(regionSize.X * pixelsPerUnit, float.Epsilon);
+                float adjustedHeightCap = (usableHeight - 1f) / MathF.Max(regionSize.Y * pixelsPerUnit, float.Epsilon);
+                cappedScale = MathF.Min(cappedScale, MathF.Min(adjustedWidthCap, adjustedHeightCap));
+            }
+
+            return cappedScale;
         }
     }
 }
