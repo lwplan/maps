@@ -19,16 +19,16 @@ namespace maps.Tests
 
             // Act
             var map = generator.GenerateMap(new Vector2(20f, 20f), numLevels: 5, minNodesPerLevel: 2, maxNodesPerLevel: 3, bifurcationFactor: 0.5f, minNodeDistance: 4);
+            var scaledMap = GameMapScaler.ScaleForRendering(map, pixelsPerUnit);
 
             // Assert
-            Assert.That(map.Nodes, Is.Not.Null.And.Not.Empty);
-            var scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance, out _);
+            Assert.That(scaledMap.Nodes, Is.Not.Null.And.Not.Empty);
             var scaledPositions = new List<Vector2>();
-            foreach (var node in map.Nodes)
+            foreach (var node in scaledMap.Nodes)
             {
                 scaledPositions.Add(new Vector2(
-                    node.Coordinates.X * pixelsPerUnit * scale,
-                    node.Coordinates.Y * pixelsPerUnit * scale));
+                    node.Coordinates.X * pixelsPerUnit,
+                    node.Coordinates.Y * pixelsPerUnit));
             }
 
             for (int i = 0; i < scaledPositions.Count; i++)
@@ -45,7 +45,7 @@ namespace maps.Tests
         }
 
         [Test]
-        public void Render_ClampsScaleFactor_WhenBitmapWouldExceedLimits()
+        public void ScaleForRendering_ClampsScaleFactor_WhenBitmapWouldExceedLimits()
         {
             var map = new GameMap(new Vector2(1000f, 1000f), numLevels: 3, minNodesPerLevel: 1, maxNodesPerLevel: 1, bifurcationFactor: 0.5f)
             {
@@ -65,34 +65,32 @@ namespace maps.Tests
             map.StartNode = start;
             map.EndNode = end;
 
-            using Image image = BitmapMapRenderer.Render(map, pixelsPerUnit: 3f);
+            var scaledMap = GameMapScaler.ScaleForRendering(map, pixelsPerUnit: 3f);
+            using Image image = BitmapMapRenderer.Render(scaledMap, pixelsPerUnit: 3f);
 
             Assert.That(image.Width, Is.LessThanOrEqualTo(32000));
             Assert.That(image.Height, Is.LessThanOrEqualTo(32000));
         }
 
         [Test]
-        public void Render_ReportsActualDimensions_WithUserProvidedParameters()
+        public void Render_ThrowsWhenBitmapWouldExceedLimitsWithoutScaling()
         {
-            RandomUtil.SetSeed(9876);
-            var generator = new GameMapGenerator();
-            var map = generator.GenerateMap(new Vector2(100f, 100f), numLevels: 5, minNodesPerLevel: 2, maxNodesPerLevel: 5, bifurcationFactor: 0.5f, minNodeDistance: 4);
-
-            float pixelsPerUnit = 3f;
-            float scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance, out var minAxisDistancePixels);
-
-            Assert.That(map.Nodes, Is.Not.Null.And.Not.Empty);
-            Assert.That(scale, Is.GreaterThanOrEqualTo(1f));
+            var map = new GameMap(new Vector2(20000f, 20000f), numLevels: 3, minNodesPerLevel: 1, maxNodesPerLevel: 1, bifurcationFactor: 0.5f);
+            var start = new Node(new Vector2(0f, 0f), 0, NodeType.Start, null);
+            var end = new Node(new Vector2(1f, 1f), 2, NodeType.End, null);
+            start.NextLevelNodes.Add(end);
+            end.PrevLevelNodes.Add(start);
+            map.Nodes = new List<Node> { start, end };
+            map.StartNode = start;
+            map.EndNode = end;
 
             var ex = Assert.Throws<InvalidOperationException>(
-                () => BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit));
+                () => BitmapMapRenderer.Render(map, pixelsPerUnit: 3f));
 
             Assert.That(ex!.Message, Does.Contain("Projected bitmap exceeds configured maximum dimension"));
             Assert.That(ex.Message, Does.Contain(map.RegionSize.ToString()));
-            Assert.That(ex.Message, Does.Contain((map.MinNodeDistance ?? -1).ToString()));
-            Assert.That(ex.Message, Does.Contain("Width=32000"));
-            Assert.That(ex.Message, Does.Contain("Height=32000"));
-            Assert.That(ex.Message, Does.Contain(minAxisDistancePixels.ToString()));
+            Assert.That(ex.Message, Does.Contain("Width="));
+            Assert.That(ex.Message, Does.Contain("Height="));
         }
     }
 }
