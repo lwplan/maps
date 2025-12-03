@@ -42,11 +42,13 @@ namespace maps
         private void AnnealNodes(GameMap map, int minDistance)
         {
             float target = minDistance;
-            int iterations = 20;
             float step = 0.1f;
             var nodes = map.Nodes;
-            for (int it = 0; it < iterations; it++)
+            int iteration = 0;
+            bool overlapsRemain;
+            do
             {
+                overlapsRemain = false;
                 var dispX = new float[nodes.Count];
                 var dispY = new float[nodes.Count];
                 for (int a = 0; a < nodes.Count; a++)
@@ -62,6 +64,7 @@ namespace maps
                         float distSqWorld = dxWorld * dxWorld + dyWorld * dyWorld;
                         if (distSqWorld < target * target && distSqWorld > 0f)
                         {
+                            overlapsRemain = true;
                             var distWorld = MathF.Sqrt(distSqWorld);
                             var overlap = target - distWorld;
                             float dirXWorld = dxWorld / distWorld;
@@ -79,6 +82,34 @@ namespace maps
                     n.Coordinates = new Vector2(
                         Math.Clamp(n.Coordinates.X + dispX[a], 0f, 1f),
                         Math.Clamp(n.Coordinates.Y + dispY[a], 0f, 1f));
+                }
+                iteration++;
+            } while (overlapsRemain && iteration < 50);
+
+            // Final corrective pass to guarantee the minimum distance after annealing
+            for (int a = 0; a < nodes.Count; a++)
+            {
+                for (int b = a + 1; b < nodes.Count; b++)
+                {
+                    var n1 = nodes[a];
+                    var n2 = nodes[b];
+                    float dxWorld = (n2.Coordinates.X - n1.Coordinates.X) * map.RegionSize.X;
+                    float dyWorld = (n2.Coordinates.Y - n1.Coordinates.Y) * map.RegionSize.Y;
+                    float distWorld = MathF.Sqrt(dxWorld * dxWorld + dyWorld * dyWorld);
+                    if (distWorld < target && distWorld > 0f)
+                    {
+                        float correction = (target - distWorld) * 0.5f + 0.0001f;
+                        float dirXWorld = dxWorld / distWorld;
+                        float dirYWorld = dyWorld / distWorld;
+                        float adjustX = (dirXWorld * correction) / map.RegionSize.X;
+                        float adjustY = (dirYWorld * correction) / map.RegionSize.Y;
+                        n1.Coordinates = new Vector2(
+                            Math.Clamp(n1.Coordinates.X - adjustX, 0f, 1f),
+                            Math.Clamp(n1.Coordinates.Y - adjustY, 0f, 1f));
+                        n2.Coordinates = new Vector2(
+                            Math.Clamp(n2.Coordinates.X + adjustX, 0f, 1f),
+                            Math.Clamp(n2.Coordinates.Y + adjustY, 0f, 1f));
+                    }
                 }
             }
             foreach (var a in nodes)

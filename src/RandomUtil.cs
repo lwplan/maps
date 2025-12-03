@@ -4,7 +4,7 @@ namespace maps
 {
     public static class RandomUtil
     {
-        private static readonly Random rng = new Random();
+        private static Random rng = new Random();
 
         // Inclusive min, exclusive max — matches System.Random
         public static int Range(int minInclusive, int maxExclusive)
@@ -21,8 +21,7 @@ namespace maps
         public static void SetSeed(int seed)
         {
             // For deterministic maps/tests
-            typeof(Random).GetField("_seedArray", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(rng, new Random(seed));
+            rng = new Random(seed);
         }
     
         public static float Value()
