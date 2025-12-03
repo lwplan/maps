@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>TRACE;TESTBITMAP_APP</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="src\**\*.cs" />
