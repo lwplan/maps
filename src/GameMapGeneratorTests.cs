@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using NUnit.Framework;
+using SixLabors.ImageSharp;
 
 namespace maps.Tests
 {
@@ -41,6 +42,33 @@ namespace maps.Tests
                         $"Nodes at indices {i} and {j} are {axisDistance} pixels apart on an axis.");
                 }
             }
+        }
+
+        [Test]
+        public void Render_ClampsScaleFactor_WhenBitmapWouldExceedLimits()
+        {
+            var map = new GameMap(new Vector2(1000f, 1000f), numLevels: 3, minNodesPerLevel: 1, maxNodesPerLevel: 1, bifurcationFactor: 0.5f)
+            {
+                MinNodeDistance = 5000
+            };
+
+            var start = new Node(new Vector2(0f, 0f), 0, NodeType.Start, null);
+            var middle = new Node(new Vector2(0f, 0.000001f), 1, NodeType.Combat, null);
+            var end = new Node(new Vector2(1f, 1f), 2, NodeType.End, null);
+
+            start.NextLevelNodes.Add(middle);
+            middle.PrevLevelNodes.Add(start);
+            middle.NextLevelNodes.Add(end);
+            end.PrevLevelNodes.Add(middle);
+
+            map.Nodes = new List<Node> { start, middle, end };
+            map.StartNode = start;
+            map.EndNode = end;
+
+            using Image image = BitmapMapRenderer.Render(map, pixelsPerUnit: 3f);
+
+            Assert.That(image.Width, Is.LessThanOrEqualTo(32000));
+            Assert.That(image.Height, Is.LessThanOrEqualTo(32000));
         }
     }
 }
