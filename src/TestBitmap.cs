@@ -28,6 +28,10 @@ class Program
         {
             switch (args[i])
             {
+                case "--help":
+                case "-h":
+                    PrintHelp();
+                    return;
                 case "--region-width" when i + 1 < args.Length && float.TryParse(args[i + 1], out var rw):
                     regionWidth = rw;
                     i++;
@@ -76,6 +80,21 @@ class Program
         var bmp = BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit);
         bmp.Save("/tmp/map.png", new PngEncoder());
         Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {map.RegionSize}.");
+    }
+
+    private static void PrintHelp()
+    {
+        Console.WriteLine("Usage: TestBitmap [options]\n");
+        Console.WriteLine("Options:");
+        Console.WriteLine("  --help, -h                Show this help information");
+        Console.WriteLine("  --region-width <float>    Width of the region");
+        Console.WriteLine("  --region-height <float>   Height of the region");
+        Console.WriteLine("  --num-levels <int>        Number of levels to generate");
+        Console.WriteLine("  --min-nodes <int>         Minimum nodes per level");
+        Console.WriteLine("  --max-nodes <int>         Maximum nodes per level");
+        Console.WriteLine("  --bifurcation-factor <float>  Bifurcation factor for branching");
+        Console.WriteLine("  --min-distance <int>      Minimum Manhattan distance between nodes");
+        Console.WriteLine("  --pixels-per-unit <float> Pixels per unit for the bitmap renderer");
     }
 }
 #endif
