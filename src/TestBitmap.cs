@@ -1,3 +1,7 @@
+// This console entry point is excluded from normal test builds to avoid
+// clashing with the test runner's generated entry point. Define TESTBITMAP_APP
+// to include it when you want to run the bitmap renderer as a standalone app.
+#if TESTBITMAP_APP
 using System;
 using System.Numerics;
 using SixLabors.ImageSharp;
@@ -42,3 +46,4 @@ class Program
         Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {map.RegionSize}.");
     }
 }
+#endif
