@@ -8,6 +8,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DefineConstants>TRACE;TESTBITMAP_APP</DefineConstants>
+    <StartupObject>maps.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
