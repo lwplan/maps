@@ -13,10 +13,6 @@ namespace maps
             map.MinNodeDistance = minNodeDistance;
 
             GenerateNodes(map);
-            if (minNodeDistance.HasValue)
-            {
-                AnnealNodes(map, minNodeDistance.Value);
-            }
             Triangulator.GenerateTriangulatedEdges(map.Nodes);
             EliminateDisconnectedNodes(map);
             EnforceConnectivityAndBifurcation(map);
@@ -37,91 +33,6 @@ namespace maps
             }
             map.StartNode = map.Nodes.Find(n => n.Level == 0);
             map.EndNode = map.Nodes.Find(n => n.Level == map.NumLevels - 1);
-        }
-
-        private void AnnealNodes(GameMap map, int minDistance)
-        {
-            float target = minDistance;
-            float step = 0.1f;
-            var nodes = map.Nodes;
-            int iteration = 0;
-            bool overlapsRemain;
-            do
-            {
-                overlapsRemain = false;
-                var dispX = new float[nodes.Count];
-                var dispY = new float[nodes.Count];
-                for (int a = 0; a < nodes.Count; a++)
-                {
-                    for (int b = a + 1; b < nodes.Count; b++)
-                    {
-                        var n1 = nodes[a];
-                        var n2 = nodes[b];
-                        float dx = n2.Coordinates.X - n1.Coordinates.X;
-                        float dy = n2.Coordinates.Y - n1.Coordinates.Y;
-                        float dxWorld = dx * map.RegionSize.X;
-                        float dyWorld = dy * map.RegionSize.Y;
-                        float distSqWorld = dxWorld * dxWorld + dyWorld * dyWorld;
-                        if (distSqWorld < target * target && distSqWorld > 0f)
-                        {
-                            overlapsRemain = true;
-                            var distWorld = MathF.Sqrt(distSqWorld);
-                            var overlap = target - distWorld;
-                            float dirXWorld = dxWorld / distWorld;
-                            float dirYWorld = dyWorld / distWorld;
-                            dispX[a] -= (dirXWorld * overlap * step) / map.RegionSize.X;
-                            dispY[a] -= (dirYWorld * overlap * step) / map.RegionSize.Y;
-                            dispX[b] += (dirXWorld * overlap * step) / map.RegionSize.X;
-                            dispY[b] += (dirYWorld * overlap * step) / map.RegionSize.Y;
-                        }
-                    }
-                }
-                for (int a = 0; a < nodes.Count; a++)
-                {
-                    var n = nodes[a];
-                    n.Coordinates = new Vector2(
-                        Math.Clamp(n.Coordinates.X + dispX[a], 0f, 1f),
-                        Math.Clamp(n.Coordinates.Y + dispY[a], 0f, 1f));
-                }
-                iteration++;
-            } while (overlapsRemain && iteration < 50);
-
-            // Final corrective pass to guarantee the minimum distance after annealing
-            for (int a = 0; a < nodes.Count; a++)
-            {
-                for (int b = a + 1; b < nodes.Count; b++)
-                {
-                    var n1 = nodes[a];
-                    var n2 = nodes[b];
-                    float dxWorld = (n2.Coordinates.X - n1.Coordinates.X) * map.RegionSize.X;
-                    float dyWorld = (n2.Coordinates.Y - n1.Coordinates.Y) * map.RegionSize.Y;
-                    float distWorld = MathF.Sqrt(dxWorld * dxWorld + dyWorld * dyWorld);
-                    if (distWorld < target && distWorld > 0f)
-                    {
-                        float correction = (target - distWorld) * 0.5f + 0.0001f;
-                        float dirXWorld = dxWorld / distWorld;
-                        float dirYWorld = dyWorld / distWorld;
-                        float adjustX = (dirXWorld * correction) / map.RegionSize.X;
-                        float adjustY = (dirYWorld * correction) / map.RegionSize.Y;
-                        n1.Coordinates = new Vector2(
-                            Math.Clamp(n1.Coordinates.X - adjustX, 0f, 1f),
-                            Math.Clamp(n1.Coordinates.Y - adjustY, 0f, 1f));
-                        n2.Coordinates = new Vector2(
-                            Math.Clamp(n2.Coordinates.X + adjustX, 0f, 1f),
-                            Math.Clamp(n2.Coordinates.Y + adjustY, 0f, 1f));
-                    }
-                }
-            }
-            foreach (var a in nodes)
-                foreach (var b in nodes)
-                    if (a != b)
-                    {
-                        float dx = (b.Coordinates.X - a.Coordinates.X) * map.RegionSize.X;
-                        float dy = (b.Coordinates.Y - a.Coordinates.Y) * map.RegionSize.Y;
-                        float dist = MathF.Sqrt(dx * dx + dy * dy);
-                        if (dist < target)
-                            Console.Error.WriteLine($"Violation: Nodes at {a.Coordinates} & {b.Coordinates} closer than {target} ({dist})");
-                    }
         }
 
         private void FitRegionToNodes(GameMap map)
