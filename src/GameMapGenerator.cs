@@ -16,7 +16,6 @@ namespace maps
             if (minNodeDistance.HasValue)
             {
                 AnnealNodes(map, minNodeDistance.Value);
-                FitRegionToNodes(map);
             }
             Triangulator.GenerateTriangulatedEdges(map.Nodes);
             EliminateDisconnectedNodes(map);
@@ -58,17 +57,19 @@ namespace maps
                         var n2 = nodes[b];
                         float dx = n2.Coordinates.X - n1.Coordinates.X;
                         float dy = n2.Coordinates.Y - n1.Coordinates.Y;
-                        float distSq = dx * dx + dy * dy;
-                        if (distSq < target * target && distSq > 0f)
+                        float dxWorld = dx * map.RegionSize.X;
+                        float dyWorld = dy * map.RegionSize.Y;
+                        float distSqWorld = dxWorld * dxWorld + dyWorld * dyWorld;
+                        if (distSqWorld < target * target && distSqWorld > 0f)
                         {
-                            var dist = MathF.Sqrt(distSq);
-                            var overlap = target - dist;
-                            float dirX = dx / dist;
-                            float dirY = dy / dist;
-                            dispX[a] -= dirX * overlap * step;
-                            dispY[a] -= dirY * overlap * step;
-                            dispX[b] += dirX * overlap * step;
-                            dispY[b] += dirY * overlap * step;
+                            var distWorld = MathF.Sqrt(distSqWorld);
+                            var overlap = target - distWorld;
+                            float dirXWorld = dxWorld / distWorld;
+                            float dirYWorld = dyWorld / distWorld;
+                            dispX[a] -= (dirXWorld * overlap * step) / map.RegionSize.X;
+                            dispY[a] -= (dirYWorld * overlap * step) / map.RegionSize.Y;
+                            dispX[b] += (dirXWorld * overlap * step) / map.RegionSize.X;
+                            dispY[b] += (dirYWorld * overlap * step) / map.RegionSize.Y;
                         }
                     }
                 }
@@ -84,8 +85,8 @@ namespace maps
                 foreach (var b in nodes)
                     if (a != b)
                     {
-                        float dx = b.Coordinates.X - a.Coordinates.X;
-                        float dy = b.Coordinates.Y - a.Coordinates.Y;
+                        float dx = (b.Coordinates.X - a.Coordinates.X) * map.RegionSize.X;
+                        float dy = (b.Coordinates.Y - a.Coordinates.Y) * map.RegionSize.Y;
                         float dist = MathF.Sqrt(dx * dx + dy * dy);
                         if (dist < target)
                             Console.Error.WriteLine($"Violation: Nodes at {a.Coordinates} & {b.Coordinates} closer than {target} ({dist})");
