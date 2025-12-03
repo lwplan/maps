@@ -1,5 +1,7 @@
 #nullable enable
+using System.Collections.Generic;
 using System.Numerics;
+
 
 
 namespace maps
@@ -12,6 +14,8 @@ namespace maps
         public string SceneName { get; set; }
         public List<Node> NextLevelNodes { get; set; } = new List<Node>();
         public List<Node> PrevLevelNodes { get; set; } = new List<Node>();
+
+
 
         public ICombatEncounter? CombatEncounter { get; set; }
 

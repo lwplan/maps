@@ -54,4 +54,27 @@ namespace GameBase.UI.Core.Implementations
             }
         }
     }
+
+    internal class FileLogger : ILogger
+    {
+        public void Log(string message)
+        {
+            
+        }
+
+        public void Warn(string message)
+        {
+
+        }
+
+        public void Error(string message)
+        {
+
+        }
+
+        public void LogException(Exception exception)
+        {
+
+        }
+    }
 }
