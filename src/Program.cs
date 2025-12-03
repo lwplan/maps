@@ -90,14 +90,15 @@ class Program
             return;
         }
 
-        var bmp = BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit);
-        bmp.Save("/tmp/map.png", new PngEncoder());
-        Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {map.RegionSize}.");
-
         if (!string.IsNullOrEmpty(yamlOutputPath))
         {
             WriteMapYaml(map, yamlOutputPath);
+            return;
         }
+
+        using var bmp = BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit);
+        bmp.Save("/tmp/map.png", new PngEncoder());
+        Console.WriteLine($"Bitmap rendered to /tmp/map.png using region {map.RegionSize}.");
     }
 
     private static void WriteMapYaml(GameMap map, string path)

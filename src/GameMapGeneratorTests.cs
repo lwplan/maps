@@ -70,5 +70,30 @@ namespace maps.Tests
             Assert.That(image.Width, Is.LessThanOrEqualTo(32000));
             Assert.That(image.Height, Is.LessThanOrEqualTo(32000));
         }
+
+        [Test]
+        public void Render_ReportsActualDimensions_WithUserProvidedParameters()
+        {
+            RandomUtil.SetSeed(9876);
+            var generator = new GameMapGenerator();
+            var map = generator.GenerateMap(new Vector2(100f, 100f), numLevels: 5, minNodesPerLevel: 2, maxNodesPerLevel: 5, bifurcationFactor: 0.5f, minNodeDistance: 4);
+
+            float pixelsPerUnit = 3f;
+            float scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance);
+            int marginPixels = 3 * 1; // BlockSize * MarginBlocks
+            const int maxDimension = 32000;
+
+            float projectedWidth = MathF.Ceiling(map.RegionSize.X * pixelsPerUnit * scale) + marginPixels * 2;
+            float projectedHeight = MathF.Ceiling(map.RegionSize.Y * pixelsPerUnit * scale) + marginPixels * 2;
+
+            using Image image = BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit);
+
+            Assert.That(map.Nodes, Is.Not.Null.And.Not.Empty);
+            Assert.That(scale, Is.GreaterThanOrEqualTo(1f));
+            Assert.That(image.Width, Is.EqualTo((int)MathF.Min(projectedWidth, maxDimension)));
+            Assert.That(image.Height, Is.EqualTo((int)MathF.Min(projectedHeight, maxDimension)));
+            Assert.That(image.Width, Is.GreaterThan(60), "Bitmap width is larger than the expected ~60px, investigate node spacing and scale factor");
+            Assert.That(image.Height, Is.GreaterThan(60), "Bitmap height is larger than the expected ~60px, investigate node spacing and scale factor");
+        }
     }
 }
