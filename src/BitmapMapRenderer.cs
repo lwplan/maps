@@ -112,9 +112,10 @@ namespace maps
             if (regionSize.X <= 0 || regionSize.Y <= 0)
                 return Image.Load<Rgba32>("empty.png");
 
+            float scaleFactor = CalculateScaleFactor(nodeList, pixelsPerUnit, map.MinNodeDistance);
             int marginPixels = marginBlocks * BlockSize;
-            int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit) + marginPixels * 2;
-            int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit) + marginPixels * 2;
+            int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit * scaleFactor) + marginPixels * 2;
+            int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit * scaleFactor) + marginPixels * 2;
 
             var img = new Image<Rgba32>(width, height);
             var pen = new SolidPen(Color.White, 1);
@@ -127,8 +128,8 @@ namespace maps
                 {
                     foreach (var to in from.NextLevelNodes)
                     {
-                        var p1 = ToPixel(from, pixelsPerUnit, marginPixels);
-                        var p2 = ToPixel(to, pixelsPerUnit, marginPixels);
+                        var p1 = ToPixel(from, pixelsPerUnit, marginPixels, scaleFactor);
+                        var p2 = ToPixel(to, pixelsPerUnit, marginPixels, scaleFactor);
 
                         p1.X += BlockSize * 0.5f;
                         p1.Y += BlockSize * 0.5f;
@@ -154,7 +155,7 @@ namespace maps
 
                 foreach (var node in nodeList)
                 {
-                    var p = ToPixel(node, pixelsPerUnit, marginPixels);
+                    var p = ToPixel(node, pixelsPerUnit, marginPixels, scaleFactor);
 
                     var color = NodeColors.TryGetValue(node.Type, out var c)
                         ? c
@@ -166,6 +167,41 @@ namespace maps
             });
 
             return img;
+        }
+
+        public static float CalculateScaleFactor(IEnumerable<Node> nodes, float pixelsPerUnit, int? minNodeDistance)
+        {
+            if (!minNodeDistance.HasValue)
+            {
+                return 1f;
+            }
+
+            var list = nodes.ToList();
+            if (list.Count < 2)
+            {
+                return 1f;
+            }
+
+            float minAxisDistancePixels = float.MaxValue;
+            for (int i = 0; i < list.Count; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    var dx = MathF.Abs(list[j].Coordinates.X - list[i].Coordinates.X) * pixelsPerUnit;
+                    var dy = MathF.Abs(list[j].Coordinates.Y - list[i].Coordinates.Y) * pixelsPerUnit;
+                    var axisDistance = dx == 0f ? dy : dy == 0f ? dx : MathF.Min(dx, dy);
+                    minAxisDistancePixels = MathF.Min(minAxisDistancePixels, axisDistance);
+                }
+            }
+
+            if (minAxisDistancePixels <= 0f)
+            {
+                minAxisDistancePixels = float.Epsilon;
+            }
+
+            return minAxisDistancePixels >= minNodeDistance.Value
+                ? 1f
+                : minNodeDistance.Value / minAxisDistancePixels;
         }
 
         private static PointF ToPixel(
@@ -194,6 +230,13 @@ namespace maps
             return new PointF(
                 node.Coordinates.X * pixelsPerUnit + marginPixels,
                 node.Coordinates.Y * pixelsPerUnit + marginPixels);
+        }
+
+        private static PointF ToPixel(Node node, float pixelsPerUnit, int marginPixels, float scaleFactor)
+        {
+            return new PointF(
+                node.Coordinates.X * pixelsPerUnit * scaleFactor + marginPixels,
+                node.Coordinates.Y * pixelsPerUnit * scaleFactor + marginPixels);
         }
     }
 }
