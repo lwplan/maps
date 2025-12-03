@@ -22,7 +22,7 @@ namespace maps.Tests
 
             // Assert
             Assert.That(map.Nodes, Is.Not.Null.And.Not.Empty);
-            var scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance);
+            var scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance, out _);
             var scaledPositions = new List<Vector2>();
             foreach (var node in map.Nodes)
             {
@@ -79,21 +79,20 @@ namespace maps.Tests
             var map = generator.GenerateMap(new Vector2(100f, 100f), numLevels: 5, minNodesPerLevel: 2, maxNodesPerLevel: 5, bifurcationFactor: 0.5f, minNodeDistance: 4);
 
             float pixelsPerUnit = 3f;
-            float scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance);
-            int marginPixels = 3 * 1; // BlockSize * MarginBlocks
-            const int maxDimension = 32000;
-
-            float projectedWidth = MathF.Ceiling(map.RegionSize.X * pixelsPerUnit * scale) + marginPixels * 2;
-            float projectedHeight = MathF.Ceiling(map.RegionSize.Y * pixelsPerUnit * scale) + marginPixels * 2;
-
-            using Image image = BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit);
+            float scale = BitmapMapRenderer.CalculateScaleFactor(map.Nodes, pixelsPerUnit, map.MinNodeDistance, out var minAxisDistancePixels);
 
             Assert.That(map.Nodes, Is.Not.Null.And.Not.Empty);
             Assert.That(scale, Is.GreaterThanOrEqualTo(1f));
-            Assert.That(image.Width, Is.EqualTo((int)MathF.Min(projectedWidth, maxDimension)));
-            Assert.That(image.Height, Is.EqualTo((int)MathF.Min(projectedHeight, maxDimension)));
-            Assert.That(image.Width, Is.GreaterThan(60), "Bitmap width is larger than the expected ~60px, investigate node spacing and scale factor");
-            Assert.That(image.Height, Is.GreaterThan(60), "Bitmap height is larger than the expected ~60px, investigate node spacing and scale factor");
+
+            var ex = Assert.Throws<InvalidOperationException>(
+                () => BitmapMapRenderer.Render(map, pixelsPerUnit: pixelsPerUnit));
+
+            Assert.That(ex!.Message, Does.Contain("Projected bitmap exceeds configured maximum dimension"));
+            Assert.That(ex.Message, Does.Contain(map.RegionSize.ToString()));
+            Assert.That(ex.Message, Does.Contain((map.MinNodeDistance ?? -1).ToString()));
+            Assert.That(ex.Message, Does.Contain("Width=32000"));
+            Assert.That(ex.Message, Does.Contain("Height=32000"));
+            Assert.That(ex.Message, Does.Contain(minAxisDistancePixels.ToString()));
         }
     }
 }

@@ -114,11 +114,13 @@ namespace maps
             if (regionSize.X <= 0 || regionSize.Y <= 0)
                 return Image.Load<Rgba32>("empty.png");
 
-            float scaleFactor = CalculateScaleFactor(nodeList, pixelsPerUnit, map.MinNodeDistance);
+            float scaleFactor = CalculateScaleFactor(nodeList, pixelsPerUnit, map.MinNodeDistance, out var minAxisDistancePixels);
             int marginPixels = marginBlocks * BlockSize;
             scaleFactor = ClampScaleFactor(regionSize, pixelsPerUnit, marginPixels, scaleFactor);
             int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit * scaleFactor) + marginPixels * 2;
             int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit * scaleFactor) + marginPixels * 2;
+
+            ValidateDimensions(width, height, scaleFactor, regionSize, pixelsPerUnit, map.MinNodeDistance, minAxisDistancePixels);
 
             var img = new Image<Rgba32>(width, height);
             var pen = new SolidPen(Color.White, 1);
@@ -172,8 +174,9 @@ namespace maps
             return img;
         }
 
-        public static float CalculateScaleFactor(IEnumerable<Node> nodes, float pixelsPerUnit, int? minNodeDistance)
+        public static float CalculateScaleFactor(IEnumerable<Node> nodes, float pixelsPerUnit, int? minNodeDistance, out float minAxisDistancePixels)
         {
+            minAxisDistancePixels = 0f;
             if (!minNodeDistance.HasValue)
             {
                 return 1f;
@@ -185,7 +188,7 @@ namespace maps
                 return 1f;
             }
 
-            float minAxisDistancePixels = float.MaxValue;
+            minAxisDistancePixels = float.MaxValue;
             for (int i = 0; i < list.Count; i++)
             {
                 for (int j = i + 1; j < list.Count; j++)
@@ -205,6 +208,37 @@ namespace maps
             return minAxisDistancePixels >= minNodeDistance.Value
                 ? 1f
                 : minNodeDistance.Value / minAxisDistancePixels;
+        }
+
+        private static void ValidateDimensions(
+            int width,
+            int height,
+            float scaleFactor,
+            Vector2 regionSize,
+            float pixelsPerUnit,
+            int? minNodeDistance,
+            float minAxisDistancePixels)
+        {
+            if (width < MaxBitmapDimension && height < MaxBitmapDimension)
+            {
+                return;
+            }
+
+            var details = string.Join(
+                ", ",
+                $"Width={width}",
+                $"Height={height}",
+                $"MaxBitmapDimension={MaxBitmapDimension}",
+                $"RegionSize={regionSize}",
+                $"PixelsPerUnit={pixelsPerUnit}",
+                $"ScaleFactor={scaleFactor}",
+                $"MinNodeDistance={minNodeDistance?.ToString() ?? "<null>"}",
+                $"MinAxisDistancePixels={minAxisDistancePixels}");
+
+            throw new InvalidOperationException(
+                "Projected bitmap exceeds configured maximum dimension. This usually indicates a " +
+                "coordinate issue (for example, nodes placed extremely close together relative to the requested " +
+                "minimum distance). Details: " + details);
         }
 
         private static PointF ToPixel(
