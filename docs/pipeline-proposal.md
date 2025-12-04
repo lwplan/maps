@@ -18,8 +18,8 @@ This proposal treats `GameMap` as the canonical model produced by a deterministi
 
 ## Step details and considerations
 ### 1) Node generation & annealing
-- Use the existing generator to create layered nodes and bifurcations.
-- Anneal positions until minimum distances and region boundaries are satisfied; capture iteration stats for diagnostics.
+- Use the existing generator to create layered nodes and bifurcations, emitting grid-aligned integer coordinates.
+- The generator scales and quantizes positions so the horizontal and vertical spacing between nodes exceeds the configured minimum, capturing iteration stats if spacing refinement runs.
 
 ### 2) Triangulated graph construction
 - Apply constrained triangulation so that edges do not cross existing region boundaries or semantic obstacles.
