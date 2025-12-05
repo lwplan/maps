@@ -1,5 +1,6 @@
 obj/
 bin/
+.unity-plugin-build/
 UnityProject/Temp/
 .DS_Store
 
