@@ -3,6 +3,9 @@ bin/
 UnityProject/Temp/
 .DS_Store
 
+UnityProject/Assets/Plugins/**/*
+!UnityProject/Assets/Plugins/.gitkeep
+
 UnityProject/Assets/Resources/Data/HexPieces/**/*.yaml
 UnityProject/Assets/Resources/Data/HexPieces/**/*.yaml.meta
 UnityProject/Assets/Resources/Data/HexPieces/**/*.hexpiece.yaml

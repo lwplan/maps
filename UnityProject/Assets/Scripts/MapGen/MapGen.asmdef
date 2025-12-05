@@ -1,0 +1,21 @@
+{
+  "name": "MapGen",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [
+    "maps.dll",
+    "DelaunatorSharp.dll",
+    "SixLabors.ImageSharp.dll",
+    "SixLabors.ImageSharp.Drawing.dll",
+    "SixLabors.Fonts.dll",
+    "YamlDotNet.dll",
+    "System.Numerics.Vectors.dll"
+  ],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
