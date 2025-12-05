@@ -28,5 +28,10 @@ namespace maps
         {
             return (float)rng.NextDouble(); // returns [0.0, 1.0)
         }
+
+        public static bool Chance(float p0)
+        {
+            return rng.NextDouble() < p0;
+        }
     }
 }

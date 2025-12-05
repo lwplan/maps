@@ -15,10 +15,9 @@ namespace maps
         public int MaxNodesPerLevel { get; private set; }
         public float BifurcationFactor { get; private set; }
         public int? MinNodeDistance { get; set; }
-
-        public GameMap(Vector2 regionSize, int numLevels, int minNodesPerLevel, int maxNodesPerLevel, float bifurcationFactor)
+        public BiomeMap Biomes { get; set; }
+        public GameMap(int numLevels, int minNodesPerLevel, int maxNodesPerLevel, float bifurcationFactor)
         {
-            RegionSize = regionSize;
             NumLevels = numLevels;
             MinNodesPerLevel = minNodesPerLevel;
             MaxNodesPerLevel = maxNodesPerLevel;
@@ -26,6 +25,7 @@ namespace maps
             Nodes = new List<Node>();
             VisitedNodes = new List<Node>(); // Initialize empty
         }
+
 
         // Add a method to mark a node as visited
         public void VisitNode(Node node)

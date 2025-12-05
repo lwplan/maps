@@ -1,20 +1,19 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing;
+using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Drawing;
 
 namespace maps
 {
     public static class BitmapMapRenderer
     {
-        internal const int BlockSize = 3;
-        internal const int MarginBlocks = 1;
-        internal const int MaxBitmapDimension = 32000;
+        public const int PxPerTile = 3;
+        public const int Margin = 20;
+        public const int ArenaSizeTiles = 9;   // Full arena size in tiles
+        public const int HalfArena = ArenaSizeTiles / 2;
 
         private static readonly Dictionary<NodeType, Color> NodeColors = new()
         {
@@ -26,26 +25,39 @@ namespace maps
             { NodeType.Powerup, Color.Green },
         };
 
-        public static Image<Rgba32> Render(IEnumerable<Node> nodes, int asciiWidth = 80, int asciiHeight = 24)
+        private static readonly Dictionary<Biome, Color> BiomeColors = new()
         {
-            var nodeList = nodes.ToList();
-            if (!nodeList.Any())
-                return Image.Load<Rgba32>("empty.png");
+            { Biome.None, Color.Black },
+            { Biome.Town, Color.Brown },
+            { Biome.Battlement, Color.DarkSlateGray },
+            { Biome.Dunes, Color.SandyBrown },
+            { Biome.Canyon, Color.Peru },
+            { Biome.Mountain, Color.Gray },
+            { Biome.Sea, Color.DarkBlue }
+        };
 
-            // coordinate bounds
-            float minX = nodeList.Min(n => n.Coordinates.X);
-            float maxX = nodeList.Max(n => n.Coordinates.X);
-            float minY = nodeList.Min(n => n.Coordinates.Y);
-            float maxY = nodeList.Max(n => n.Coordinates.Y);
+        public static Image<Rgba32> Render(GameMap map)
+        {
+            var nodes = map.Nodes;
+            if (nodes.Count == 0)
+                return new Image<Rgba32>(32, 32);
 
-            float xRange = Math.Max(maxX - minX, 0.01f);
-            float yRange = Math.Max(maxY - minY, 0.01f);
+            var biomes = map.Biomes;
+            if (biomes == null)
+                return new Image<Rgba32>(32, 32);
 
-            int width = (asciiWidth + 2 * MarginBlocks) * BlockSize;
-            int height = (asciiHeight + 2 * MarginBlocks) * BlockSize;
+            //
+            // --- Compute rendering bounds ---
+            //
+            int minX = nodes.Min(n => n.TileX) - HalfArena - 2;
+            int maxX = nodes.Max(n => n.TileX) + HalfArena + 2;
+            int minY = nodes.Min(n => n.TileY) - HalfArena - 2;
+            int maxY = nodes.Max(n => n.TileY) + HalfArena + 2;
 
-            var img = new Image<Rgba32>(width, height);
+            int widthPx  = (maxX - minX + 1) * PxPerTile + Margin * 2;
+            int heightPx = (maxY - minY + 1) * PxPerTile + Margin * 2;
 
+            var img = new Image<Rgba32>(widthPx, heightPx);
             var pen = new SolidPen(Color.White, 1);
 
             img.Mutate(ctx =>
@@ -53,176 +65,81 @@ namespace maps
                 ctx.Fill(Color.Black);
 
                 //
-                // Draw edges
+                // --- 1. Draw biome background tiles ---
                 //
-                foreach (var from in nodeList)
+                for (int x = 0; x < biomes.Width; x++)
+                for (int y = 0; y < biomes.Height; y++)
+                {
+                    Biome b = biomes[x, y];
+                    if (b == Biome.None)
+                        continue;
+
+                    var px = (x + biomes.OffsetX - minX) * PxPerTile + Margin;
+                    var py = (y + biomes.OffsetY - minY) * PxPerTile + Margin;
+
+                    if (px < 0 || py < 0 || px >= widthPx || py >= heightPx)
+                        continue;
+
+                    IPath tile = new RectangularPolygon(px, py, PxPerTile, PxPerTile);
+                    ctx.Fill(BiomeColors[b], tile);
+                }
+
+                //
+                // --- 2. Draw routes ---
+                //
+                foreach (var from in nodes)
                 {
                     foreach (var to in from.NextLevelNodes)
                     {
-                        var p1 = ToPixel(from, minX, xRange, minY, yRange, asciiWidth, asciiHeight);
-                        var p2 = ToPixel(to, minX, xRange, minY, yRange, asciiWidth, asciiHeight);
+                        int midX = (from.TileX + to.TileX) / 2;
 
-                        // center within node block
-                        p1.X += BlockSize * 0.5f;
-                        p1.Y += BlockSize * 0.5f;
-                        p2.X += BlockSize * 0.5f;
-                        p2.Y += BlockSize * 0.5f;
+                        var pA    = TileToPx(from.TileX, from.TileY, minX, minY);
+                        var pMidH = TileToPx(midX, from.TileY, minX, minY);
+                        var pMidV = TileToPx(midX, to.TileY, minX, minY);
+                        var pB    = TileToPx(to.TileX, to.TileY, minX, minY);
 
-                        var pathBuilder = new PathBuilder();
-                        if (p1.X == p2.X || p1.Y == p2.Y)
-                        {
-                            pathBuilder.AddLine(p1, p2);
-                        }
-                        else
-                        {
-                            var bend = new PointF(p2.X, p1.Y);
-                            pathBuilder.AddLine(p1, bend);
-                            pathBuilder.AddLine(bend, p2);
-                        }
-                        var line = pathBuilder.Build();
+                        var pb = new PathBuilder();
+                        pb.AddLine(pA, pMidH);
+                        pb.AddLine(pMidH, pMidV);
+                        pb.AddLine(pMidV, pB);
 
-                        ctx.Draw(pen, line);
+                        ctx.Draw(pen, pb.Build());
                     }
                 }
 
                 //
-                // Draw nodes
+                // --- 3. Draw arenas on top ---
                 //
-                foreach (var node in nodeList)
+                foreach (var node in nodes)
                 {
-                    var p = ToPixel(node, minX, xRange, minY, yRange, asciiWidth, asciiHeight);
+                    var color = NodeColors.TryGetValue(node.Type, out var c) ? c : Color.Gray;
 
-                    var color = NodeColors.TryGetValue(node.Type, out var c)
-                        ? c
-                        : Color.Gray;
+                    int left  = node.TileX - HalfArena;
+                    int top   = node.TileY - HalfArena;
 
-                    IPath rect = new RectangularPolygon(p.X, p.Y, BlockSize, BlockSize);
-                    ctx.Fill(color, rect);
+                    var p = TileToPx(left, top, minX, minY);
+
+                    ctx.Fill(
+                        color,
+                        new RectangularPolygon(
+                            p.X,
+                            p.Y,
+                            ArenaSizeTiles * PxPerTile,
+                            ArenaSizeTiles * PxPerTile
+                        )
+                    );
                 }
             });
 
             return img;
         }
 
-        public static Image<Rgba32> Render(GameMap map, float pixelsPerUnit = BlockSize, int marginBlocks = MarginBlocks)
+        private static PointF TileToPx(int tx, int ty, int minX, int minY)
         {
-            var nodeList = map.Nodes?.ToList();
-            if (nodeList == null || nodeList.Count == 0)
-                return Image.Load<Rgba32>("empty.png");
-
-            var regionSize = map.RegionSize;
-            if (regionSize.X <= 0 || regionSize.Y <= 0)
-                return Image.Load<Rgba32>("empty.png");
-
-            int marginPixels = marginBlocks * BlockSize;
-            int width = (int)MathF.Ceiling(regionSize.X * pixelsPerUnit) + marginPixels * 2;
-            int height = (int)MathF.Ceiling(regionSize.Y * pixelsPerUnit) + marginPixels * 2;
-
-            ValidateDimensions(width, height, regionSize, pixelsPerUnit);
-
-            var img = new Image<Rgba32>(width, height);
-            var pen = new SolidPen(Color.White, 1);
-
-            img.Mutate(ctx =>
-            {
-                ctx.Fill(Color.Black);
-
-                foreach (var from in nodeList)
-                {
-                    foreach (var to in from.NextLevelNodes)
-                    {
-                        var p1 = ToPixel(from, pixelsPerUnit, marginPixels);
-                        var p2 = ToPixel(to, pixelsPerUnit, marginPixels);
-
-                        p1.X += BlockSize * 0.5f;
-                        p1.Y += BlockSize * 0.5f;
-                        p2.X += BlockSize * 0.5f;
-                        p2.Y += BlockSize * 0.5f;
-
-                        var pathBuilder = new PathBuilder();
-                        if (p1.X == p2.X || p1.Y == p2.Y)
-                        {
-                            pathBuilder.AddLine(p1, p2);
-                        }
-                        else
-                        {
-                            var bend = new PointF(p2.X, p1.Y);
-                            pathBuilder.AddLine(p1, bend);
-                            pathBuilder.AddLine(bend, p2);
-                        }
-                        var line = pathBuilder.Build();
-
-                        ctx.Draw(pen, line);
-                    }
-                }
-
-                foreach (var node in nodeList)
-                {
-                    var p = ToPixel(node, pixelsPerUnit, marginPixels);
-
-                    var color = NodeColors.TryGetValue(node.Type, out var c)
-                        ? c
-                        : Color.Gray;
-
-                    IPath rect = new RectangularPolygon(p.X, p.Y, BlockSize, BlockSize);
-                    ctx.Fill(color, rect);
-                }
-            });
-
-            return img;
-        }
-
-        private static void ValidateDimensions(
-            int width,
-            int height,
-            Vector2 regionSize,
-            float pixelsPerUnit)
-        {
-            if (width < MaxBitmapDimension && height < MaxBitmapDimension)
-            {
-                return;
-            }
-
-            var details = string.Join(
-                ", ",
-                $"Width={width}",
-                $"Height={height}",
-                $"MaxBitmapDimension={MaxBitmapDimension}",
-                $"RegionSize={regionSize}",
-                $"PixelsPerUnit={pixelsPerUnit}");
-
-            throw new InvalidOperationException(
-                "Projected bitmap exceeds configured maximum dimension. This usually indicates a " +
-                "coordinate issue (for example, nodes placed extremely close together relative to the requested " +
-                "minimum distance). Details: " + details);
-        }
-
-        private static PointF ToPixel(
-            Node node,
-            float minX,
-            float xRange,
-            float minY,
-            float yRange,
-            int asciiWidth,
-            int asciiHeight)
-        {
-            float nx = (node.Coordinates.X - minX) / xRange;
-            float ny = (node.Coordinates.Y - minY) / yRange;
-
-            int ax = (int)(nx * asciiWidth);
-            int ay = (int)(ny * asciiHeight);
-
             return new PointF(
-                (ax + MarginBlocks) * BlockSize,
-                (ay + MarginBlocks) * BlockSize
+                (tx - minX) * PxPerTile + Margin,
+                (ty - minY) * PxPerTile + Margin
             );
-        }
-
-        private static PointF ToPixel(Node node, float pixelsPerUnit, int marginPixels)
-        {
-            return new PointF(
-                node.Coordinates.X * pixelsPerUnit + marginPixels,
-                node.Coordinates.Y * pixelsPerUnit + marginPixels);
         }
     }
 }

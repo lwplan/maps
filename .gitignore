@@ -1,54 +1,9 @@
-# Built application files
-build/
-bin/
 obj/
-# Dependency directories
-node_modules/
-yarn.lock
-package-lock.json
-
-# OS generated files
+bin/
+UnityProject/Temp/
 .DS_Store
-Thumbs.db
 
-# IDE / editor files
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.sln
-*.sw? 
-
-# Logs and databases
-*.log
-*.sql
-*.sqlite
-*.db
-
-# Compiled files
-*.class
-*.o
-*.ko
-*.obj
-*.exe
-*.dll
-*.so
-
-# Python bytecode
-__pycache__/
-*.py[cod]
-
-# JavaScript/TypeScript compiled
-*.js.map
-tsconfig.tsbuildinfo
-
-# Misc
-*.tmp
-*.temp
-
-# Test coverage
-coverage/
-
-# Caching
-.cache/
-.cache-loader/
+UnityProject/Assets/Resources/Data/HexPieces/**/*.yaml
+UnityProject/Assets/Resources/Data/HexPieces/**/*.yaml.meta
+UnityProject/Assets/Resources/Data/HexPieces/**/*.hexpiece.yaml
+UnityProject/Assets/Resources/Data/HexPieces/**/*.hexpiece.yaml.meta
