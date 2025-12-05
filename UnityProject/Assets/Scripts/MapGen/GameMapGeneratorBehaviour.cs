@@ -4,6 +4,16 @@ using maps.GameMapPipeline;
 
 public class GameMapGeneratorBehaviour : MonoBehaviour
 {
+    public enum MapSource
+    {
+        GenerateRuntime,
+        UseBakedAsset
+    }
+
+    [Header("Map Source")]
+    [SerializeField] private MapSource source = MapSource.GenerateRuntime;
+    [SerializeField] private GameMapAsset bakedMapAsset;
+
     [Header("Map Generation Parameters")]
     [SerializeField] private int numLevels = 5;
     [SerializeField] private int minNodesPerLevel = 1;
@@ -14,6 +24,32 @@ public class GameMapGeneratorBehaviour : MonoBehaviour
     public GameMap GeneratedMap { get; private set; }
 
     public void Generate()
+    {
+        switch (source)
+        {
+            case MapSource.UseBakedAsset:
+                LoadFromAsset();
+                break;
+            case MapSource.GenerateRuntime:
+            default:
+                GenerateRuntime();
+                break;
+        }
+    }
+
+    [ContextMenu("Generate Map")]
+    private void GenerateFromContextMenu()
+    {
+        if (!Application.isPlaying)
+        {
+            Debug.LogWarning("Generate Map can only be triggered in Play Mode.");
+            return;
+        }
+
+        Generate();
+    }
+
+    private void GenerateRuntime()
     {
         Pipeline = BuildPipeline();
 
@@ -27,16 +63,17 @@ public class GameMapGeneratorBehaviour : MonoBehaviour
         GeneratedMap = Pipeline.Execute(parameters);
     }
 
-    [ContextMenu("Generate Map")]
-    private void GenerateFromContextMenu()
+    private void LoadFromAsset()
     {
-        if (!Application.isPlaying)
+        if (bakedMapAsset == null)
         {
-            Debug.LogWarning("Generate Map can only be triggered in Play Mode.");
+            Debug.LogWarning("No GameMapAsset assigned; falling back to runtime generation.");
+            GenerateRuntime();
             return;
         }
 
-        Generate();
+        GeneratedMap = bakedMapAsset.ToGameMap();
+        Pipeline = null;
     }
 
     private GameMapPipeline BuildPipeline()
