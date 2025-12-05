@@ -1,6 +1,10 @@
 # Unity integration notes
 
-The map generator already compiles to a Unity-friendly plugin (see `scripts/publish-unity-plugin.sh`). The snippets below show how to drive the generator to retrieve map data and then use Unity APIs to upload textures.
+The map generator already compiles to a Unity-friendly, generation-only plugin (see `scripts/publish-unity-plugin.sh`). The snippets below show how to drive the generator to retrieve map data and then use Unity APIs to upload textures.
+
+Platform considerations:
+- The plugin targets `netstandard2.1` so it remains compatible with IL2CPP builds.
+- Third-party image libraries (e.g., ImageSharp) are intentionally excluded; handle rendering or texture uploads inside Unity code using built-in APIs.
 
 ## Generating map data inside Unity
 
