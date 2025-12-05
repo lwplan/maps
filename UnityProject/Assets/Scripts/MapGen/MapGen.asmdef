@@ -8,9 +8,6 @@
   "precompiledReferences": [
     "maps.dll",
     "DelaunatorSharp.dll",
-    "SixLabors.ImageSharp.dll",
-    "SixLabors.ImageSharp.Drawing.dll",
-    "SixLabors.Fonts.dll",
     "YamlDotNet.dll",
     "System.Numerics.Vectors.dll"
   ],
