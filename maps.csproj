@@ -6,12 +6,12 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-    <DefineConstants>$(DefineConstants);BITMAP_RENDERING</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="src\\**\\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="src/BitmapMapRenderer.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
@@ -23,11 +23,5 @@
     <PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
     <PackageReference Include="Delaunator" Version="1.0.11" />
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
-    <PackageReference Include="SixLabors.Fonts" Version="1.0.0" />
   </ItemGroup>
 </Project>

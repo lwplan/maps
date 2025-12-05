@@ -1,3 +1,6 @@
+// Conditional compilation ensures the bitmap renderer only participates in builds
+// that explicitly opt in (e.g., the TestBitmap CLI app).
+#if TESTBITMAP_APP
 using System.Collections.Generic;
 using System.Linq;
 using SixLabors.ImageSharp;
@@ -143,3 +146,4 @@ namespace maps
         }
     }
 }
+#endif
