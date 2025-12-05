@@ -1,17 +1,15 @@
-#if TESTBITMAP_APP
 using System;
-using System.Numerics;
-using System.Text;
 using System.IO;
+using System.Text;
 using maps.GameMapPipeline;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 
-namespace maps
+namespace TestBitmap
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // Default parameters
             int numLevels = 5;
@@ -19,6 +17,7 @@ namespace maps
             int maxNodesPerLevel = 3;
             float bifurcationFactor = 0.5f;
             string? yamlOutputPath = null;
+            string pngOutputPath = "map.png";
             int? rngSeed = null;
 
             // CLI parsing
@@ -41,22 +40,24 @@ namespace maps
                     case "--yaml-output" when i + 1 < args.Length:
                         yamlOutputPath = args[i + 1]; i++; break;
 
+                    case "--png-output" when i + 1 < args.Length:
+                        pngOutputPath = args[i + 1]; i++; break;
+
                     case "--seed" when i + 1 < args.Length && int.TryParse(args[i + 1], out var seed):
                         rngSeed = seed; i++; break;
                 }
             }
 
             if (rngSeed.HasValue)
+            {
                 RandomUtil.SetSeed(rngSeed.Value);
+            }
 
-            //
-            // Build tile-space pipeline
-            //
             var pipeline = new GameMapPipeline.GameMapPipeline()
-                .AddStep(new GenerateRawNodesStep())            // tile coords
-                .AddStep(new TriangulationStep())               // bifurcation branching
-                .AddStep(new AssignStartEndStep())             // mark start / end
-                .AddStep(new BiomeGenerationStep());             // mark start / end
+                .AddStep(new GenerateRawNodesStep())
+                .AddStep(new TriangulationStep())
+                .AddStep(new AssignStartEndStep())
+                .AddStep(new BiomeGenerationStep());
 
             var mapParams = new MapGenParams(
                 NumLevels: numLevels,
@@ -65,9 +66,6 @@ namespace maps
                 BifurcationFactor: bifurcationFactor
             );
 
-            //
-            // Run pipeline
-            //
             var map = pipeline.Execute(mapParams);
 
             if (map.Nodes == null || map.Nodes.Count == 0)
@@ -76,20 +74,14 @@ namespace maps
                 return;
             }
 
-            //
-            // YAML output
-            //
             if (!string.IsNullOrEmpty(yamlOutputPath))
             {
                 WriteMapYaml(map, yamlOutputPath);
             }
 
-            //
-            // Render to PNG
-            //
             using var bmp = BitmapMapRenderer.Render(map);
-            bmp.Save("/tmp/map.png", new PngEncoder());
-            Console.WriteLine($"Bitmap rendered to /tmp/map.png");
+            bmp.Save(pngOutputPath, new PngEncoder());
+            Console.WriteLine($"Bitmap rendered to {Path.GetFullPath(pngOutputPath)}");
         }
 
         private static void WriteMapYaml(GameMap map, string path)
@@ -121,8 +113,7 @@ namespace maps
             }
 
             File.WriteAllText(path, sb.ToString());
-            Console.WriteLine($"Map YAML written to {path}");
+            Console.WriteLine($"Map YAML written to {Path.GetFullPath(path)}");
         }
     }
 }
-#endif
