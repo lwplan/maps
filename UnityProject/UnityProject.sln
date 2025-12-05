@@ -7,7 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantGrey.TileWorldCreator"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{c0d2c93c-61c4-d907-edf3-4ffb4de5c299}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapGen", "MapGen.csproj", "{46127edd-2c94-be1d-17d6-00c418b65b86}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{2106585b-b409-cb68-b5f4-5b9dd210a60f}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{f190e6fd-6f62-a0ff-5754-e83120972a79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,8 +24,12 @@ Global
 		{5040b59c-80b1-1ce5-bf65-37fd844eb5d6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{c0d2c93c-61c4-d907-edf3-4ffb4de5c299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{c0d2c93c-61c4-d907-edf3-4ffb4de5c299}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46127edd-2c94-be1d-17d6-00c418b65b86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46127edd-2c94-be1d-17d6-00c418b65b86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2106585b-b409-cb68-b5f4-5b9dd210a60f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2106585b-b409-cb68-b5f4-5b9dd210a60f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{f190e6fd-6f62-a0ff-5754-e83120972a79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{f190e6fd-6f62-a0ff-5754-e83120972a79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

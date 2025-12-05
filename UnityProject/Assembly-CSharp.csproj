@@ -408,6 +408,24 @@
     <Reference Include="Mono.Cecil">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/PackageCache/com.unity.nuget.mono-cecil@d6f9955a5d5f/Mono.Cecil.dll</HintPath>
     </Reference>
+    <Reference Include="SixLabors.ImageSharp.Drawing">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/SixLabors.ImageSharp.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="maps">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/maps.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/SixLabors.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="DelaunatorSharp">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/DelaunatorSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/YamlDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
@@ -933,6 +951,10 @@
     <ProjectReference Include="GiantGrey.TileWorldCreator.Samples.csproj">
       <Project>{5d492f8b-3e1c-c7b5-0c77-194546aad0dd}</Project>
       <Name>GiantGrey.TileWorldCreator.Samples</Name>
+    </ProjectReference>
+    <ProjectReference Include="MapGen.csproj">
+      <Project>{46127edd-2c94-be1d-17d6-00c418b65b86}</Project>
+      <Name>MapGen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
