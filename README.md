@@ -59,3 +59,5 @@ The Unity project consumes the compiled map generation plugin from `UnityProject
 ```
 
 Binary outputs are ignored in version control; publish locally before opening the Unity project to ensure the precompiled references in `UnityProject/Assets/Scripts/MapGen/MapGen.asmdef` resolve correctly.
+
+For examples on calling the generator from Unity and uploading rendered maps with `Texture2D.LoadImage` or `LoadRawTextureData`, see [`docs/Unity.md`](docs/Unity.md).
