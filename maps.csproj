@@ -10,11 +10,6 @@
     <DefineConstants>$(DefineConstants);BITMAP_RENDERING</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' and '$(Configuration)' == 'Debug' ">
-    <DefineConstants>$(DefineConstants);TESTBITMAP_APP</DefineConstants>
-    <StartupObject>maps.Program</StartupObject>
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="src\\**\\*.cs" />
   </ItemGroup>

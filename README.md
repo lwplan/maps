@@ -23,26 +23,32 @@ For compatibility, the previous `Render(IEnumerable<Node> nodes, ...)` overload 
 
 ## Command-line bitmap rendering
 
-When compiled with the `TESTBITMAP_APP` symbol, `TestBitmap.cs` provides a simple CLI for generating a sample map and writing `/tmp/map.png`.
+The `TestBitmap` console app (see `TestBitmap/TestBitmap.csproj`) lives in a separate target that references the core library and SixLabors ImageSharp rendering dependencies. It publishes as a self-contained single-file executable for Linux, macOS, or Windows, but you can also run it directly with `dotnet run` during development.
 
 Available options (defaults in parentheses):
 
-- `--region-width <float>`: map region width before annealing (1).
-- `--region-height <float>`: map region height before annealing (1).
-- `--num-levels <int>`: number of node layers to generate (4).
+- `--num-levels <int>`: number of node layers to generate (5).
 - `--min-nodes <int>`: minimum nodes per level (1).
 - `--max-nodes <int>`: maximum nodes per level (3).
 - `--bifurcation-factor <float>`: bifurcation probability factor between levels (0.5).
-- `--min-distance <int>`: optional minimum Manhattan distance between nodes (unset).
-- `--pixels-per-unit <float>`: bitmap density relative to annealed units (3).
+- `--yaml-output <path>`: optional YAML export of the generated node list (no file written if omitted).
+- `--png-output <path>`: output path for the rendered map PNG (`map.png`).
+- `--seed <int>`: optional RNG seed for repeatable layouts.
 
-Example:
+Development run example (prints the absolute PNG/YAML paths on completion):
 
 ```bash
-dotnet run -p maps.csproj --testbitmap -- --region-width 2 --region-height 3 \
-    --num-levels 6 --min-nodes 2 --max-nodes 4 --bifurcation-factor 0.65 \
-    --min-distance 2 --pixels-per-unit 4
+dotnet run -p TestBitmap/TestBitmap.csproj -- --num-levels 6 --min-nodes 2 --max-nodes 4 \
+    --bifurcation-factor 0.65 --png-output ./artifacts/map.png --yaml-output ./artifacts/map.yaml
 ```
+
+Publish a self-contained executable for your platform (RID must be one of `linux-x64`, `osx-x64`, or `win-x64`):
+
+```bash
+dotnet publish TestBitmap/TestBitmap.csproj -c Release -r linux-x64
+```
+
+Published binaries land under `TestBitmap/bin/Release/net8.0/<RID>/publish/`.
 
 ## Unity plugin publishing
 
