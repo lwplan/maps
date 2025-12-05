@@ -14,6 +14,20 @@ Feed procedurally generated `GameMap` data into Tile World Creator so it can pai
 - Add a small Unity shim (MonoBehaviour or ScriptableObject) that accepts `MapGenParams` and orchestrates `GameMapPipeline.Execute` to produce a `GameMap` instance in play mode.
 - Decide on serialization: transient in-memory for runtime generation vs. optional asset serialization (e.g., ScriptableObject holding a baked `GameMap`).
 
+#### Steps to execute this milestone
+1. **Build or import the generator assembly**
+   - In `maps.csproj`, confirm the target framework and ensure the `GameMapPipeline` and related namespaces are public.
+   - Compile to a `.dll` and copy it into `UnityProject/Assets/Plugins` _or_ add the generator source files into a Unity assembly definition under `UnityProject/Assets/Scripts/MapGen` so Unity can reference them.
+   - In Unity, verify the assembly definition includes references to any external dependencies already bundled with `maps.csproj`.
+2. **Create a runtime shim**
+   - Add a new `MonoBehaviour` (e.g., `GameMapGeneratorBehaviour.cs`) in `UnityProject/Assets/Scripts/MapGen` that exposes serialized fields for `MapGenParams` (size, seeds, biome options) and holds a `GameMapPipeline` instance.
+   - Implement a `Generate()` method that constructs `GameMapPipeline`, calls `Execute`, and stores the resulting `GameMap` for downstream Tile World Creator usage.
+   - Add editor buttons or a context menu method to trigger `Generate()` in play mode for quick validation.
+3. **Decide on data lifetime and serialization**
+   - Start with transient, in-memory `GameMap` instances to unblock runtime integration.
+   - If baked assets are needed, create a `ScriptableObject` (e.g., `GameMapAsset`) that can serialize minimal `GameMap` data (nodes, edges, region metadata) to disk for reuse in scenes.
+   - Document the chosen approach in project README notes and ensure the shim can load either live-generated or baked data.
+
 ### 2) Translate `GameMap` to TWC blueprint layers
 - Choose a blueprint layer schema (e.g., one layer per biome or per node type). Use `TileWorldCreatorManager.ResetConfiguration()` before painting.
 - Convert node positions to grid cells in the active configuration. Honor `map.RegionSize` and `MinNodeDistance` so painted cells align with TWC's cell size.
