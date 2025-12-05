@@ -28,6 +28,16 @@ Feed procedurally generated `GameMap` data into Tile World Creator so it can pai
    - If baked assets are needed, create a `ScriptableObject` (e.g., `GameMapAsset`) that can serialize minimal `GameMap` data (nodes, edges, region metadata) to disk for reuse in scenes.
    - Document the chosen approach in project README notes and ensure the shim can load either live-generated or baked data.
 
+#### Current runtime shim decisions (implemented)
+- **Default: transient generation.** `GameMapGeneratorBehaviour` continues to build a pipeline and generates maps in memory at runtime.
+- **Optional baked reuse:** `GameMapAsset` (ScriptableObject) serializes the minimum viable `GameMap` payload:
+  - nodes (tile coordinates, level, type)
+  - directed edges (next-level node indices)
+  - start/end node indices
+  - region metadata (region size, optional min node distance, optional biome map grid)
+- **Interchangeability:** `GameMapGeneratorBehaviour` exposes a `MapSource` toggle. When set to **UseBakedAsset**, the shim pulls a `GameMap` from the assigned asset; otherwise it builds a fresh map via the pipeline. A missing asset automatically falls back to runtime generation to keep play mode unblocked.
+- **Authoring baked data:** call `GameMapAsset.PopulateFrom(GameMap map)` from an editor script to capture a generated map into an asset for reuse in scenes or tests.
+
 ### 2) Translate `GameMap` to TWC blueprint layers
 - Choose a blueprint layer schema (e.g., one layer per biome or per node type). Use `TileWorldCreatorManager.ResetConfiguration()` before painting.
 - Convert node positions to grid cells in the active configuration. Honor `map.RegionSize` and `MinNodeDistance` so painted cells align with TWC's cell size.
