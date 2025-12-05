@@ -22,7 +22,7 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-61680
+63199
 -job-worker-count
 6
 -background-job-worker-count
@@ -68,7 +68,7 @@ Successfully changed project path to: /Users/lancewatson/Desktop/Unsorted/maps/U
     "memorysetup-temp-allocator-size-gfx=262144"
 Player connection [8651153600]  Target information:
 
-Player connection [8651153600]  * "[IP] 192.168.1.230 [Port] 0 [Flags] 2 [Guid] 2691597471 [EditorId] 2691597471 [Version] 1048832 [Id] OSXEditor(0,Lances-Mac-mini.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+Player connection [8651153600]  * "[IP] 192.168.1.230 [Port] 0 [Flags] 2 [Guid] 1936180593 [EditorId] 1936180593 [Version] 1048832 [Id] OSXEditor(0,Lances-Mac-mini.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
 
 Player connection [8651153600] Host joined multi-casting on [225.0.0.222:54997]...
 Player connection [8651153600] Host joined alternative multi-casting on [225.0.0.222:34997]...
@@ -83,7 +83,7 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Refreshing native plugins compatible for Editor in 2.13 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.48 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.0.43f1 (97272b72f107)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Resources/UnitySubsystems
@@ -98,43 +98,43 @@ Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit-macos'
 Mono config path = '/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56213
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56025
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
-Registered in 0.001572 seconds.
-- Loaded All Assemblies, in  0.221 seconds
+Registered in 0.000647 seconds.
+- Loaded All Assemblies, in  0.175 seconds
 Native extension for OSXStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.186 seconds
-Domain Reload Profiling: 407ms
-	BeginReloadAssembly (77ms)
+- Finished resetting the current domain, in  0.197 seconds
+Domain Reload Profiling: 372ms
+	BeginReloadAssembly (42ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (0ms)
-	RebuildCommonClasses (20ms)
+	RebuildCommonClasses (21ms)
 	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (25ms)
-	LoadAllAssembliesAndSetupDomain (93ms)
-		LoadAssemblies (77ms)
+	initialDomainReloadingComplete (22ms)
+	LoadAllAssembliesAndSetupDomain (84ms)
+		LoadAssemblies (41ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (91ms)
-			TypeCache.Refresh (90ms)
-				TypeCache.ScanAssembly (81ms)
+		AnalyzeDomain (83ms)
+			TypeCache.Refresh (82ms)
+				TypeCache.ScanAssembly (73ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (186ms)
+	FinalizeReload (197ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (160ms)
+		SetupLoadedEditorAssemblies (171ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (23ms)
+			InitializePlatformSupportModulesInManaged (21ms)
 			SetLoadedEditorAssemblies (3ms)
-			BeforeProcessingInitializeOnLoad (29ms)
-			ProcessInitializeOnLoadAttributes (68ms)
-			ProcessInitializeOnLoadMethodAttributes (37ms)
+			BeforeProcessingInitializeOnLoad (31ms)
+			ProcessInitializeOnLoadAttributes (74ms)
+			ProcessInitializeOnLoadMethodAttributes (42ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -143,335 +143,129 @@ Domain Reload Profiling: 407ms
 Worker process is ready to serve import requests
 Import Worker Mode flag is 0x00
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.428 seconds
-Refreshing native plugins compatible for Editor in 0.21 ms, found 2 plugins.
+- Loaded All Assemblies, in  0.346 seconds
+Refreshing native plugins compatible for Editor in 0.24 ms, found 2 plugins.
 Native extension for OSXStandalone target not found
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-[MODES] Loading mode Default (0) for mode-current-id-UnityProject
-2025-12-05 18:05:07.680 Unity[75213:3056811] CAMetalLayer ignoring invalid setDrawableSize width=0.000000 height=0.000000
-2025-12-05 18:05:07.701 Unity[75213:3056811] CAMetalLayer ignoring invalid setDrawableSize width=0.000000 height=0.000000
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.579 seconds
-Domain Reload Profiling: 1007ms
-	BeginReloadAssembly (73ms)
+- Finished resetting the current domain, in  0.423 seconds
+Domain Reload Profiling: 769ms
+	BeginReloadAssembly (68ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (3ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (24ms)
+		CreateAndSetChildDomain (22ms)
 	RebuildCommonClasses (21ms)
-	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (18ms)
-	LoadAllAssembliesAndSetupDomain (309ms)
-		LoadAssemblies (207ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (17ms)
+	LoadAllAssembliesAndSetupDomain (234ms)
+		LoadAssemblies (130ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (132ms)
-			TypeCache.Refresh (104ms)
-				TypeCache.ScanAssembly (93ms)
-			BuildScriptInfoCaches (20ms)
+		AnalyzeDomain (130ms)
+			TypeCache.Refresh (102ms)
+				TypeCache.ScanAssembly (91ms)
+			BuildScriptInfoCaches (21ms)
 			ResolveRequiredComponents (6ms)
-	FinalizeReload (580ms)
+	FinalizeReload (424ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (483ms)
+		SetupLoadedEditorAssemblies (347ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (1ms)
 			SetLoadedEditorAssemblies (3ms)
-			BeforeProcessingInitializeOnLoad (77ms)
-			ProcessInitializeOnLoadAttributes (215ms)
-			ProcessInitializeOnLoadMethodAttributes (187ms)
-			AfterProcessingInitializeOnLoad (1ms)
-			EditorAssembliesLoaded (0ms)
+			BeforeProcessingInitializeOnLoad (78ms)
+			ProcessInitializeOnLoadAttributes (217ms)
+			ProcessInitializeOnLoadMethodAttributes (44ms)
+			AfterProcessingInitializeOnLoad (2ms)
+			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (2ms)
 Launching external process: /Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Tools/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
-Refreshing native plugins compatible for Editor in 0.21 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.27 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6142 unused Assets / (3.9 MB). Loaded Objects now: 6834.
-Memory consumption went from 241.0 MB to 237.0 MB.
-Total: 4.797291 ms (FindLiveObjects: 0.296583 ms CreateObjectMapping: 0.110209 ms MarkObjects: 3.301375 ms  DeleteObjects: 1.088792 ms)
+Unloading 203 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6143 unused Assets / (3.7 MB). Loaded Objects now: 6835.
+Memory consumption went from 163.4 MB to 159.7 MB.
+Total: 4.488125 ms (FindLiveObjects: 0.332625 ms CreateObjectMapping: 0.118084 ms MarkObjects: 3.088250 ms  DeleteObjects: 0.949041 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 82089.946648 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetBlue_Thumb.png
-  artifactKey: Guid(3f6f47b582703cf489db3240d2431201) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetBlue_Thumb.png using Guid(3f6f47b582703cf489db3240d2431201) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6e93ff1fc1f021a9bac38b0271a2e163') in 0.02409575 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+  Time since last request: 83214.112174 seconds.
+  path: Assets/TileW/Scene/GameObject Profile.asset
+  artifactKey: Guid(ee78d952c377a444b9471c57e21e25c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/Scene/GameObject Profile.asset using Guid(ee78d952c377a444b9471c57e21e25c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '3c68ff4e6c593686fa47f97c3d7be067') in 0.010395125 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.754290 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreen.asset
-  artifactKey: Guid(54472b666a0681445a0d3c8074b96faa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreen.asset using Guid(54472b666a0681445a0d3c8074b96faa) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '37b29b0a3a5a860571a45962cbf5f1cc') in 0.001657875 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 32
-
-========================================================================
-Received Import Request.
-  Time since last request: 1.738231 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreenRamps_Thumb.png
-  artifactKey: Guid(6ddbf1a2451f7c0448b71bcff9f156f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreenRamps_Thumb.png using Guid(6ddbf1a2451f7c0448b71bcff9f156f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'be147fd9c59ef5d0e6a7f97718083d30') in 0.008233084 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
-
-========================================================================
-Received Import Request.
-  Time since last request: 1.153675 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreenRamp.asset
-  artifactKey: Guid(53689e490f32e294bbaf7af82b759737) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreenRamp.asset using Guid(53689e490f32e294bbaf7af82b759737) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ff7f514616d23bf2ffbe92547fe97810') in 0.001494459 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 32
-
-========================================================================
-Received Import Request.
-  Time since last request: 72.571866 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DGrassToBeach_Thumb.png
-  artifactKey: Guid(a64235b18cf01f940a38232bcc0ff38e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DGrassToBeach_Thumb.png using Guid(a64235b18cf01f940a38232bcc0ff38e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '58ab2db99e8a2840e005bbf1d8390b0d') in 0.007846542 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
-
-========================================================================
-Received Import Request.
-  Time since last request: 27.647546 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DPath_Thumb.png
-  artifactKey: Guid(e70698147ef81894e8c8996c87cafcbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DPath_Thumb.png using Guid(e70698147ef81894e8c8996c87cafcbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '653ec182a6799dddba670f43ac6cbdfa') in 0.007578875 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.401248 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DSandOnly_Thumb.png
-  artifactKey: Guid(60ac63d6d18933c4bbb6dfc1b33dddf6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DSandOnly_Thumb.png using Guid(60ac63d6d18933c4bbb6dfc1b33dddf6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '639db330124bb8f21d9e6d3822a48433') in 0.002965625 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.415427 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/GrassToBeach.asset
-  artifactKey: Guid(ea0b15228b82a6844a4b7fd4ec9a130f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/GrassToBeach.asset using Guid(ea0b15228b82a6844a4b7fd4ec9a130f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '0fc3eb6c79b74ecbec4fa068b260b648') in 0.00119875 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 28
-
-========================================================================
-Received Import Request.
-  Time since last request: 1.141815 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Meshes
-  artifactKey: Guid(5b57eb747f122bc4181e2d6cac157106) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Meshes using Guid(5b57eb747f122bc4181e2d6cac157106) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '258f54a62b83ec014947a8464ccc8a69') in 0.000301291 seconds
+  Time since last request: 14.176316 seconds.
+  path: Assets/TileW/NewGameScene/NewGameScene.unity
+  artifactKey: Guid(a777de73d3d22404b8eed39f9050eebc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/NewGameScene/NewGameScene.unity using Guid(a777de73d3d22404b8eed39f9050eebc) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '895bffd2afe3b202f34d6d76523067d2') in 0.000319708 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
 
 ========================================================================
 Received Import Request.
-  Time since last request: 18.957144 seconds.
-  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials
-  artifactKey: Guid(342532a42e8eb914299e8700112597ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials using Guid(342532a42e8eb914299e8700112597ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '276825c7678dac25ef74397cffa79f9f') in 0.000294416 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+  Time since last request: 4.441589 seconds.
+  path: Assets/TileW/materials/path1.png
+  artifactKey: Guid(306c14212a4fb4e08b69cc969f7d6e58) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/materials/path1.png using Guid(306c14212a4fb4e08b69cc969f7d6e58) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5cab0615fc1bae0a36f51c35bde5b1cc') in 0.0348565 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
 
 ========================================================================
 Received Import Request.
-  Time since last request: 23.242731 seconds.
-  path: Assets/TileWorldCreator/Samples_URP.unitypackage
-  artifactKey: Guid(1572483c598b61942a06f63ffed472fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Samples_URP.unitypackage using Guid(1572483c598b61942a06f63ffed472fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '68f7469fa074a84d0790edd6badddfcf') in 0.000651666 seconds
+  Time since last request: 0.491263 seconds.
+  path: Assets/TileW/materials/path4.png
+  artifactKey: Guid(f0752e9ab82c7435fb21c0aa18c81bee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/materials/path4.png using Guid(f0752e9ab82c7435fb21c0aa18c81bee) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'c91310a445eb0f18372c25824fa43779') in 0.003001042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.388883 seconds.
+  path: Assets/TileW/materials/path11.png
+  artifactKey: Guid(43721d0b52c7c467e9e938deefef6878) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/materials/path11.png using Guid(43721d0b52c7c467e9e938deefef6878) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f92aa44c4751062918b460d1003d450c') in 0.00334875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.668855 seconds.
+  path: Assets/TileW/materials/path10.png
+  artifactKey: Guid(fbeefc4bf60d4480ea5e5e0ff718a6c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/materials/path10.png using Guid(fbeefc4bf60d4480ea5e5e0ff718a6c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd953ba16dbf7bfe2d4b5aedd2fc06cd7') in 0.002906292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.105830 seconds.
+  path: Assets/TileW/materials/path2.png
+  artifactKey: Guid(08900f61b6ce94ffe9f700e218294ec0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/materials/path2.png using Guid(08900f61b6ce94ffe9f700e218294ec0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '80adb87e50c5a326bc9b1f399944d95a') in 0.006837375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.701225 seconds.
+  path: Assets/TileW/materials/path2.xcf
+  artifactKey: Guid(0024271b5b1634f6991774cf50665dfc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/materials/path2.xcf using Guid(0024271b5b1634f6991774cf50665dfc) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '7398d45915b42b7f7d364a888c175dff') in 0.000621417 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
 
 ========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Thread 0x34e80b000 may have been prematurely finalized
-- Loaded All Assemblies, in  0.376 seconds
-Refreshing native plugins compatible for Editor in 0.29 ms, found 2 plugins.
-Native extension for OSXStandalone target not found
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.554 seconds
-Domain Reload Profiling: 932ms
-	BeginReloadAssembly (123ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (14ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (55ms)
-	RebuildCommonClasses (21ms)
-	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (11ms)
-	LoadAllAssembliesAndSetupDomain (216ms)
-		LoadAssemblies (150ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (91ms)
-			TypeCache.Refresh (6ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (77ms)
-			ResolveRequiredComponents (6ms)
-	FinalizeReload (555ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (321ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (1ms)
-			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (79ms)
-			ProcessInitializeOnLoadAttributes (208ms)
-			ProcessInitializeOnLoadMethodAttributes (31ms)
-			AfterProcessingInitializeOnLoad (0ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (63ms)
-Refreshing native plugins compatible for Editor in 0.22 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6138 unused Assets / (3.6 MB). Loaded Objects now: 7501.
-Memory consumption went from 278.6 MB to 275.1 MB.
-Total: 5.215459 ms (FindLiveObjects: 0.294583 ms CreateObjectMapping: 0.123875 ms MarkObjects: 3.916208 ms  DeleteObjects: 0.880542 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
 Received Import Request.
-  Time since last request: 10.384036 seconds.
-  path: Assets/TileWorldCreator/Samples
-  artifactKey: Guid(463158345de5b2b4cb47a8048418ae06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Samples using Guid(463158345de5b2b4cb47a8048418ae06) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '3d3132303531b84d83a51fed47545c59') in 0.000908083 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+  Time since last request: 17.692978 seconds.
+  path: Assets/TileW/Tileset4Sand/path5.png
+  artifactKey: Guid(561c2b1a5e48a4cce8f5bbb09fe21718) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/Tileset4Sand/path5.png using Guid(561c2b1a5e48a4cce8f5bbb09fe21718) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '444b100edc82d466990824b01fcd37f1') in 0.007323458 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
 
 ========================================================================
 Received Import Request.
-  Time since last request: 4.796633 seconds.
-  path: Assets/TileWorldCreator/Samples/StylizedIsland URP
-  artifactKey: Guid(c151dbf2828206f46858ac1fc452b051) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP using Guid(c151dbf2828206f46858ac1fc452b051) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '356341e5d0b8646b6ade5f22d4d91888') in 0.000490666 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+  Time since last request: 0.971268 seconds.
+  path: Assets/TileW/Tileset4Sand/tiles1.fbx
+  artifactKey: Guid(551705d39540948639bf6f47e38c65b8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TileW/Tileset4Sand/tiles1.fbx using Guid(551705d39540948639bf6f47e38c65b8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '384d25ae2c337a23f15a019ab8fd0fa4') in 0.30393125 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
 
-========================================================================
-Received Import Request.
-  Time since last request: 3.254757 seconds.
-  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/AutoRunBuild.unity
-  artifactKey: Guid(76991f52cd616984ca9537b45825749c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/AutoRunBuild.unity using Guid(76991f52cd616984ca9537b45825749c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'c510de66df199033bea4f99b4f50d9bc') in 0.000267875 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
-
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Thread 0x323d87000 may have been prematurely finalized
-- Loaded All Assemblies, in  0.361 seconds
-Refreshing native plugins compatible for Editor in 0.25 ms, found 2 plugins.
-Native extension for OSXStandalone target not found
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.527 seconds
-Domain Reload Profiling: 890ms
-	BeginReloadAssembly (107ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (9ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (45ms)
-	RebuildCommonClasses (20ms)
-	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (11ms)
-	LoadAllAssembliesAndSetupDomain (218ms)
-		LoadAssemblies (149ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (93ms)
-			TypeCache.Refresh (6ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (80ms)
-			ResolveRequiredComponents (6ms)
-	FinalizeReload (527ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (317ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (1ms)
-			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (74ms)
-			ProcessInitializeOnLoadAttributes (208ms)
-			ProcessInitializeOnLoadMethodAttributes (29ms)
-			AfterProcessingInitializeOnLoad (1ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (65ms)
-Refreshing native plugins compatible for Editor in 0.21 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6138 unused Assets / (3.4 MB). Loaded Objects now: 7504.
-Memory consumption went from 276.6 MB to 273.3 MB.
-Total: 4.966209 ms (FindLiveObjects: 0.302666 ms CreateObjectMapping: 0.113875 ms MarkObjects: 3.609500 ms  DeleteObjects: 0.940042 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Import Request.
-  Time since last request: 65.556488 seconds.
-  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/ManualBuild.unity
-  artifactKey: Guid(fc560856a9af182448cc41a3e6a4f970) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/ManualBuild.unity using Guid(fc560856a9af182448cc41a3e6a4f970) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a8c86240cefdc1c399baf89da688c837') in 0.000919583 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
-
-========================================================================
-Received Import Request.
-  Time since last request: 10.213579 seconds.
-  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/DeepRockCrystals.unity
-  artifactKey: Guid(2342f66be1223374f9b574df8cc5ef3a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/DeepRockCrystals.unity using Guid(2342f66be1223374f9b574df8cc5ef3a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '90c599a8b3e731d9c045ca85cc177e2a') in 0.000317458 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
-
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Thread 0x323d87000 may have been prematurely finalized
-- Loaded All Assemblies, in  0.362 seconds
-Refreshing native plugins compatible for Editor in 0.18 ms, found 2 plugins.
-Native extension for OSXStandalone target not found
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.505 seconds
-Domain Reload Profiling: 869ms
-	BeginReloadAssembly (107ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (9ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (45ms)
-	RebuildCommonClasses (20ms)
-	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (11ms)
-	LoadAllAssembliesAndSetupDomain (220ms)
-		LoadAssemblies (149ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (94ms)
-			TypeCache.Refresh (6ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (80ms)
-			ResolveRequiredComponents (6ms)
-	FinalizeReload (505ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (301ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (1ms)
-			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (73ms)
-			ProcessInitializeOnLoadAttributes (195ms)
-			ProcessInitializeOnLoadMethodAttributes (28ms)
-			AfterProcessingInitializeOnLoad (1ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (60ms)
-Refreshing native plugins compatible for Editor in 0.21 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6138 unused Assets / (3.3 MB). Loaded Objects now: 7507.
-Memory consumption went from 276.6 MB to 273.3 MB.
-Total: 4.939708 ms (FindLiveObjects: 0.300083 ms CreateObjectMapping: 0.108166 ms MarkObjects: 3.662167 ms  DeleteObjects: 0.869083 ms)
-
-Prepare: number of updated asset objects reloaded= 0
