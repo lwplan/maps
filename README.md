@@ -2,9 +2,21 @@
 
 Procedural map generation utilities for lightweight roguelike/encounter maps. The library can generate nodes, anneal their spacing, triangulate edges, and render quick visualizations to a bitmap.
 
+## Architecture
+
+- **Core generator (maps library, `netstandard2.1`)** – produces graph geometry and metadata only. All consumers (Unity plugin, CLI renderer) reference this assembly. Dependencies: none beyond the BCL.
+- **Unity plugin (generation-only)** – precompiled `netstandard2.1` assemblies that Unity loads from `UnityProject/Assets/Plugins`. No third-party image libraries are included so the plugin remains lightweight and IL2CPP-friendly. Rendering must be handled by Unity-side code if needed.
+- **Renderer CLI (desktop-only)** – the `TestBitmap` console app that links the generator with SixLabors ImageSharp to produce PNGs/YAML exports for desktop workflows.
+
+## Component setup and dependencies
+
+- **Core generator**: Build or test the shared library with `dotnet build maps.csproj` or `dotnet test`. No external dependencies are required.
+- **Unity plugin**: Publish the generator-only plugin for Unity with `./scripts/publish-unity-plugin.sh`, which outputs `netstandard2.1` assemblies under `UnityProject/Assets/Plugins`. Keep the plugin free of third-party image libraries to avoid editor bloat and ensure IL2CPP compatibility. At runtime, handle any texture upload or rendering via Unity APIs in your scripts.
+- **Renderer CLI**: Run or publish the desktop-only console app with `dotnet run -p TestBitmap/TestBitmap.csproj -- ...` or `dotnet publish TestBitmap/TestBitmap.csproj -c Release -r <RID>`. This target depends on SixLabors ImageSharp; those dependencies do **not** apply to the Unity plugin.
+
 ## Bitmap rendering
 
-`BitmapMapRenderer` now expects the map to be pre-scaled. Use `GameMapScaler.ScaleForRendering` to enforce minimum spacing and clamp the canvas before handing the map to the renderer.
+`BitmapMapRenderer` (used by the renderer CLI) expects the map to be pre-scaled. Use `GameMapScaler.ScaleForRendering` to enforce minimum spacing and clamp the canvas before handing the map to the renderer.
 
 ```csharp
 var map = generator.GenerateMap(regionSize, numLevels, minNodesPerLevel, maxNodesPerLevel, bifurcationFactor, minDistance);
