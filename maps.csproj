@@ -1,27 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
     <OutputType>Library</OutputType>
-   
     <Nullable>enable</Nullable>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' and '$(Configuration)' == 'Debug' ">
     <DefineConstants>TRACE;TESTBITMAP_APP</DefineConstants>
     <StartupObject>maps.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="src\**\*.cs" />
+    <Compile Include="src\\**\\*.cs" />
   </ItemGroup>
 
-<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
     <PackageReference Include="Delaunator" Version="1.0.11" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11 " />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version=" 2.1.7 " />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
+    <PackageReference Include="SixLabors.Fonts" Version="1.0.0" />
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
-
-
-</ItemGroup>
+  </ItemGroup>
 </Project>

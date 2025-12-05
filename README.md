@@ -46,7 +46,7 @@ dotnet run -p maps.csproj --testbitmap -- --region-width 2 --region-height 3 \
 
 ## Unity plugin publishing
 
-The Unity project consumes the compiled map generation plugin from `UnityProject/Assets/Plugins`. To produce the assemblies locally, run:
+The Unity project consumes the compiled map generation plugin from `UnityProject/Assets/Plugins`. To produce the assemblies locally (built for `netstandard2.1` so Unity can load them), run:
 
 ```bash
 ./scripts/publish-unity-plugin.sh
