@@ -1,7 +1,6 @@
-
 using System.Collections.Generic;
 
-namespace maps
+namespace maps.GameMapPipeline
 {
     public interface IMapGenStep
     {

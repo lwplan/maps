@@ -43,3 +43,13 @@ dotnet run -p maps.csproj --testbitmap -- --region-width 2 --region-height 3 \
     --num-levels 6 --min-nodes 2 --max-nodes 4 --bifurcation-factor 0.65 \
     --min-distance 2 --pixels-per-unit 4
 ```
+
+## Unity plugin publishing
+
+The Unity project consumes the compiled map generation plugin from `UnityProject/Assets/Plugins`. To produce the assemblies locally, run:
+
+```bash
+./scripts/publish-unity-plugin.sh
+```
+
+Binary outputs are ignored in version control; publish locally before opening the Unity project to ensure the precompiled references in `UnityProject/Assets/Scripts/MapGen/MapGen.asmdef` resolve correctly.
