@@ -7,9 +7,20 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <DefineConstants>$(DefineConstants);TESTBITMAP_APP</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="../maps.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../src/BitmapMapRenderer.cs" Link="BitmapMapRenderer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.Fonts" Version="1.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
   </ItemGroup>
 </Project>
