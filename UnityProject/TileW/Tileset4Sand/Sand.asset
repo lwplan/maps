@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a588ceb49564243b9af3598198a6e2, type: 3}
+  m_Name: Sand
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  useRulesForEdgeTile: 0
+  useRulesForExtCornerTile: 0
+  useRulesForIntCornerTile: 0
+  useRulesForFillTile: 0
+  edgeTile: {fileID: 919132149155446097, guid: 551705d39540948639bf6f47e38c65b8, type: 3}
+  exteriorCornerTile: {fileID: 919132149155446097, guid: e05c06c41fb9e4f878daa4400760bad1, type: 3}
+  interiorCornerTile: {fileID: 919132149155446097, guid: 0f36b240572c3485cacc0e88e9308416, type: 3}
+  fillTile: {fileID: 919132149155446097, guid: d4a7b70eb220441daad6121be105ff54, type: 3}
+  edgeTileRotationOffset: {x: 0, y: 0, z: 0}
+  exteriorCornerTileRotationOffset: {x: 0, y: 0, z: 0}
+  interiorCornerTileRotationOffset: {x: 0, y: 0, z: 0}
+  fillTileRotationOffset: {x: 0, y: 0, z: 0}
+  edgeTileScalingOffset: {x: 0, y: 0, z: 0}
+  exteriorCornerScalingOffset: {x: 0, y: 0, z: 0}
+  interiorCornerScalingOffset: {x: 0, y: 0, z: 0}
+  fillTileScalingOffset: {x: 0, y: 0, z: 0}
