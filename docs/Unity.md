@@ -95,3 +95,15 @@ texture.Apply(updateMipmaps: false);
 ```
 
 `LoadRawTextureData` expects the raw byte layout to match the `TextureFormat` you choose. `Rgba32` aligns with `TextureFormat.RGBA32`, so the byte order from ImageSharp maps directly to Unity.
+
+## Driving Tile World Creator at runtime
+
+The repository includes a `TileWorldCreatorBridge` MonoBehaviour that translates a generated `GameMap` into TWC blueprint cells and triggers build layers. A minimal, single-tile setup is already checked in so you can validate the integration quickly.
+
+1. Drop `GameMapGeneratorBehaviour` and `TileWorldCreatorBridge` onto the same GameObject in your scene. Assign the generator reference on the bridge.
+2. Add a `TileWorldCreatorManager` component to the scene and point its configuration to `Assets/TileWorldCreator/Configurations/BridgeFloorConfiguration.asset` (a 1×1 grid with `cellSize = 1`). Assign this manager to the bridge.
+3. Enter Play Mode and run `Generate TileWorld Map` from the bridge's context menu (or call `GenerateTileWorldMap()` from your code). The bridge will generate a map, paint the TWC blueprint layer, and execute both blueprint and build phases at runtime.
+
+Notes for quick validation:
+- Coordinate scaling uses the generator's `RegionSize` to set the TWC `cellSize`, while the configuration's width/height remain `1`. With the default parameters, the single TWC cell covers the entire generated region.
+- Because the configuration is one tile wide and high, the blueprint should contain exactly one painted cell and the build step should instantiate a single tile. If you see more than one tile, double-check that the bridge is pointing at `BridgeFloorConfiguration` and that your `RegionSize` matches the intended cell size.
