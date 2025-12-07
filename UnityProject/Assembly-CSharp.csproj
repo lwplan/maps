@@ -46,7 +46,10 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Scripts/Runtime/Map3dSpawner.cs" />
+    <Compile Include="Assets/Scripts/Runtime/TileChunkBuilder.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
+    <Compile Include="Assets/Scripts/Runtime/TilePrefabRegistry.cs" />
     <Compile Include="Assets/TileW/SeaScene/RockingMotion.cs" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -402,26 +405,17 @@
     <Reference Include="nunit.framework">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/PackageCache/com.unity.ext.nunit@60ef35ffd3cd/net40/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="DelaunatorSharp">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/DelaunatorSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="maps">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/maps.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/PackageCache/com.unity.visualscripting@1b53f46e931b/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/PackageCache/com.unity.nuget.mono-cecil@d6f9955a5d5f/Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="SixLabors.ImageSharp.Drawing">
-      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/SixLabors.ImageSharp.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="maps">
-      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/maps.dll</HintPath>
-    </Reference>
-    <Reference Include="SixLabors.Fonts">
-      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/SixLabors.Fonts.dll</HintPath>
-    </Reference>
-    <Reference Include="SixLabors.ImageSharp">
-      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/SixLabors.ImageSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="DelaunatorSharp">
-      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/DelaunatorSharp.dll</HintPath>
     </Reference>
     <Reference Include="YamlDotNet">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/YamlDotNet.dll</HintPath>

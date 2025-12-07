@@ -110,6 +110,7 @@ MonoBehaviour:
   layerName: Floor Build
   guid: 4245c4c1-2677-4703-87db-295026516b49
   assignedBlueprintLayerGuid: 840f2d62-665b-470f-87a9-313157afcaa5
+  currentBlueprintLayer: {fileID: 0}
   foldoutState: 1
   useMultiLayers: 0
   masks: []
@@ -129,6 +130,7 @@ MonoBehaviour:
   colliderType: 0
   tileColliderHeight: 0
   tileColliderExtrusionHeight: 0
+  invertCollisionWalls: 0
   tilePresetsTop:
   - preset: {fileID: 11400000, guid: 17be7ba49986bf94992ad02a4dc3f9ed, type: 2}
     tileHeight: 0
@@ -157,7 +159,7 @@ MonoBehaviour:
       preset: {fileID: 11400000, guid: 53689e490f32e294bbaf7af82b759737, type: 2}
       requiredNeighbourCount: 1
     - name: 
-      blueprintOverrideLayer: abe2fb90-6986-420a-a773-2d8d00bb0470
+      blueprintOverrideLayer: 840f2d62-665b-470f-87a9-313157afcaa5
       preset: {fileID: 11400000, guid: 468d1556c0cf2b04bab505cc79b1cf33, type: 2}
       requiredNeighbourCount: 1
   serializedWorldPositions:
@@ -2823,7 +2825,7 @@ MonoBehaviour:
   useParallel: 0
   width: 1
   height: 1
-  cellSizeOld: 1
+  cellSizeOld: 0
   cellSize: 1
   lastCellSize: 1
   mergePreviewTextures: 0
@@ -2836,6 +2838,8 @@ MonoBehaviour:
   showPaintGrid: 0
   gizmoLayer: {fileID: 0}
   paintLayer: {fileID: 8576584904440455119}
+  brushSize: 0
+  selectedPaintLayerGuid: 
   tileMapLayers: []
   blueprintLayerFolders:
   - folderName: Root
@@ -2864,6 +2868,7 @@ MonoBehaviour:
   colliderType: 1
   tileColliderHeight: 0
   tileColliderExtrusionHeight: 0
+  invertCollisionWalls: 0
 --- !u!28 &1984375571893593984
 Texture2D:
   m_ObjectHideFlags: 61
