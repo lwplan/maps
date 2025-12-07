@@ -1,8 +1,6 @@
 {
   "name": "MapGen",
-  "references": [
-    "GiantGrey.TileWorldCreator"
-  ],
+  "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
