@@ -1,6 +1,6 @@
 namespace maps
 {
-    public enum Biome
+    public enum BiomeType
     {
         None,       // unassigned
         Town,

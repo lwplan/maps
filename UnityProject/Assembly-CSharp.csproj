@@ -46,9 +46,14 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Map3D/Scripts/Runtime/UnitySerializableMapGenParams.cs" />
+    <Compile Include="Assets/Map3D/Scripts/Runtime/UnityMapGenerator.cs" />
+    <Compile Include="Assets/Map3D/Debug2D/TileColorScheme.cs" />
+    <Compile Include="Assets/Map3D/Debug2D/TileMap2DGizmoRenderer.cs" />
     <Compile Include="Assets/Scripts/Runtime/Map3dSpawner.cs" />
     <Compile Include="Assets/Scripts/Runtime/TileChunkBuilder.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
+    <Compile Include="Assets/Map3D/Debug2D/TileMap2DRenderer.cs" />
     <Compile Include="Assets/Scripts/Runtime/TilePrefabRegistry.cs" />
     <Compile Include="Assets/TileW/SeaScene/RockingMotion.cs" />
     <Reference Include="UnityEngine">

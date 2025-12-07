@@ -2,7 +2,7 @@ using maps;
 
 public class BiomeMap
 {
-    public readonly Biome[,] Tiles;
+    public readonly BiomeType[,] Tiles;
     public readonly int Width;
     public readonly int Height;
 
@@ -16,13 +16,13 @@ public class BiomeMap
         Height = height;
         OffsetX = offsetX;
         OffsetY = offsetY;
-        Tiles = new Biome[width, height];
+        Tiles = new BiomeType[width, height];
     }
 
     public bool InBounds(int x, int y)
         => x >= 0 && y >= 0 && x < Width && y < Height;
 
-    public Biome this[int x, int y]
+    public BiomeType this[int x, int y]
     {
         get => Tiles[x, y];
         set => Tiles[x, y] = value;

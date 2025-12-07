@@ -10,15 +10,12 @@ namespace maps.GameMapPipeline
         public void Execute(GameMap map, MapGenParams p)
         {
             // Infer world bounds from tile coordinates
-            int minX = map.Nodes.Min(n => n.TileX) - 200;
-            int maxX = map.Nodes.Max(n => n.TileX) + 200;
-            int minY = map.Nodes.Min(n => n.TileY) - 200;
-            int maxY = map.Nodes.Max(n => n.TileY) + 200;
-
-            int width  = maxX - minX + 1;
-            int height = maxY - minY + 1;
-
-            var biomeMap = new BiomeMap(width, height, minX, minY);
+            var biomeMap = new BiomeMap(
+                map.TileWidth, 
+                map.TileHeight,
+                map.OffsetX,
+                map.OffsetY
+            );
 
             //
             // 1. Towns
@@ -71,7 +68,7 @@ namespace maps.GameMapPipeline
                 if (!map.InBounds(x, y)) continue;
 
                 if ((x - cx) * (x - cx) + (y - cy) * (y - cy) <= r2)
-                    map[x, y] = Biome.Town;
+                    map[x, y] = BiomeType.Town;
             }
         }
 
@@ -96,7 +93,7 @@ namespace maps.GameMapPipeline
             for (int y = cy - halfSize; y <= cy + halfSize; y++)
             {
                 if (map.InBounds(x, y))
-                    map[x, y] = Biome.Battlement;
+                    map[x, y] = BiomeType.Battlement;
             }
         }
 
@@ -106,16 +103,16 @@ namespace maps.GameMapPipeline
         private void FillBroadBiomes(BiomeMap map, List<Node> nodes, int seedCount)
         {
             var rand = new Random();
-            var seeds = new List<(int x, int y, Biome biome)>();
+            var seeds = new List<(int x, int y, BiomeType biome)>();
 
             // Choose biomes for seeds
-            Biome[] candidates = { Biome.Dunes, Biome.Canyon, Biome.Mountain };
+            BiomeType[] candidates = { BiomeType.Dunes, BiomeType.Canyon, BiomeType.Mountain };
 
             for (int i = 0; i < seedCount; i++)
             {
                 int x = rand.Next(0, map.Width);
                 int y = rand.Next(0, map.Height);
-                Biome b = candidates[rand.Next(candidates.Length)];
+                BiomeType b = candidates[rand.Next(candidates.Length)];
                 seeds.Add((x, y, b));
             }
 
@@ -123,11 +120,11 @@ namespace maps.GameMapPipeline
             for (int x = 0; x < map.Width; x++)
             for (int y = 0; y < map.Height; y++)
             {
-                if (map[x, y] != Biome.None)
+                if (map[x, y] != BiomeType.None)
                     continue;
 
                 int best = int.MaxValue;
-                Biome chosen = Biome.Dunes;
+                BiomeType chosen = BiomeType.Dunes;
 
                 foreach (var s in seeds)
                 {
@@ -182,12 +179,12 @@ namespace maps.GameMapPipeline
                     bool stop = false;
                     for (int x = 0; x < map.Width; x++)
                     {
-                        if (map[x, y] != Biome.None)
+                        if (map[x, y] != BiomeType.None)
                         {
                             stop = true;
                             break;
                         }
-                        map[x, y] = Biome.Sea;
+                        map[x, y] = BiomeType.Sea;
                     }
                     if (stop) break;
                 }
@@ -199,12 +196,12 @@ namespace maps.GameMapPipeline
                     bool stop = false;
                     for (int y = 0; y < map.Height; y++)
                     {
-                        if (map[x, y] != Biome.None)
+                        if (map[x, y] != BiomeType.None)
                         {
                             stop = true;
                             break;
                         }
-                        map[x, y] = Biome.Sea;
+                        map[x, y] = BiomeType.Sea;
                     }
                     if (stop) break;
                 }

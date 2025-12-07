@@ -74,6 +74,7 @@ namespace maps.Map3D
         Dune,
         Canyon,
         Grassland,
+        Mountain,
         Sea,
         Coast,
         City,
