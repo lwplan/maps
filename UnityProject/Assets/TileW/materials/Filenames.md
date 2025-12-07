@@ -1,19 +1,16 @@
-# Path tile Filenames
-The tiles use a 3x3 subgrid to represent paving and sand background
+# Path tile filenames
 
-The filenames can be interpreted according to the following grids:
+The tiles use a 3×3 subgrid to represent paving (`#`) and sand background (`@`). Each
+filename describes which edges of the grid contain a path so that it is easy to match
+tiles when building a scene.
 
-```
-# = pathway
-@ = sand
-```
+Tile previews:
 
 ```path_all.png
 ###
 ###
 ###
 ```
-
 
 ```path_center.png
 @@@
@@ -75,10 +72,14 @@ The filenames can be interpreted according to the following grids:
 @@@
 ```
 
-```path_wne.png
-@#@
-###
-@@@
-```
+path2.xcf : Gimp source file
 
-path2.xcf : Gimp source fdile
+## Suggested improvements
+- Use consistent directional abbreviations (e.g., `n`, `s`, `e`, `w`) and clarify whether
+  order matters when multiple directions are present.
+- Add missing combinations (such as `path_ns.png` or `path_nw.png`) or note why they are
+  absent to avoid confusion when selecting tiles.
+- Deduplicate filenames—`path_wne.png` appears twice above—so each asset is listed once
+  with a single canonical description.
+- Include rendered thumbnails or a legend image in this folder to make visual selection
+  faster when browsing assets.
