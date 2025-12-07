@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using maps;
 using maps.GameMapPipeline;
@@ -22,6 +23,7 @@ public class GameMapGeneratorBehaviour : MonoBehaviour
 
     public GameMapPipeline Pipeline { get; private set; }
     public GameMap GeneratedMap { get; private set; }
+    public event Action<GameMap> OnMapGenerated;
 
     public void Generate()
     {
@@ -61,6 +63,7 @@ public class GameMapGeneratorBehaviour : MonoBehaviour
         );
 
         GeneratedMap = Pipeline.Execute(parameters);
+        RaiseMapGenerated();
     }
 
     private void LoadFromAsset()
@@ -74,6 +77,7 @@ public class GameMapGeneratorBehaviour : MonoBehaviour
 
         GeneratedMap = bakedMapAsset.ToGameMap();
         Pipeline = null;
+        RaiseMapGenerated();
     }
 
     private GameMapPipeline BuildPipeline()
@@ -83,5 +87,10 @@ public class GameMapGeneratorBehaviour : MonoBehaviour
             .AddStep(new TriangulationStep())
             .AddStep(new AssignStartEndStep())
             .AddStep(new BiomeGenerationStep());
+    }
+
+    private void RaiseMapGenerated()
+    {
+        OnMapGenerated?.Invoke(GeneratedMap);
     }
 }
