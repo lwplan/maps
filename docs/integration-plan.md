@@ -1,12 +1,12 @@
-# Unity integration plan: procedural maps + Tile World Creator
+# Unity integration plan: procedural maps + custom runtime builder
 
 ## Current state
 - **Procedural generator:** The C# map generator library lives under `src/` (for example, `GameMapPipeline/GameMapPipeline.cs` builds a `GameMap` via pluggable steps). It runs outside Unity today and emits logical nodes, edges, and region metadata.
-- **Tile World Creator (TWC):** The Unity project under `UnityProject/Assets/TileWorldCreator` includes the runtime `TileWorldCreatorManager` component and configuration assets for blueprint/build layers. The manager already exposes entry points such as `GenerateCompleteMap()`, `ExecuteBlueprintLayers()`, and `ExecuteBuildLayers()` to drive tile placement.
-- **Legacy tiles:** The `UnityProject/Assets/TileW` directory contains older prefabs/scenes and a `TileMapDefinition` asset that are not aligned with the packaged TWC "Tiles URP" presets.
+- **Unity shim:** `GameMapGeneratorBehaviour` generates maps at runtime or loads them from `GameMapAsset` ScriptableObjects. The assembly definition under `Assets/Scripts/MapGen` references the generator plugin but no longer depends on Tile World Creator.
+- **Legacy tiles:** The `UnityProject/Assets/TileW` directory contains older prefabs/scenes. Tile World Creator assets remain in the repo as reference-only and should not be invoked by new runtime code.
 
 ## Goal
-Feed procedurally generated `GameMap` data into Tile World Creator so it can paint blueprint layers and build a Unity tilemap/mesh at runtime, replacing the outdated `TileW` assets.
+Drive scene construction directly from `GameMap` data using bespoke placement code and prefabs, replacing the previous Tile World Creator bridge.
 
 ## Integration milestones
 ### 1) Share map data with Unity
@@ -21,7 +21,7 @@ Feed procedurally generated `GameMap` data into Tile World Creator so it can pai
    - In Unity, verify the assembly definition includes references to any external dependencies already bundled with `maps.csproj`.
 2. **Create a runtime shim**
    - Add a new `MonoBehaviour` (e.g., `GameMapGeneratorBehaviour.cs`) in `UnityProject/Assets/Scripts/MapGen` that exposes serialized fields for `MapGenParams` (size, seeds, biome options) and holds a `GameMapPipeline` instance.
-   - Implement a `Generate()` method that constructs `GameMapPipeline`, calls `Execute`, and stores the resulting `GameMap` for downstream Tile World Creator usage.
+   - Implement a `Generate()` method that constructs `GameMapPipeline`, calls `Execute`, and stores the resulting `GameMap` for downstream placement scripts.
    - Add editor buttons or a context menu method to trigger `Generate()` in play mode for quick validation.
 3. **Decide on data lifetime and serialization**
    - Start with transient, in-memory `GameMap` instances to unblock runtime integration.
@@ -38,20 +38,19 @@ Feed procedurally generated `GameMap` data into Tile World Creator so it can pai
 - **Interchangeability:** `GameMapGeneratorBehaviour` exposes a `MapSource` toggle. When set to **UseBakedAsset**, the shim pulls a `GameMap` from the assigned asset; otherwise it builds a fresh map via the pipeline. A missing asset automatically falls back to runtime generation to keep play mode unblocked.
 - **Authoring baked data:** call `GameMapAsset.PopulateFrom(GameMap map)` from an editor script to capture a generated map into an asset for reuse in scenes or tests.
 
-### 2) Translate `GameMap` to TWC blueprint layers
-- Choose a blueprint layer schema (e.g., one layer per biome or per node type). Use `TileWorldCreatorManager.ResetConfiguration()` before painting.
-- Convert node positions to grid cells in the active configuration. Honor `map.RegionSize` and `MinNodeDistance` so painted cells align with TWC's cell size.
-- For each node/edge, call the appropriate blueprint layer API to mark occupied cells (e.g., floor, wall, path). Keep a mapping from logical `Node` to painted cells for later decoration.
-- After painting, trigger `ExecuteBlueprintLayers()` followed by `ExecuteBuildLayers(ExecutionMode.FromScratch)` to spawn meshes/tiles.
+### 2) Build a custom runtime placer
+- Define how logical coordinates map to scene space (tile size, elevation, node spacing) so instantiation can be deterministic.
+- Create a simple placement component that iterates nodes and edges from `GameMap` and instantiates prefabs/meshes for floors, walls, and connectors without invoking third-party tools.
+- Keep a mapping from logical `Node` to spawned objects for future decoration, interaction hooks, or cleanup.
 
-### 3) Tile set alignment and replacement of legacy assets
-- Audit `UnityProject/Assets/TileWorldCreator/"Tiles URP"` presets and associate them with the blueprint layers used above (paths vs. walls vs. void).
-- Retire or migrate the `UnityProject/Assets/TileW` prefabs/scenes; point new scenes at the TWC configuration assets instead of the outdated `TileMapDefinition`.
-- Add minimal sample scenes demonstrating runtime generation and the updated tile presets.
+### 3) Replace legacy assets incrementally
+- Start with lightweight placeholder meshes or gizmos to visualize the generated topology.
+- Swap in production prefabs over time, using per-biome variants when `BiomeMap` data is available.
+- Retire or migrate the `UnityProject/Assets/TileW` prefabs/scenes once the new placer covers the same functionality.
 
 ### 4) Biomes and metadata
-- Use `BiomeMap` data from the generator to pick blueprint layers or clusters per biome. Map biome IDs to TWC cluster identifiers so decorations change per region.
-- Surface hooks for spawn markers or interactables: after `ExecuteBuildLayers`, iterate the painted cell mapping and place Unity prefabs (enemies, chests) based on node tags.
+- Use `BiomeMap` data from the generator to select prefab sets, materials, or lighting variants per region.
+- Surface hooks for spawn markers or interactables: after placement, iterate node metadata to drop gameplay prefabs (enemies, chests) based on node tags.
 
 ### 5) Testing and validation
 - Editor workflow: create an editor window or inspector button to run the generator and rebuild the TWC map in the currently open scene for quick iteration.
@@ -60,6 +59,6 @@ Feed procedurally generated `GameMap` data into Tile World Creator so it can pai
 
 ## Deliverables
 - Unity assembly definition or import pipeline for the generator code.
-- A runtime component that bridges `GameMap` → TWC blueprint layers → built tiles.
-- Updated scenes/prefabs using TWC presets (legacy `TileW` assets deprecated).
+- A runtime placement component that converts `GameMap` data into instantiated prefabs/meshes.
+- Updated scenes/prefabs using the bespoke placer (legacy `TileW` and TWC assets deprecated for runtime).
 - Documentation explaining coordinate conventions and how to trigger generation in editor/runtime.
