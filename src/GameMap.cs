@@ -41,6 +41,9 @@ namespace maps
         // -------------------------------------------------
         public TileInfo[,] TileInfo { get; set; }
 
+        // Chunk streaming
+        public ChunkBuilder? ChunkBuilder { get; set; }
+
         // Grid bounds
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }

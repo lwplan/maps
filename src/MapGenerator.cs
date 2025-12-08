@@ -27,7 +27,16 @@ namespace maps
                 .AddStep(new TileArrayBuildStep());     // safe and aligned
 
             // Run pipeline and return result
-            return pipeline.Execute(p);
+            var map = pipeline.Execute(p);
+
+            // Initialize chunk streaming around the start node
+            map.ChunkBuilder = new ChunkBuilder(map);
+            map.ChunkBuilder.StartWorker();
+
+            if (map.StartNode != null)
+                map.ChunkBuilder.RequestChunkForTile(map.StartNode.TileX, map.StartNode.TileY);
+
+            return map;
         }
     }
 }

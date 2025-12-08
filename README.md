@@ -33,6 +33,32 @@ Key details:
 
 For compatibility, the previous `Render(IEnumerable<Node> nodes, ...)` overload remains if you prefer manual normalization to an ASCII-style grid.
 
+## Chunked tile streaming
+
+`ChunkBuilder` exposes a lightweight worker thread that can build `TileInfo` blocks in map-aligned chunks without blocking your main thread. The generator still emits the full `TileInfo[,]` synchronously for existing flows, but you can also stream tiles lazily for runtime worlds.
+
+- The service is wired up automatically in `MapGenerator.Generate` and seeds its request queue with the chunk that contains the start node.
+- Chunk coordinates are expressed in world tile space; the helper `ChunkBuilder.GetChunkCoordForTile(tile, chunkSize)` floors the coordinate so negative tiles land in the expected chunk.
+- Call `RequestChunkForTile` or `RequestChunk` for neighboring regions, then poll `TryDequeueBuiltChunk` from your update loop. Each result carries the chunk coordinates plus the trimmed `TileInfo[,]` payload.
+- Dispose the builder (or call `Cancel`) when shutting down to release the worker thread and wake any waiters.
+
+Example usage during gameplay:
+
+```csharp
+var map = MapGenerator.Generate(parameters);
+var chunkBuilder = map.ChunkBuilder!; // initialized during Generate
+
+// Request neighbors around the start node's chunk
+chunkBuilder.RequestChunkForTile(map.StartNode.TileX + ChunkBuilder.DefaultChunkSize, map.StartNode.TileY);
+chunkBuilder.RequestChunkForTile(map.StartNode.TileX - ChunkBuilder.DefaultChunkSize, map.StartNode.TileY);
+
+// In your main loop
+if (chunkBuilder.TryDequeueBuiltChunk(out var built))
+{
+    UploadTilesToUnity(built.ChunkX, built.ChunkY, built.Tiles);
+}
+```
+
 ## Command-line bitmap rendering
 
 The `TestBitmap` console app (see `TestBitmap/TestBitmap.csproj`) lives in a separate target that references the core library and SixLabors ImageSharp rendering dependencies. It publishes as a self-contained single-file executable for Linux, macOS, or Windows, but you can also run it directly with `dotnet run` during development.
