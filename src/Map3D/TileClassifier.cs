@@ -55,17 +55,26 @@ namespace maps.Map3D
             bool w  = mask.Has(Neighbor8.West);
             bool nw = mask.Has(Neighbor8.NorthWest);
 
+            int cardinalCount = 0;
+            if (n) cardinalCount++;
+            if (e) cardinalCount++;
+            if (s) cardinalCount++;
+            if (w) cardinalCount++;
+
             //
             //  ----  END tiles  ----
             //
-            if (!n && e && w && s)
-                return (PavingPattern.End, Rotation.R0);   // open to North
-            if (!e && n && s && w)
-                return (PavingPattern.End, Rotation.R90);  // open to East
-            if (!s && e && w && n)
-                return (PavingPattern.End, Rotation.R180); // open to South
-            if (!w && n && s && e)
-                return (PavingPattern.End, Rotation.R270); // open to West
+            if (cardinalCount == 1)
+            {
+                if (n)
+                    return (PavingPattern.End, Rotation.R0);
+                if (e)
+                    return (PavingPattern.End, Rotation.R90);
+                if (s)
+                    return (PavingPattern.End, Rotation.R180);
+                if (w)
+                    return (PavingPattern.End, Rotation.R270);
+            }
 
             //
             // ---- STRAIGHTS ----
@@ -91,14 +100,17 @@ namespace maps.Map3D
             //
             // ---- TJunctions ----
             //
-            if (!n && e && w && s)
-                return (PavingPattern.TJunction, Rotation.R0); // open north
-            if (!e && n && s && w)
-                return (PavingPattern.TJunction, Rotation.R90);
-            if (!s && e && w && n)
-                return (PavingPattern.TJunction, Rotation.R180);
-            if (!w && n && s && e)
-                return (PavingPattern.TJunction, Rotation.R270);
+            if (cardinalCount == 3)
+            {
+                if (!n && e && w && s)
+                    return (PavingPattern.TJunction, Rotation.R0); // open north
+                if (!e && n && s && w)
+                    return (PavingPattern.TJunction, Rotation.R90);
+                if (!s && e && w && n)
+                    return (PavingPattern.TJunction, Rotation.R180);
+                if (!w && n && s && e)
+                    return (PavingPattern.TJunction, Rotation.R270);
+            }
 
             //
             // ---- CROSS ----
