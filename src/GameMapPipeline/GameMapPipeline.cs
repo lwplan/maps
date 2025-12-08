@@ -22,6 +22,9 @@ namespace maps.GameMapPipeline
                 bifurcationFactor: p.BifurcationFactor
             );
 
+            map.MinNodeDistance = p.MinNodeDistance;
+            map.RegionSize = p.RegionSize;
+
             // Run each pipeline step in order
             foreach (var step in steps)
                 step.Execute(map, p);
