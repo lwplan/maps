@@ -610,6 +610,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1315204992}
   - component: {fileID: 1315204993}
+  - component: {fileID: 1315204995}
+  - component: {fileID: 1315204994}
   m_Layer: 0
   m_Name: MapRoot
   m_TagString: Untagged
@@ -651,6 +653,39 @@ MonoBehaviour:
     MaxNodesPerLevel: 3
     BifurcationFactor: 1
   PreviewRenderer: {fileID: 0}
+--- !u!114 &1315204994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315204991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ed6d3a64caf4e378ab80daf1accf52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorScheme: {fileID: 11400000, guid: d78efd8e7185f4e17b89fb02a08890e9, type: 2}
+  TargetImage: {fileID: 466380176}
+  PixelsPerTile: 4
+--- !u!114 &1315204995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315204991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b1d07f312f747b2873c1fe462d9e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parameters:
+    NumLevels: 8
+    MinNodesPerLevel: 1
+    MaxNodesPerLevel: 3
+    BifurcationFactor: 1
+  PreviewRenderer: {fileID: 1315204994}
 --- !u!1 &2003836607
 GameObject:
   m_ObjectHideFlags: 0
