@@ -1,188 +1,157 @@
-using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using System.Threading.Tasks;
 using maps.Map3D;
-using Runtime;
-using Object = UnityEngine.Object;
+using UnityEngine;
 
-public static class TileChunkBuilder
+namespace Runtime
 {
-    public const int CHUNK_SIZE = 20;
-    public const float TILE_SIZE = 2f;
-
-    public static GameObject BuildChunks(TileInfo[,] tiles, TilePrefabRegistry registry)
+    public class TileChunkBuilder
     {
-        int width  = tiles.GetLength(0);
-        int height = tiles.GetLength(1);
+        private const int DefaultMainThreadBatchSize = 200;
 
-        var root = new GameObject("TileChunks");
-
-        int chunksX = Mathf.CeilToInt(width  / (float)CHUNK_SIZE);
-        int chunksY = Mathf.CeilToInt(height / (float)CHUNK_SIZE);
-
-        for (int cx = 0; cx < chunksX; cx++)
+        private readonly struct TilePlacement
         {
-            for (int cy = 0; cy < chunksY; cy++)
+            public readonly int X;
+            public readonly int Y;
+            public readonly PavingPattern Pattern;
+            public readonly Rotation Rotation;
+
+            public TilePlacement(int x, int y, PavingPattern pattern, Rotation rotation)
             {
-                BuildChunk(cx, cy, tiles, registry, root.transform);
+                X = x;
+                Y = y;
+                Pattern = pattern;
+                Rotation = rotation;
             }
         }
 
-        return root;
-    }
-
-    private static void BuildChunk(
-        int chunkX,
-        int chunkY,
-        TileInfo[,] tiles,
-        TilePrefabRegistry registry,
-        Transform parent)
-    {
-        int width  = tiles.GetLength(0);
-        int height = tiles.GetLength(1);
-
-        int startX = chunkX * CHUNK_SIZE;
-        int startY = chunkY * CHUNK_SIZE;
-
-        int endX = Mathf.Min(startX + CHUNK_SIZE, width);
-        int endY = Mathf.Min(startY + CHUNK_SIZE, height);
-
-        // MATERIAL → LIST OF COMBINEINSTANCES
-        Dictionary<Material, List<CombineInstance>> materialBuckets =
-            new Dictionary<Material, List<CombineInstance>>();
-
-        //
-        // Collect tile meshes into material buckets
-        //
-        for (int x = startX; x < endX; x++)
+        private readonly struct ChunkBuildData
         {
-            for (int y = startY; y < endY; y++)
+            public readonly int Cx;
+            public readonly int Cy;
+            public readonly List<TilePlacement> Tiles;
+
+            public ChunkBuildData(int cx, int cy, List<TilePlacement> tiles)
             {
-                var t = tiles[x, y];
-
-                var prefab = registry.GetPrefab(t.PavingPattern, t.Rotation, t.Biome);
-                if (prefab == null)
-                    continue;
-
-                // temp instance for mesh extraction
-                var temp = GameObject.Instantiate(prefab);
-                temp.hideFlags = HideFlags.HideAndDontSave;
-
-                var meshFilter   = temp.GetComponentInChildren<MeshFilter>();
-                var meshRenderer = temp.GetComponentInChildren<MeshRenderer>();
-
-                Mesh sourceMesh = meshFilter != null ? meshFilter.sharedMesh : null;
-
-                // fallback to procedural mesh
-                if (sourceMesh == null || !sourceMesh.isReadable || sourceMesh.triangles.Length == 0)
-                {
-                    sourceMesh = TileMeshFactory.QuadTile(TILE_SIZE);
-                }
-
-                Vector3 localPos = new Vector3(
-                    (x - startX) * TILE_SIZE,
-                    t.ElevationLevel,
-                    (y - startY) * TILE_SIZE
-                );
-
-                CombineInstance ci = new CombineInstance
-                {
-                    mesh = sourceMesh,
-                    transform = Matrix4x4.TRS(
-                        localPos,
-                        Quaternion.Euler(0, RotationDegrees(t.Rotation), 0),
-                        Vector3.one
-                    )
-                };
-
-                // choose material
-                Material mat = meshRenderer != null && meshRenderer.sharedMaterial != null
-                    ? meshRenderer.sharedMaterial
-                    : registry.DefaultMaterial;
-
-                if (!materialBuckets.TryGetValue(mat, out var list))
-                {
-                    list = new List<CombineInstance>();
-                    materialBuckets[mat] = list;
-                }
-
-                list.Add(ci);
-
-#if UNITY_EDITOR
-                Object.DestroyImmediate(temp);
-#else
-                Object.Destroy(temp);
-#endif
+                Cx = cx;
+                Cy = cy;
+                Tiles = tiles;
             }
         }
 
-        //
-        // Build final mesh from material buckets
-        //
-        List<CombineInstance> submeshCombiners = new List<CombineInstance>();
-        List<Material> finalMaterials          = new List<Material>();
-
-        foreach (var kv in materialBuckets)
+        public static GameObject BuildChunks(
+            TileInfo[,] tiles,
+            TilePrefabRegistry registry,
+            float tileSize = 2f,
+            int chunkSize = 20)
         {
-            Material mat = kv.Key;
-            List<CombineInstance> instances = kv.Value;
+            int w = tiles.GetLength(0);
+            int h = tiles.GetLength(1);
 
-            Mesh submesh = new Mesh();
-            submesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            GameObject root = new GameObject("TileMap3D");
 
-            // merge within same material
-            submesh.CombineMeshes(instances.ToArray(), true, true);
-
-            CombineInstance ci = new CombineInstance
+            for (int cx = 0; cx < w; cx += chunkSize)
             {
-                mesh = submesh,
-                transform = Matrix4x4.identity
-            };
+                for (int cy = 0; cy < h; cy += chunkSize)
+                {
+                    GameObject chunk = new GameObject($"Chunk_{cx}_{cy}");
+                    chunk.transform.parent = root.transform;
 
-            submeshCombiners.Add(ci);
-            finalMaterials.Add(mat);
+                    for (int x = cx; x < Mathf.Min(cx + chunkSize, w); x++)
+                    {
+                        for (int y = cy; y < Mathf.Min(cy + chunkSize, h); y++)
+                        {
+                            TileInfo t = tiles[x, y];
+
+                            GameObject prefab =
+                                registry.GetPrefab(t.PavingPattern, t.Rotation, BiomeType.Canyon);
+
+                            Vector3 pos = new Vector3(x * tileSize, 0, y * tileSize);
+                            GameObject inst = Object.Instantiate(prefab, pos, Quaternion.Euler(0, (int)t.Rotation * 90, 0), chunk.transform);
+                        }
+                    }
+
+                    // Static batch
+                    StaticBatchingUtility.Combine(chunk);
+                }
+            }
+
+            return root;
         }
 
-        //
-        // final combine: one submesh per material
-        //
-        Mesh finalMesh = new Mesh();
-        finalMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-
-        if (submeshCombiners.Count > 0)
+        public static async Task<GameObject> BuildChunksAsync(
+            TileInfo[,] tiles,
+            TilePrefabRegistry registry,
+            float tileSize = 2f,
+            int chunkSize = 20,
+            int mainThreadBatchSize = DefaultMainThreadBatchSize)
         {
-            finalMesh.CombineMeshes(submeshCombiners.ToArray(), false, true);
+            var chunkBuildData = await Task.Run(() => PrepareChunkData(tiles, chunkSize));
+
+            GameObject root = new GameObject("TileMap3D");
+
+            foreach (var chunkData in chunkBuildData)
+            {
+                GameObject chunk = new GameObject($"Chunk_{chunkData.Cx}_{chunkData.Cy}");
+                chunk.transform.parent = root.transform;
+
+                int builtTiles = 0;
+
+                foreach (var tile in chunkData.Tiles)
+                {
+                    GameObject prefab = registry.GetPrefab(tile.Pattern, tile.Rotation, BiomeType.Canyon);
+                    Vector3 pos = new Vector3(tile.X * tileSize, 0, tile.Y * tileSize);
+                    Object.Instantiate(
+                        prefab,
+                        pos,
+                        Quaternion.Euler(0, (int)tile.Rotation * 90, 0),
+                        chunk.transform);
+
+                    builtTiles++;
+                    if (builtTiles % mainThreadBatchSize == 0)
+                        await Task.Yield();
+                }
+
+                StaticBatchingUtility.Combine(chunk);
+                await Task.Yield();
+            }
+
+            return root;
         }
 
-        //
-        // Create chunk GameObject
-        //
-        var chunkGO = new GameObject($"Chunk_{chunkX}_{chunkY}");
-        chunkGO.transform.SetParent(parent, false);
-
-        float worldX = startX * TILE_SIZE;
-        float worldZ = startY * TILE_SIZE;
-
-        chunkGO.transform.localPosition = new Vector3(worldX, 0, worldZ);
-
-        var mf = chunkGO.AddComponent<MeshFilter>();
-        var mr = chunkGO.AddComponent<MeshRenderer>();
-
-        mf.sharedMesh = finalMesh;
-        mr.sharedMaterials = finalMaterials.ToArray();
-
-        chunkGO.isStatic = true;
-    }
-
-    private static float RotationDegrees(Rotation r)
-    {
-        return r switch
+        private static IReadOnlyList<ChunkBuildData> PrepareChunkData(TileInfo[,] tiles, int chunkSize)
         {
-            Rotation.R0   => 0f,
-            Rotation.R90  => 90f,
-            Rotation.R180 => 180f,
-            Rotation.R270 => 270f,
-            _ => 0f
-        };
+            int w = tiles.GetLength(0);
+            int h = tiles.GetLength(1);
+
+            var chunkCoordinates = new List<(int cx, int cy)>();
+            for (int cx = 0; cx < w; cx += chunkSize)
+                for (int cy = 0; cy < h; cy += chunkSize)
+                    chunkCoordinates.Add((cx, cy));
+
+            var chunks = new ConcurrentBag<ChunkBuildData>();
+
+            Parallel.ForEach(chunkCoordinates, coord =>
+            {
+                var placements = new List<TilePlacement>();
+                for (int x = coord.cx; x < Mathf.Min(coord.cx + chunkSize, w); x++)
+                {
+                    for (int y = coord.cy; y < Mathf.Min(coord.cy + chunkSize, h); y++)
+                    {
+                        TileInfo t = tiles[x, y];
+                        placements.Add(new TilePlacement(x, y, t.PavingPattern, t.Rotation));
+                    }
+                }
+
+                chunks.Add(new ChunkBuildData(coord.cx, coord.cy, placements));
+            });
+
+            return chunks
+                .OrderBy(c => c.Cx)
+                .ThenBy(c => c.Cy)
+                .ToList();
+        }
     }
 }

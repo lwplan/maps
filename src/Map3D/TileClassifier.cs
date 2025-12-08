@@ -1,121 +1,86 @@
-using System;
-
 namespace maps.Map3D
 {
     public static class TileClassifier
     {
-        //
-        // CLASSIFY PATH SHAPE (4-direction Wang tiles)
-        //
         public static PathShape ClassifyPathShape(Neighbor4 n)
         {
             int count = CountBits((int)n);
 
-            return count switch
+            if (count == 0) return PathShape.Center;
+            if (count == 1) return PathShape.End;
+            if (count == 4) return PathShape.Cross;
+
+            if (count == 2)
             {
-                0 => PathShape.None,
-                1 => PathShape.End,
-                2 => IsStraight(n) ? PathShape.Straight : PathShape.Corner,
-                3 => PathShape.TJunction,
-                4 => PathShape.Cross,
-                _ => PathShape.None
-            };
+                if ((n & Neighbor4.North) != 0 && (n & Neighbor4.South) != 0) return PathShape.Straight;
+                if ((n & Neighbor4.East) != 0 && (n & Neighbor4.West) != 0) return PathShape.Straight;
+                return PathShape.Corner;
+            }
+
+            if (count == 3) return PathShape.TJunction;
+
+            return PathShape.None;
         }
 
-        private static bool IsStraight(Neighbor4 n)
+        public static (PavingPattern, Rotation) ClassifyPavingPattern(Neighbor8 m)
         {
-            bool ns = (n & Neighbor4.North) != 0 && (n & Neighbor4.South) != 0;
-            bool ew = (n & Neighbor4.East)  != 0 && (n & Neighbor4.West)  != 0;
-            return ns || ew;
+            int neighborCount = CountBits((int)m);
+
+            bool n  = (m & Neighbor8.North)     != 0;
+            bool ne = (m & Neighbor8.NorthEast) != 0;
+            bool e  = (m & Neighbor8.East)      != 0;
+            bool se = (m & Neighbor8.SouthEast) != 0;
+            bool s  = (m & Neighbor8.South)     != 0;
+            bool sw = (m & Neighbor8.SouthWest) != 0;
+            bool w  = (m & Neighbor8.West)      != 0;
+            bool nw = (m & Neighbor8.NorthWest) != 0;
+
+            int cardinalCount = (n ? 1 : 0) + (e ? 1 : 0) + (s ? 1 : 0) + (w ? 1 : 0);
+
+            // Empty / fully surrounded
+            if (neighborCount == 0) return (PavingPattern.Center, Rotation.R0);
+            if (neighborCount == 8) return (PavingPattern.Full, Rotation.R0);
+
+            // Simple 4-neighbor tiling
+            if (cardinalCount == 4) return (PavingPattern.Cross, Rotation.R0);
+
+            if (cardinalCount == 3)
+            {
+                if (!s) return (PavingPattern.TJunction, Rotation.R0);
+                if (!w) return (PavingPattern.TJunction, Rotation.R90);
+                if (!n) return (PavingPattern.TJunction, Rotation.R180);
+                if (!e) return (PavingPattern.TJunction, Rotation.R270);
+            }
+
+            if (cardinalCount == 2)
+            {
+                if (n && s) return (PavingPattern.Straight, Rotation.R0);
+                if (e && w) return (PavingPattern.Straight, Rotation.R90);
+
+                if (n && e) return (PavingPattern.Corner, Rotation.R0);
+                if (e && s) return (PavingPattern.Corner, Rotation.R90);
+                if (s && w) return (PavingPattern.Corner, Rotation.R180);
+                if (w && n) return (PavingPattern.Corner, Rotation.R270);
+            }
+
+            if (cardinalCount == 1)
+            {
+                if (n) return (PavingPattern.End, Rotation.R0);
+                if (e) return (PavingPattern.End, Rotation.R90);
+                if (s) return (PavingPattern.End, Rotation.R180);
+                if (w) return (PavingPattern.End, Rotation.R270);
+            }
+
+            // Diagonal-only tiles: treat as outer corners/edges
+            if (ne && !n && !e) return (PavingPattern.OuterCorner, Rotation.R0);
+            if (se && !s && !e) return (PavingPattern.OuterCorner, Rotation.R90);
+            if (sw && !s && !w) return (PavingPattern.OuterCorner, Rotation.R180);
+            if (nw && !n && !w) return (PavingPattern.OuterCorner, Rotation.R270);
+
+            // Fallback: default to full so tiling remains seamless even with irregular masks
+            return (PavingPattern.Full, Rotation.R0);
         }
 
-
-        //
-        // CLASSIFY PAVING PATTERN (8-direction Wang tiles)
-        //
-        public static (PavingPattern, Rotation) ClassifyPavingPattern(Neighbor8 mask)
-        {
-            int count = CountBits((int)mask);
-
-            // 1. no paving here → NONE tile
-            if (count == 0) 
-                return (PavingPattern.None, Rotation.R0);
-
-            // 2. all neighbors paved → FULL (solid interior tile)
-            if (count == 8)
-                return (PavingPattern.Full, Rotation.R0);
-
-            // 3. determine the configuration
-            bool n  = mask.Has(Neighbor8.North);
-            bool ne = mask.Has(Neighbor8.NorthEast);
-            bool e  = mask.Has(Neighbor8.East);
-            bool se = mask.Has(Neighbor8.SouthEast);
-            bool s  = mask.Has(Neighbor8.South);
-            bool sw = mask.Has(Neighbor8.SouthWest);
-            bool w  = mask.Has(Neighbor8.West);
-            bool nw = mask.Has(Neighbor8.NorthWest);
-
-            //
-            //  ----  END tiles  ----
-            //
-            if (!n && e && w && s)
-                return (PavingPattern.End, Rotation.R0);   // open to North
-            if (!e && n && s && w)
-                return (PavingPattern.End, Rotation.R90);  // open to East
-            if (!s && e && w && n)
-                return (PavingPattern.End, Rotation.R180); // open to South
-            if (!w && n && s && e)
-                return (PavingPattern.End, Rotation.R270); // open to West
-
-            //
-            // ---- STRAIGHTS ----
-            //
-            if (n && s && !e && !w)
-                return (PavingPattern.Straight, Rotation.R0);
-
-            if (e && w && !n && !s)
-                return (PavingPattern.Straight, Rotation.R90);
-
-            //
-            // ---- CORNERS ----
-            //
-            if (n && e && !s && !w)
-                return (PavingPattern.Corner, Rotation.R0); // NE
-            if (e && s && !n && !w)
-                return (PavingPattern.Corner, Rotation.R90); // SE
-            if (s && w && !n && !e)
-                return (PavingPattern.Corner, Rotation.R180); // SW
-            if (w && n && !s && !e)
-                return (PavingPattern.Corner, Rotation.R270); // NW
-
-            //
-            // ---- TJunctions ----
-            //
-            if (!n && e && w && s)
-                return (PavingPattern.TJunction, Rotation.R0); // open north
-            if (!e && n && s && w)
-                return (PavingPattern.TJunction, Rotation.R90);
-            if (!s && e && w && n)
-                return (PavingPattern.TJunction, Rotation.R180);
-            if (!w && n && s && e)
-                return (PavingPattern.TJunction, Rotation.R270);
-
-            //
-            // ---- CROSS ----
-            //
-            if (n && e && s && w)
-                return (PavingPattern.Cross, Rotation.R0);
-
-            //
-            // Fallback: treat as center
-            //
-            return (PavingPattern.Center, Rotation.R0);
-        }
-
-
-        //
-        // UTIL
-        //
         private static int CountBits(int x)
         {
             int c = 0;
@@ -126,11 +91,5 @@ namespace maps.Map3D
             }
             return c;
         }
-    }
-
-    public static class Neighbor8Extensions
-    {
-        public static bool Has(this Neighbor8 m, Neighbor8 flag)
-            => (m & flag) != 0;
     }
 }

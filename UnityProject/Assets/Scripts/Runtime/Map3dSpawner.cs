@@ -1,32 +1,16 @@
+using maps.Map3D;
 using UnityEngine;
-using maps;
-using maps.Unity;
 
-public class Map3DSpawner : MonoBehaviour
+namespace Runtime
 {
-    public TilePrefabRegistry Registry;
-    public UnityMapGenParams Parameters;
-    public TileMap2DRenderer PreviewRenderer;
-
-    private GameObject worldRoot;
-
-    public void Generate()
+    public class Map3DSpawner : MonoBehaviour
     {
-        if (worldRoot != null)
-            DestroyImmediate(worldRoot);
+        public TilePrefabRegistry Registry;
 
-        var map = MapGenerator.Generate(Parameters.ToMapGenParams());
-
-        // optional 2D preview
-        PreviewRenderer?.Render(map.TileInfo);
-
-        // build 3D map
-        worldRoot = TileChunkBuilder.BuildChunks(map.TileInfo, Registry);
-        worldRoot.transform.SetParent(this.transform);
-    }
-
-    private void Start()
-    {
-        Generate();
+        public async void BuildFromTileInfo(TileInfo[,] tiles)
+        {
+            var root = await TileChunkBuilder.BuildChunksAsync(tiles, Registry);
+            root.transform.SetParent(this.transform);
+        }
     }
 }
