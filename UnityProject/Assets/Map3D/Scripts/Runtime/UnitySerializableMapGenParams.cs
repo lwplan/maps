@@ -28,7 +28,7 @@ namespace maps.Unity
                 MaxNodesPerLevel,
                 BifurcationFactor,
                 MinNodeDistance,
-                new NumericsVector2(regionSize.x, regionSize.y)
+                new NumericsVector2(500, 500)
             );
         }
     }

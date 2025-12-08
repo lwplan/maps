@@ -1,0 +1,1263 @@
+Unity Editor version:    6000.0.43f1 (97272b72f107)
+Branch:                  6000.0/release
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 15.6.1 (Build 24G90)
+Darwin version:          24.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        49152 MB
+Using pre-set license
+Pro License: YES
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MacOS/Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker2
+-projectPath
+/Users/lancewatson/Desktop/Unsorted/maps/UnityProject
+-logFile
+Logs/AssetImportWorker2.log
+-srvPort
+50494
+-job-worker-count
+6
+-background-job-worker-count
+8
+-gc-helper-count
+1
+Successfully changed project path to: /Users/lancewatson/Desktop/Unsorted/maps/UnityProject
+/Users/lancewatson/Desktop/Unsorted/maps/UnityProject
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [8651153600]  Target information:
+
+Player connection [8651153600]  * "[IP] 192.168.1.230 [Port] 0 [Flags] 2 [Guid] 2979897646 [EditorId] 2979897646 [Version] 1048832 [Id] OSXEditor(0,Lances-Mac-mini.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8651153600] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8651153600] Host joined alternative multi-casting on [225.0.0.222:34997]...
+JobSystem: Creating JobQueue using job-worker-count value 6
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 1.27 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.43f1 (97272b72f107)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M4 Pro (high power)
+Metal devices available: 1
+0: Apple M4 Pro (high power)
+Using device Apple M4 Pro (high power)
+Initializing Metal device caps: Apple M4 Pro
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56116
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Registered in 0.000484 seconds.
+- Loaded All Assemblies, in  0.173 seconds
+Native extension for OSXStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.185 seconds
+Domain Reload Profiling: 358ms
+	BeginReloadAssembly (40ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (0ms)
+	RebuildCommonClasses (21ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (22ms)
+	LoadAllAssembliesAndSetupDomain (84ms)
+		LoadAssemblies (39ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (82ms)
+			TypeCache.Refresh (82ms)
+				TypeCache.ScanAssembly (75ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (186ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (160ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (21ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (29ms)
+			ProcessInitializeOnLoadAttributes (70ms)
+			ProcessInitializeOnLoadMethodAttributes (37ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Import Worker Mode flag is 0x00
+Begin MonoManager ReloadAssembly
+Symbol file data-0x12e09f600 doesn't match image /Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/maps.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.330 seconds
+Refreshing native plugins compatible for Editor in 0.32 ms, found 2 plugins.
+Native extension for OSXStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.431 seconds
+Domain Reload Profiling: 761ms
+	BeginReloadAssembly (62ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (3ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (20ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (17ms)
+	LoadAllAssembliesAndSetupDomain (225ms)
+		LoadAssemblies (118ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (131ms)
+			TypeCache.Refresh (103ms)
+				TypeCache.ScanAssembly (95ms)
+			BuildScriptInfoCaches (20ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (431ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (340ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (1ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (74ms)
+			ProcessInitializeOnLoadAttributes (219ms)
+			ProcessInitializeOnLoadMethodAttributes (42ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (2ms)
+Launching external process: /Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.16 seconds
+Refreshing native plugins compatible for Editor in 0.32 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 203 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6164 unused Assets / (3.6 MB). Loaded Objects now: 6853.
+Memory consumption went from 163.7 MB to 160.1 MB.
+Total: 4.307667 ms (FindLiveObjects: 0.528250 ms CreateObjectMapping: 0.116000 ms MarkObjects: 2.827834 ms  DeleteObjects: 0.835292 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 340612.292887 seconds.
+  path: Assets/TileWorldCreator/Code/Attributes/BlueprintLayerSelectAttribute.cs
+  artifactKey: Guid(9f6deecffcb68e74e8fc4ba0d522c254) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/Attributes/BlueprintLayerSelectAttribute.cs using Guid(9f6deecffcb68e74e8fc4ba0d522c254) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '67c0939af875d34668e2a86410e6f208') in 0.080270042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Code/UI/PropertyDrawers/TilePresetPopupPropertyDrawer.cs
+  artifactKey: Guid(3be269b8220dc9b4bb5a3522887c95db) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/UI/PropertyDrawers/TilePresetPopupPropertyDrawer.cs using Guid(3be269b8220dc9b4bb5a3522887c95db) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '64cbbab8c359e141cc18a6f21d8863dd') in 0.00214625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Code/Data/Layers/BlueprintLayerFolder.cs
+  artifactKey: Guid(14d2d83f54cca3845a409cfa6e91d086) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/Data/Layers/BlueprintLayerFolder.cs using Guid(14d2d83f54cca3845a409cfa6e91d086) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1b67802e941581ba3c3983cc35dc1f53') in 0.001921458 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Code/Data/Layers/TilesBuildLayer.cs
+  artifactKey: Guid(bf349aeb98a48044286534ac213409e1) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/Data/Layers/TilesBuildLayer.cs using Guid(bf349aeb98a48044286534ac213409e1) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '504134d2fcb31a9a566a79d607dc328d') in 0.002076292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/EmptyPreset/EmptyPreset_Thumb.png
+  artifactKey: Guid(858937a4313990545bad2233abe24338) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/EmptyPreset/EmptyPreset_Thumb.png using Guid(858937a4313990545bad2233abe24338) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'ec879a3aebea901e0b8962ebdca031c1') in 0.025275875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/CliffTilesThumb.png
+  artifactKey: Guid(e2317551e828f63428c315ee8a9b0d3d) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/CliffTilesThumb.png using Guid(e2317551e828f63428c315ee8a9b0d3d) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '38487994116cbf6c3a73457c66ebb8c8') in 0.006571083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/GrassTiles/GrassTilesPreset.asset
+  artifactKey: Guid(17be7ba49986bf94992ad02a4dc3f9ed) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/GrassTiles/GrassTilesPreset.asset using Guid(17be7ba49986bf94992ad02a4dc3f9ed) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '9cb8424083bced5e1a760b1963b9ad60') in 0.015795333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 32
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DGrassToBeach_Thumb.png
+  artifactKey: Guid(a64235b18cf01f940a38232bcc0ff38e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/2.5DGrassToBeach_Thumb.png using Guid(a64235b18cf01f940a38232bcc0ff38e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'd387930c7daa150c84b1c76ba3e81653') in 0.004866166 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/GrassTiles/GrassTilesPreset B.asset
+  artifactKey: Guid(01cf8902aa1b30a47b9a829644abaa7f) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/GrassTiles/GrassTilesPreset B.asset using Guid(01cf8902aa1b30a47b9a829644abaa7f) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'be54c97eb5a1210ed49ff598a71b26f9') in 0.005553167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 32
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Code/UI/VisualElements/ToolbarButtonToggle.cs
+  artifactKey: Guid(828da8e3d100f3f4aad86c98ab75cbcd) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/UI/VisualElements/ToolbarButtonToggle.cs using Guid(828da8e3d100f3f4aad86c98ab75cbcd) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '7bf683cab47c97f358cd798ffa37aaed') in 0.001813125 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/TileWorldCreator/Samples/CliffIsland URP/Materials/matWater.mat
+  artifactKey: Guid(623d9bcad0a56df4d976f3e01e5f827e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/CliffIsland URP/Materials/matWater.mat using Guid(623d9bcad0a56df4d976f3e01e5f827e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'a983b08b1b7f5723e73f25ef9a370968') in 0.013059083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Code/UI/Manipulators/BuildLayerItemDragManipulator.cs
+  artifactKey: Guid(2cac9dd8534773e4b8909155af1330c4) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/UI/Manipulators/BuildLayerItemDragManipulator.cs using Guid(2cac9dd8534773e4b8909155af1330c4) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1935bc476bb9fa1014e72eaaf317d459') in 0.002006 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000049 seconds.
+  path: Assets/TileWorldCreator/Code/Data/Layers/BuildLayerFolder.cs
+  artifactKey: Guid(5a41e00c59bb7694f8ca959c4e00ea28) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/Data/Layers/BuildLayerFolder.cs using Guid(5a41e00c59bb7694f8ca959c4e00ea28) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '32ee6576bc334111883f496ba32b71c5') in 0.001881333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/00_Shaders/Water.shadergraph
+  artifactKey: Guid(32c107c34cbd88f4ea0b2e279a1fa43d) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/00_Shaders/Water.shadergraph using Guid(32c107c34cbd88f4ea0b2e279a1fa43d) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '3cb7d603ebf41b4a63fe93e59b7344b3') in 0.00667625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 5
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/CliffTilesPreset_A.asset
+  artifactKey: Guid(e6decb8e0bd11314cbe8173581d68379) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/CliffTilesPreset_A.asset using Guid(e6decb8e0bd11314cbe8173581d68379) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'c5149bda4dc566860a72bf149bdbb5c1') in 0.005329125 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 37
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreen_Thumb.png
+  artifactKey: Guid(8060ffe499d759145b7c1c621f5ae291) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreen_Thumb.png using Guid(8060ffe499d759145b7c1c621f5ae291) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '63882c6a704697eef81ffa148722fa58') in 0.004468583 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/TileWorldCreator/Samples/2.5D Island URP/2.5D Island Configuration.asset
+  artifactKey: Guid(b3dce2b467a30aa43aef8dd084fffa0c) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/2.5D Island URP/2.5D Island Configuration.asset using Guid(b3dce2b467a30aa43aef8dd084fffa0c) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'a072c7a6469f9791ad45309590db87dc') in 0.020608666 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 93
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreenStairs.asset
+  artifactKey: Guid(468d1556c0cf2b04bab505cc79b1cf33) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/BaseBlockPresetGreenStairs.asset using Guid(468d1556c0cf2b04bab505cc79b1cf33) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '80b166a5ec4344a08d6eddfd6a5f7472') in 0.005578042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 32
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000060 seconds.
+  path: Assets/TileW/Tileset4Path/Path4inner.mat
+  artifactKey: Guid(3a1336b05690d4286be5318112575c27) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileW/Tileset4Path/Path4inner.mat using Guid(3a1336b05690d4286be5318112575c27) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'ccb66772b5d025df73b530519bbc9f84') in 0.004584083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000028 seconds.
+  path: Assets/TileW/SeaScene/SeaBlock.unity
+  artifactKey: Guid(0947759462e0944c8a9b446a2cef0ec2) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileW/SeaScene/SeaBlock.unity using Guid(0947759462e0944c8a9b446a2cef0ec2) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'fc629547b892fcd6efe9b3472542b0c8') in 0.008722667 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Samples/2.5D Island URP/2.5D Island.unity
+  artifactKey: Guid(0f0ccdd30a7f95f4d82d842afbb7f504) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/2.5D Island URP/2.5D Island.unity using Guid(0f0ccdd30a7f95f4d82d842afbb7f504) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '0879f14bab1bb73e60e5c45884b9cfbe') in 0.006298416 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/EmptyPreset/EmptyPreset.asset
+  artifactKey: Guid(17cb666f98acdc54ea38a224f1e175d8) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/EmptyPreset/EmptyPreset.asset using Guid(17cb666f98acdc54ea38a224f1e175d8) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '6bfdc0d322ba7303e3350b588bb50bb0') in 0.003972208 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Res/WelcomeBackground.twc
+  artifactKey: Guid(c829607408cbfbc49a6664ca99273b04) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Res/WelcomeBackground.twc using Guid(c829607408cbfbc49a6664ca99273b04) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'f14bcc3002e48dde6de073347b02d257') in 0.00155975 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/TileWorldCreator/Code/UI/TileWorldCreatorUIElements.cs
+  artifactKey: Guid(f51709c7d46d6e649aa9ed62dd796d88) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/UI/TileWorldCreatorUIElements.cs using Guid(f51709c7d46d6e649aa9ed62dd796d88) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '091b77c6f446606a5e9b0e1cac224029') in 0.003393708 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/TileWorldCreator/Samples/GiantGrey.TileWorldCreator.Samples.asmdef
+  artifactKey: Guid(197e6d86c0bd1f440a0956f0b9b35a9f) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/GiantGrey.TileWorldCreator.Samples.asmdef using Guid(197e6d86c0bd1f440a0956f0b9b35a9f) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '15dcb86970de447d523b3dda2073db42') in 0.002235292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/Prefabs/DesertTiles/FlatPathways/Sand.fbx
+  artifactKey: Guid(4f96730fbc09e4a8795be9e56bfd9f64) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/Prefabs/DesertTiles/FlatPathways/Sand.fbx using Guid(4f96730fbc09e4a8795be9e56bfd9f64) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'aff5218a78f82c3b06b7d9ccd3840841') in 0.021969375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_Fill_Mesh.fbx
+  artifactKey: Guid(4dc0a4bd6603b0b47afc35136eead656) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_Fill_Mesh.fbx using Guid(4dc0a4bd6603b0b47afc35136eead656) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'a6999831d370477e9a69b721a5eb317a') in 0.008125 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_MergedCorner_Mesh.fbx
+  artifactKey: Guid(48d801d0fd151dc4a81d2ed7a8355188) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_MergedCorner_Mesh.fbx using Guid(48d801d0fd151dc4a81d2ed7a8355188) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1252865a7fc75c3cdb498ddeb3637baf') in 0.006492625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Materials/matCliffEdgeB.mat
+  artifactKey: Guid(ccc33a91fad08bd4a868ae4b16ccb2da) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Materials/matCliffEdgeB.mat using Guid(ccc33a91fad08bd4a868ae4b16ccb2da) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'e88a975b7ba2afa2bc8504f7f3332370') in 0.007627708 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Materials/matPlayer.mat
+  artifactKey: Guid(96555e5567c74b3489a0572279a2799b) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Materials/matPlayer.mat using Guid(96555e5567c74b3489a0572279a2799b) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '147a5eb979236684b64410a8e212de6a') in 0.002583 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/Materials/matParticleSimple.mat
+  artifactKey: Guid(9a7f73d3a292a7643aafef39ad8c0d57) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/Materials/matParticleSimple.mat using Guid(9a7f73d3a292a7643aafef39ad8c0d57) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '267580d9783a29abc2916ec80f9cceb5') in 0.003874542 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Prefabs/Fragment.prefab
+  artifactKey: Guid(a9d6305a37888014091b746a56111484) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Prefabs/Fragment.prefab using Guid(a9d6305a37888014091b746a56111484) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '11aae52b16d063146b49098c62884a1e') in 0.004726916 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Scripts/SimpleCharacter.cs
+  artifactKey: Guid(3ae95e8745c9ee84b8f046c984ff8c03) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Scripts/SimpleCharacter.cs using Guid(3ae95e8745c9ee84b8f046c984ff8c03) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'ed1dd35ca71b1e41d89f52a0882bf641') in 0.001650917 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Mesh/Cliff_Corner_A.fbx
+  artifactKey: Guid(a3201e73623d53649b3116eab21162d6) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Mesh/Cliff_Corner_A.fbx using Guid(a3201e73623d53649b3116eab21162d6) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'a5fc4199762b68b06ee220202491916b') in 0.006390208 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/Textures/TreeLeafs_A.png
+  artifactKey: Guid(67167bf8aa0603b408cb3d41ee52b787) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/Textures/TreeLeafs_A.png using Guid(67167bf8aa0603b408cb3d41ee52b787) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'd00fecb58c0d15c0071274247cd595ee') in 0.005206333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/Materials/matRed.mat
+  artifactKey: Guid(8649be00573151b448a7ab28990bf44c) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/Materials/matRed.mat using Guid(8649be00573151b448a7ab28990bf44c) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '4f83398ac14922124c62a882a6fc0a1a') in 0.003754417 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/Textures/RoughWaves.png
+  artifactKey: Guid(22cd364c26558f64fa29f1e60f7490d1) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/Textures/RoughWaves.png using Guid(22cd364c26558f64fa29f1e60f7490d1) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '66fcecca852e5a998c389192b1d65bc9') in 0.005383209 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Scripts/DemoCharacterMovement.cs
+  artifactKey: Guid(451f30a12c1f17a4b813010ec13e62fc) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Scripts/DemoCharacterMovement.cs using Guid(451f30a12c1f17a4b813010ec13e62fc) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'f887538d31e64e7db84369df8baea433') in 0.001645042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/Configurations/ProceduralGenerationConfig.asset
+  artifactKey: Guid(4c66efb372306204295240c50615781e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/Configurations/ProceduralGenerationConfig.asset using Guid(4c66efb372306204295240c50615781e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '4be24591b15df2f1f961e68a12b89a4e') in 0.109241334 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 283
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Samples/RuntimeEditor URP/Configurations/RuntimeEditorConfigurationB.asset
+  artifactKey: Guid(ee21dd2eb4c55d84aa773246d2cc195c) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/RuntimeEditor URP/Configurations/RuntimeEditorConfigurationB.asset using Guid(ee21dd2eb4c55d84aa773246d2cc195c) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'c623ff5b3541d3a7becfb2e08fb093fd') in 0.006116583 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 59
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_Edge_Mesh.fbx
+  artifactKey: Guid(08613fbb88429d54aafecd297562d171) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_Edge_Mesh.fbx using Guid(08613fbb88429d54aafecd297562d171) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '0ea4c3c65912b54624e25d7b4aac1194') in 0.006566 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Materials/matBaseBlockTilesBlue.mat
+  artifactKey: Guid(3db8a57071d8dd445a87f32cfd3651a7) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Materials/matBaseBlockTilesBlue.mat using Guid(3db8a57071d8dd445a87f32cfd3651a7) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '0ccfec919cfc95602718a1cf25cd3fef') in 0.002469083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000046 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Scripts/DamageHitFX.cs
+  artifactKey: Guid(6c9ac00df7b6def43a557225ace9907e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Scripts/DamageHitFX.cs using Guid(6c9ac00df7b6def43a557225ace9907e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '661786a7864d4e2e03e1090e30b8a9cd') in 0.00143875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/TileWorldCreator/Samples/Pathfinding URP/Materials/matFollowPath.mat
+  artifactKey: Guid(d0862bda96c790442877f6b2da310785) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Pathfinding URP/Materials/matFollowPath.mat using Guid(d0862bda96c790442877f6b2da310785) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '83a5b02fb9387b55c8c1923f96d1b5dc') in 0.002359083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Grass.png
+  artifactKey: Guid(c36046e6d632e164eafa969af9005a67) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Grass.png using Guid(c36046e6d632e164eafa969af9005a67) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '2eda040d2a5fcac49d1713f5ad8d9944') in 0.006827375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Sand.png
+  artifactKey: Guid(5ea27174f58b5de42805c9134b01cea8) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Sand.png using Guid(5ea27174f58b5de42805c9134b01cea8) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'cdc2568e6ce7b9cdf217e4547706379b') in 0.005314875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Materials/matSlash.mat
+  artifactKey: Guid(66b89d76b8a7adf41a3b9a440d6008d0) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Materials/matSlash.mat using Guid(66b89d76b8a7adf41a3b9a440d6008d0) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '791ee8faec81feeb1b15ddbb4d225012') in 0.002657292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000045 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/Materials/matGreen.mat
+  artifactKey: Guid(362d610ffc6234440ba9c8c201f8af63) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/Materials/matGreen.mat using Guid(362d610ffc6234440ba9c8c201f8af63) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'a11bf92b7fd2ba1bd2e4ad9d6f7f6b15') in 0.002518875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000042 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_Corner_Mesh.fbx
+  artifactKey: Guid(08609a26900fccc43aa937bb43b577b9) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Meshes/BaseBlock_Corner_Mesh.fbx using Guid(08609a26900fccc43aa937bb43b577b9) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '642b48f921855e27b0e709a90087e5a8') in 0.006601625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Samples/RuntimeEditor URP/Scripts/SimpleEditor.cs
+  artifactKey: Guid(e221a1f3b52d61f49bc042c9e6bec7c3) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/RuntimeEditor URP/Scripts/SimpleEditor.cs using Guid(e221a1f3b52d61f49bc042c9e6bec7c3) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '3d7b02fb9d000500191e3fdfee98ebdc') in 0.0017655 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/TileWorldCreator/Samples/Pathfinding URP/Configurations/PathfindingConfiguration.asset
+  artifactKey: Guid(7af08e97cb04793469b1d280dcfea1ef) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Pathfinding URP/Configurations/PathfindingConfiguration.asset using Guid(7af08e97cb04793469b1d280dcfea1ef) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'b5dceb862ae7c1656ece3f7d36f67ca0') in 0.016891625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 78
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Meshes/SandBlock_Middle_MergedCorner_Mesh.fbx
+  artifactKey: Guid(2f8180ff3917e084fb582bd24202f845) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Meshes/SandBlock_Middle_MergedCorner_Mesh.fbx using Guid(2f8180ff3917e084fb582bd24202f845) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '571942d8d67eae74b8107b3bf84ab30b') in 0.006848959 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Textures/WaterRipple.png
+  artifactKey: Guid(fec00131ef7090c419d9161ca6294b92) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Textures/WaterRipple.png using Guid(fec00131ef7090c419d9161ca6294b92) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '980d14a1cd0966eecdfdcfb14274fe53') in 0.005334917 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Mesh/Cliff_Edge_A.fbx
+  artifactKey: Guid(557e6668c39cb2644b27da7f4cd8945f) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Mesh/Cliff_Edge_A.fbx using Guid(557e6668c39cb2644b27da7f4cd8945f) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '2ad6b41683b8c234eed47e5fb4990042') in 0.008278667 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Meshes/SandBlock_Middle_InteriorCorner_Mesh.fbx
+  artifactKey: Guid(641ea56d42102c540b37faf0696a9d42) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Meshes/SandBlock_Middle_InteriorCorner_Mesh.fbx using Guid(641ea56d42102c540b37faf0696a9d42) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '0ac746446310edab28fc4ec5f3dfa608') in 0.006828708 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000049 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Textures/Cliff_Corner_B_EdgeWear_Texture.png
+  artifactKey: Guid(8900c82d1395e2042a9493442a7b83ab) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Textures/Cliff_Corner_B_EdgeWear_Texture.png using Guid(8900c82d1395e2042a9493442a7b83ab) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'af03d19e16dc5a68510f87e35b8b40a0') in 0.004537583 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000044 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_Fill_Mesh.fbx
+  artifactKey: Guid(1b8ea715883a79d4db51a3162d7732bc) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_Fill_Mesh.fbx using Guid(1b8ea715883a79d4db51a3162d7732bc) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1c90bc2113ca35844038bc64b672ea98') in 0.012102375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Materials/matWaterRipple.mat
+  artifactKey: Guid(da24392b7077fc249839108e971fec43) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Materials/matWaterRipple.mat using Guid(da24392b7077fc249839108e971fec43) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '3c54e8de89ce9be5f1bc20978ea30a45') in 0.004915667 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000041 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Prefabs/Cliff_Corner_B.prefab
+  artifactKey: Guid(5fb01a9c4334f8e40ad8c78ccd7dcc66) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Prefabs/Cliff_Corner_B.prefab using Guid(5fb01a9c4334f8e40ad8c78ccd7dcc66) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'cbec90c5861152b605ea587a775083b3') in 0.00661675 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000046 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Meshes/SandBlock_Fill_Mesh.fbx
+  artifactKey: Guid(be72aab608d14ae41a91d4802320314c) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Meshes/SandBlock_Fill_Mesh.fbx using Guid(be72aab608d14ae41a91d4802320314c) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '5d1a49d8603367f045c60bb83638b773') in 0.006450166 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000028 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_MergedCorner_Mesh.fbx
+  artifactKey: Guid(33641ac0fdadc284eb43aae72416746b) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_MergedCorner_Mesh.fbx using Guid(33641ac0fdadc284eb43aae72416746b) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1b65f6b3e1fc70b5c2d73dc032dede72') in 0.008851041 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000041 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/GrassTiles/Meshes/Grass_Fill_Mesh.fbx
+  artifactKey: Guid(cbf77e56708111e468fe3514428e323c) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/GrassTiles/Meshes/Grass_Fill_Mesh.fbx using Guid(cbf77e56708111e468fe3514428e323c) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '2bf838ff21fdbeb7a592f52523f00214') in 0.006451333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Mesh/Cliff_Edge_B.fbx
+  artifactKey: Guid(6717424958fcb0a4bab2f46a5040fb6e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Mesh/Cliff_Edge_B.fbx using Guid(6717424958fcb0a4bab2f46a5040fb6e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '9a4a91c631409da398f56a874a1fc7c6') in 0.0067725 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/GrassTiles/Prefabs/Grass_Edge.prefab
+  artifactKey: Guid(21f753cf77adef148abc5d67e69ed3cd) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/GrassTiles/Prefabs/Grass_Edge.prefab using Guid(21f753cf77adef148abc5d67e69ed3cd) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'dfaf6d3f558d62788a2497d9eb9704b7') in 0.003987083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Prefabs/Cliff_EdgeRamp_B.prefab
+  artifactKey: Guid(da2e2d9bf7d1b7b4c8a876db03251282) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Prefabs/Cliff_EdgeRamp_B.prefab using Guid(da2e2d9bf7d1b7b4c8a876db03251282) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '7283531b54cea6f93c71dab416a7c697') in 0.005750541 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Textures/WaterSplash.png
+  artifactKey: Guid(858e66575a3690444aaa3560a75777de) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Textures/WaterSplash.png using Guid(858e66575a3690444aaa3560a75777de) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '0e21bfd07b74332c82a253654bb02702') in 0.004564875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Prefabs/Cliff_Corner_A.prefab
+  artifactKey: Guid(fb1707469561dea40a93f50f8c40b020) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Prefabs/Cliff_Corner_A.prefab using Guid(fb1707469561dea40a93f50f8c40b020) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '47615fe24baa272fbafabebe05c4c0f3') in 0.0043855 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/GrassTiles/Meshes/Grass_MergedCorner_Mesh.fbx
+  artifactKey: Guid(d6dd96fd05fdc694ea2c0899f24929fa) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/GrassTiles/Meshes/Grass_MergedCorner_Mesh.fbx using Guid(d6dd96fd05fdc694ea2c0899f24929fa) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '8eafa89b4f6bceb8af0de75f99d8fb8a') in 0.006657458 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_InteriorCorner_B_Mesh.fbx
+  artifactKey: Guid(44c5d839e73c13348b8ff41282a4337e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_InteriorCorner_B_Mesh.fbx using Guid(44c5d839e73c13348b8ff41282a4337e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '07eaa66509735a606b5afe699a55688e') in 0.008671167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000048 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Prefabs/WaterSplashFX.prefab
+  artifactKey: Guid(6530d9373af09fb4aa2407b93b538456) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Prefabs/WaterSplashFX.prefab using Guid(6530d9373af09fb4aa2407b93b538456) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '22ab0eb4ff53c11bf84559cdb4bef340') in 0.043544959 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 11
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_Corner_A_Mesh.fbx
+  artifactKey: Guid(5b1cc45cf30397a48afa5688c2d1d647) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_Corner_A_Mesh.fbx using Guid(5b1cc45cf30397a48afa5688c2d1d647) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '8c7a86d1baf36c023053935f2eb97e67') in 0.0073685 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000060 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/CliffTiles/Textures/Cliff_Corner_A_EdgeWear_Texture.png
+  artifactKey: Guid(d10aba61e9e7db64c93b93796b6cbc69) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/CliffTiles/Textures/Cliff_Corner_A_EdgeWear_Texture.png using Guid(d10aba61e9e7db64c93b93796b6cbc69) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'efb9a357ee9dff0d385457c6a3ac5d16') in 0.006329541 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Corner.prefab
+  artifactKey: Guid(3585e4b110698dc448aa80f251b10195) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Corner.prefab using Guid(3585e4b110698dc448aa80f251b10195) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '01712ce99cac24b0ebd61e890d45ad3b') in 0.004159333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Meshes/Plane_Mesh.fbx
+  artifactKey: Guid(fee125d7a11399d42a0bfab3c2a32e15) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Meshes/Plane_Mesh.fbx using Guid(fee125d7a11399d42a0bfab3c2a32e15) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'e14180f8e8f60b2107843476baf90546') in 0.005710208 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Prefabs/River_MergedCorner.prefab
+  artifactKey: Guid(05d4d34624dd10342b588548989540fa) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Prefabs/River_MergedCorner.prefab using Guid(05d4d34624dd10342b588548989540fa) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '76abfc710502019a6f48711a433eb2b4') in 0.004497167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Prefabs/River_Edge_B.prefab
+  artifactKey: Guid(2a1943da68fae54469a0751580a589bb) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Prefabs/River_Edge_B.prefab using Guid(2a1943da68fae54469a0751580a589bb) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'fff590ed324fdb8b491dc51e5d672356') in 0.004046833 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000056 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_Corner_B_Mesh.fbx
+  artifactKey: Guid(f6989b1a2c24a594f9fb03cad79277bb) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/RiverTiles/Meshes/River_Corner_B_Mesh.fbx using Guid(f6989b1a2c24a594f9fb03cad79277bb) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'be45773f14d0f18069791fe1d384fa6d') in 0.0088335 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/TileW/Path4inner.prefab
+  artifactKey: Guid(1e5e01cfb386f45cdbe558126b5a2ad1) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileW/Path4inner.prefab using Guid(1e5e01cfb386f45cdbe558126b5a2ad1) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '29bfc255547e8f12656e552adc2b1002') in 0.003267667 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 6
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Middle_InteriorCorner.prefab
+  artifactKey: Guid(d228954750c33bd49a7ba39b26462232) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Middle_InteriorCorner.prefab using Guid(d228954750c33bd49a7ba39b26462232) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'c74545362fab534271cf8e865fdc20f1') in 0.003937833 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000044 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Water/BaseBlock_Edge.prefab
+  artifactKey: Guid(ae2a5d310bcc727469233dcdb294f7df) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Water/BaseBlock_Edge.prefab using Guid(ae2a5d310bcc727469233dcdb294f7df) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'dbbf62f7c6a9c48e8853c0556f307326') in 0.004137083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/PathInteriorCornerMask.png
+  artifactKey: Guid(7c838a816a1684f408ddc5baf1f44af4) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/PathInteriorCornerMask.png using Guid(7c838a816a1684f408ddc5baf1f44af4) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1e1796308ebfe321c44df9a66fe29d63') in 0.005472833 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Water/BaseBlock_EdgeRamp.prefab
+  artifactKey: Guid(b22f3fb67f2830e499b0836379dd3088) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Water/BaseBlock_EdgeRamp.prefab using Guid(b22f3fb67f2830e499b0836379dd3088) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'e5ebb058e7079d9e7ab017921047ce85') in 0.004093625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/CliffsDamaged_Thumb.png
+  artifactKey: Guid(377fbcd0eb735174595c56327ed77634) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/CliffsDamaged_Thumb.png using Guid(377fbcd0eb735174595c56327ed77634) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '193930c2bc2a0b49119bd6e8efb7712f') in 0.005699 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials/SandOnly/matSandFillWater.mat
+  artifactKey: Guid(9cf42c7aa809cb3428ea5f33c3254061) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials/SandOnly/matSandFillWater.mat using Guid(9cf42c7aa809cb3428ea5f33c3254061) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '2649aefa7ab6b01e763164212b9af613') in 0.004594042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Middle_Edge.prefab
+  artifactKey: Guid(97f2efc4813149f459aa928dadd672ee) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Middle_Edge.prefab using Guid(97f2efc4813149f459aa928dadd672ee) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '10ba44a3c44441163254a8b054ffd9ff') in 0.003815625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Green/BaseBlock_Edge.prefab
+  artifactKey: Guid(fdc31f61643883f4ba221d11fbe49925) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Green/BaseBlock_Edge.prefab using Guid(fdc31f61643883f4ba221d11fbe49925) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'ca3aefb3c834270cf09c555c9b67b65d') in 0.003614459 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Prefabs/CrystalCollectFX.prefab
+  artifactKey: Guid(c75354e807c01fa458ccf15f1a5b46ae) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Prefabs/CrystalCollectFX.prefab using Guid(c75354e807c01fa458ccf15f1a5b46ae) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '9599ec6d963ee9c5eaaeea805123abff') in 0.020777542 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 11
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000049 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/GrassToBeach/InteriorCornerTile.prefab
+  artifactKey: Guid(05870eac3f48b344c83472f0de63f869) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/GrassToBeach/InteriorCornerTile.prefab using Guid(05870eac3f48b344c83472f0de63f869) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '230b9eb8a3cf514da7898788a55686d0') in 0.004294542 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Materials/matTreeA.mat
+  artifactKey: Guid(98abd58007e98a045ad4a05ec2b0eb07) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Materials/matTreeA.mat using Guid(98abd58007e98a045ad4a05ec2b0eb07) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '8e2b72ded0aa2264e63c9664ef203880') in 0.003503292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/GrassToBeach/DoubleCornerTile.prefab
+  artifactKey: Guid(ac989b06b171ea24b949db4f1152ab34) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/GrassToBeach/DoubleCornerTile.prefab using Guid(ac989b06b171ea24b949db4f1152ab34) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '57e14155e87048080a4b6aabbe45bccd') in 0.00477675 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Meshes/Clouds_02.fbx
+  artifactKey: Guid(08b1543ee6ad8af45b446162b4f76a11) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Meshes/Clouds_02.fbx using Guid(08b1543ee6ad8af45b446162b4f76a11) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '4025a4d7dfc57fdb3c4bd39ca9d03f96') in 0.005620584 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000048 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/Path/Fill_Tile.prefab
+  artifactKey: Guid(3aa73e392504764419f5e7c54d48f5eb) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/Path/Fill_Tile.prefab using Guid(3aa73e392504764419f5e7c54d48f5eb) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '23596dc175674f487217512b4a4789d3') in 0.004338125 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Blue/BaseBlock_EdgeRamp.prefab
+  artifactKey: Guid(b80a4aa2a23a6a2429c41a4bd28a329c) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Blue/BaseBlock_EdgeRamp.prefab using Guid(b80a4aa2a23a6a2429c41a4bd28a329c) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '6b614a48c8d5d8c223c667f1ba4287da') in 0.005607417 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_InteriorCorner.prefab
+  artifactKey: Guid(9a6636084c469314f8148a86a6550d05) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_InteriorCorner.prefab using Guid(9a6636084c469314f8148a86a6550d05) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'bd7c171f48202dc868f1417252894b0a') in 0.004299875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/CliffDamagedPreset.asset
+  artifactKey: Guid(9de3a4201c1bafa448189458ea3a9762) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/CliffDamagedPreset.asset using Guid(9de3a4201c1bafa448189458ea3a9762) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'f5bdc23e27f8fe3d82a34794e82baaa4') in 0.005763791 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 46
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/Clouds_02.prefab
+  artifactKey: Guid(fd9d6e083074b9047bcb32a3edf478d0) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/Clouds_02.prefab using Guid(fd9d6e083074b9047bcb32a3edf478d0) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '4f60978fe36ad5c573ccaa316dca6157') in 0.003847833 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 13
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/Path/DoubleCornerTile.prefab
+  artifactKey: Guid(5229161681b7fcb4d9ab15bc4beef6ef) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Prefabs/Path/DoubleCornerTile.prefab using Guid(5229161681b7fcb4d9ab15bc4beef6ef) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '8c815ea7eba9d55047d3f2b88af4255c') in 0.004823708 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 15
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials/GrassToBeach/matGrassToBeachInteriorCorner.mat
+  artifactKey: Guid(a2d80e6b188a1f346b5d8a75c3e0f73e) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials/GrassToBeach/matGrassToBeachInteriorCorner.mat using Guid(a2d80e6b188a1f346b5d8a75c3e0f73e) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'e9e797d338773d9abb9823d7aa6cb796') in 0.004752583 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000046 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Materials/matSmoke.mat
+  artifactKey: Guid(205a34ba1c335f54d82dd70ab11566c2) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Materials/matSmoke.mat using Guid(205a34ba1c335f54d82dd70ab11566c2) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '5163a89d56aebdf490abf76e63ae5357') in 0.004857084 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Green/BaseBlock_MergedCorner.prefab
+  artifactKey: Guid(1e5e8052b4de0624992e241c4565ae48) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Green/BaseBlock_MergedCorner.prefab using Guid(1e5e8052b4de0624992e241c4565ae48) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '026b6195c095aea08e226fc6d00403b0') in 0.004184334 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/PathDoubleCornerMask.png
+  artifactKey: Guid(60e0f5f03863b9d44be053c7efb6e253) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/PathDoubleCornerMask.png using Guid(60e0f5f03863b9d44be053c7efb6e253) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '12db5d787ad4bbe81ccd8d3123f30ba8') in 0.004924458 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Edge.prefab
+  artifactKey: Guid(406bccdb37001184a8897e74464a9071) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Edge.prefab using Guid(406bccdb37001184a8897e74464a9071) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'dc7a04a2a09f48dfd7e62aa17da79546') in 0.004085541 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/TreeB.prefab
+  artifactKey: Guid(dfb1691c0c276d74888965728dc04adf) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/TreeB.prefab using Guid(dfb1691c0c276d74888965728dc04adf) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'e9210d4097fbf9aec51d26f88462dd6e') in 0.003875292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Green/BaseBlock_Corner.prefab
+  artifactKey: Guid(bec1244a799f87245b20e65c6284ae39) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Green/BaseBlock_Corner.prefab using Guid(bec1244a799f87245b20e65c6284ae39) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '4cfdfa19736fc0412810344d0aad692d') in 0.004267 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000046 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Blue/BaseBlock_MergedCorner.prefab
+  artifactKey: Guid(d8db305ec4fa21f438c562c9809848b2) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Blue/BaseBlock_MergedCorner.prefab using Guid(d8db305ec4fa21f438c562c9809848b2) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '62c6e0db8cc0edf5e377a86c088d6c51') in 0.004283333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000028 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/Clouds_01.prefab
+  artifactKey: Guid(884f678f5269eeb419ce56bdf4193767) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/Clouds_01.prefab using Guid(884f678f5269eeb419ce56bdf4193767) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '01e7ac76c0e24050679ded90fad18248') in 0.005836083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 13
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Meshes/Clouds_01.fbx
+  artifactKey: Guid(8d5e91e60a11f3343b800bf707bbff15) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Meshes/Clouds_01.fbx using Guid(8d5e91e60a11f3343b800bf707bbff15) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '18dc5b8f2587d0d21149d7f1c39847fb') in 0.005175 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials/Path/matPathInteriorCorner.mat
+  artifactKey: Guid(0a9eba06a337b654787ac956c9315a91) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Materials/Path/matPathInteriorCorner.mat using Guid(0a9eba06a337b654787ac956c9315a91) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '2e1a521d0c827fc4f7b9c741250b73e0') in 0.004480333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Water/BaseBlock_Fill.prefab
+  artifactKey: Guid(af07a11cc83a6e5458165bd9407005b5) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/BaseBlockTiles/Prefabs/Water/BaseBlock_Fill.prefab using Guid(af07a11cc83a6e5458165bd9407005b5) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'ad175433f167144a80fbfbf5bfe796a9') in 0.004111042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/Meshes/cliff_damaged_mergedCorner.fbx
+  artifactKey: Guid(e3edb11758708b34ca39df1bd3793040) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/Meshes/cliff_damaged_mergedCorner.fbx using Guid(e3edb11758708b34ca39df1bd3793040) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '24ac856fc7d65dd7f92df41b293ed320') in 0.006691167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/Meshes/cliff_damaged_corner.fbx
+  artifactKey: Guid(d002016541101644bbeeea9b7e0f3fee) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/Meshes/cliff_damaged_corner.fbx using Guid(d002016541101644bbeeea9b7e0f3fee) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '1c1bd868b73a381c127284c72ba2f32a') in 0.007942625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000045 seconds.
+  path: Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/Prefabs/cliff_damaged_corner.prefab
+  artifactKey: Guid(21367e6364ff9784f8ac7663a61fc1cd) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/Deep Rock Crystals URP/Tiles/CliffDamagedTiles/Prefabs/cliff_damaged_corner.prefab using Guid(21367e6364ff9784f8ac7663a61fc1cd) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'aad557c0549aee85be828dd2ab5c6b78') in 0.006198834 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 22
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/BeachInteriorCornerMask.png
+  artifactKey: Guid(d44eda1e51a056c4e8fe1619d9ae574f) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/BeachInteriorCornerMask.png using Guid(d44eda1e51a056c4e8fe1619d9ae574f) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'e563197235094d7fec37b4e1cfcd4903') in 0.004792375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/BeachCornerMask.png
+  artifactKey: Guid(43a57b42df8b4a543b296038f8f43ffd) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/2.5DTiles/Textures/Masks/BeachCornerMask.png using Guid(43a57b42df8b4a543b296038f8f43ffd) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '3df00860b391893b0444f117aa53b83a') in 0.004852166 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/House.prefab
+  artifactKey: Guid(1b0d673d4b843b24698944104927f325) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Prefabs/House.prefab using Guid(1b0d673d4b843b24698944104927f325) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '443f91a0be929a2e9435a1dcabf0c34b') in 0.007127833 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 23
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000062 seconds.
+  path: Assets/TileWorldCreator/Code/Components/ClusterIdentifier.cs
+  artifactKey: Guid(82643cccd12071f4cbc1ce0744f142f1) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Code/Components/ClusterIdentifier.cs using Guid(82643cccd12071f4cbc1ce0744f142f1) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '029c0b39298ec862b15abbcfb4d4d0d8') in 0.001831833 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/TileWorldCreator/Res/PathGridCardImage.twc
+  artifactKey: Guid(09ccfcd53eca6ca4b880a8e204315be0) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Res/PathGridCardImage.twc using Guid(09ccfcd53eca6ca4b880a8e204315be0) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'c0a791505f32cc9476ea139fb95df7a0') in 0.001465167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000050 seconds.
+  path: Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Materials/matTreeB.mat
+  artifactKey: Guid(855ad48b7e1135c49860af3b92f22ee6) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Samples/StylizedIsland URP/3D/Materials/matTreeB.mat using Guid(855ad48b7e1135c49860af3b92f22ee6) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '79a2d65cccad09fef4dc9b9e0270a230') in 0.003353167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/GrassTiles/Prefabs/Grass_MergedCorner.prefab
+  artifactKey: Guid(83a9ea07229a4d34f807a7fd0b0967c7) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/GrassTiles/Prefabs/Grass_MergedCorner.prefab using Guid(83a9ea07229a4d34f807a7fd0b0967c7) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '8217dc3f4da2386d06782523b81d7406') in 0.004088292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Fill.prefab
+  artifactKey: Guid(bf797ff5eab39cf41843bfecb1e28054) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/TileWorldCreator/Tiles URP/SandBlockTiles/Prefabs/SandBlock_Fill.prefab using Guid(bf797ff5eab39cf41843bfecb1e28054) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '587b8c63e261789591f9466097535a82') in 0.004134 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 14
+
+========================================================================
+Received Import Request.
+  Time since last request: 157.569855 seconds.
+  path: Assets/Map3D/Scripts/Runtime/UnityMapGenerator.cs
+  artifactKey: Guid(c1b1d07f312f747b2873c1fe462d9e6f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Map3D/Scripts/Runtime/UnityMapGenerator.cs using Guid(c1b1d07f312f747b2873c1fe462d9e6f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '2e97833e23cc73063f5b204f7289d27a') in 0.000486459 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Thread 0x35af87000 may have been prematurely finalized
+Symbol file data-0x34c827c00 doesn't match image /Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/maps.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.346 seconds
+Refreshing native plugins compatible for Editor in 0.20 ms, found 2 plugins.
+Native extension for OSXStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.416 seconds
+Domain Reload Profiling: 763ms
+	BeginReloadAssembly (104ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (4ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (49ms)
+	RebuildCommonClasses (20ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (12ms)
+	LoadAllAssembliesAndSetupDomain (204ms)
+		LoadAssemblies (141ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (89ms)
+			TypeCache.Refresh (4ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (78ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (416ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (310ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (1ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (74ms)
+			ProcessInitializeOnLoadAttributes (202ms)
+			ProcessInitializeOnLoadMethodAttributes (28ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (5ms)
+Refreshing native plugins compatible for Editor in 0.28 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6162 unused Assets / (3.3 MB). Loaded Objects now: 6871.
+Memory consumption went from 166.7 MB to 163.3 MB.
+Total: 4.130625 ms (FindLiveObjects: 0.299708 ms CreateObjectMapping: 0.110167 ms MarkObjects: 2.862583 ms  DeleteObjects: 0.858000 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Thread 0x34c753000 may have been prematurely finalized
+Symbol file data-0x12ef80400 doesn't match image /Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Assets/Plugins/maps.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.322 seconds
+Refreshing native plugins compatible for Editor in 0.24 ms, found 2 plugins.
+Native extension for OSXStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.407 seconds
+Domain Reload Profiling: 731ms
+	BeginReloadAssembly (91ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (3ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (39ms)
+	RebuildCommonClasses (20ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (12ms)
+	LoadAllAssembliesAndSetupDomain (194ms)
+		LoadAssemblies (125ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (93ms)
+			TypeCache.Refresh (4ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (81ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (408ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (312ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (1ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (79ms)
+			ProcessInitializeOnLoadAttributes (200ms)
+			ProcessInitializeOnLoadMethodAttributes (28ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (5ms)
+Refreshing native plugins compatible for Editor in 0.25 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6160 unused Assets / (3.6 MB). Loaded Objects now: 6874.
+Memory consumption went from 156.3 MB to 152.7 MB.
+Total: 4.296084 ms (FindLiveObjects: 0.263000 ms CreateObjectMapping: 0.116375 ms MarkObjects: 3.009042 ms  DeleteObjects: 0.907458 ms)
+
+Prepare: number of updated asset objects reloaded= 0

@@ -13,6 +13,7 @@ public class Map3DSpawnerEditor : Editor
 
         if (GUILayout.Button("Generate 3D Map"))
         {
+            //   <Assembly-CSharp-Editor>\Assets\Map3D\Scripts\Editor\Map3DSpawnerEditor.cs:339 Cannot resolve symbol 'Generate'
             spawner.Generate();
         }
     }
