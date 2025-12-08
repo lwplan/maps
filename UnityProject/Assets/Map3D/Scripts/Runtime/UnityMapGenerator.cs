@@ -12,6 +12,8 @@ namespace maps.Unity
 
         private GameMap lastMap;
 
+        public GameMap LastMap => lastMap;
+
         public void GenerateAndRender()
         {
             if (Parameters == null)
