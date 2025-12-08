@@ -7,9 +7,9 @@ namespace Runtime
     {
         public TilePrefabRegistry Registry;
 
-        public void BuildFromTileInfo(TileInfo[,] tiles)
+        public async void BuildFromTileInfo(TileInfo[,] tiles)
         {
-            var root = TileChunkBuilder.BuildChunks(tiles, Registry);
+            var root = await TileChunkBuilder.BuildChunksAsync(tiles, Registry);
             root.transform.SetParent(this.transform);
         }
     }
