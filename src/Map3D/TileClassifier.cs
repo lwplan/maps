@@ -32,6 +32,23 @@ namespace maps.Map3D
 
         //
         // CLASSIFY PAVING PATTERN (8-direction Wang tiles)
+        // The intended 3×3 autotile set is organized as follows (rotation R0 is "facing north"):
+        //
+        //  - No neighbors → None
+        //  - All neighbors → Full
+        //  - Single cardinal neighbor → End (R0: N, R90: E, R180: S, R270: W)
+        //  - Two opposite cardinals → Straight (R0: N/S, R90: E/W)
+        //  - Two adjacent cardinals → Corner (R0: NE, R90: SE, R180: SW, R270: NW)
+        //  - Two adjacent cardinals with the shared diagonal missing → InnerCorner
+        //      * R0: N+E, !NE   * R90: E+S, !SE   * R180: S+W, !SW   * R270: W+N, !NW
+        //  - One cardinal plus its clockwise or counter-clockwise diagonal (and nothing else) → ChamferedEdge
+        //      * R0: NE, N/E   * R90: SE, E/S   * R180: SW, S/W   * R270: NW, W/N
+        //  - Three cardinals → TJunction (R0 opens north, then clockwise)
+        //  - Four cardinals → Cross
+        //  - Cardinal strip defined only by diagonals → EdgeStrip
+        //      * R0: NW+NE   * R90: NE+SE   * R180: SE+SW   * R270: SW+NW
+        //  - Single diagonal with no cardinals → OuterCorner (R0: NE, R90: SE, R180: SW, R270: NW)
+        //  - Fallback → Center
         //
         public static (PavingPattern, Rotation) ClassifyPavingPattern(Neighbor8 mask)
         {
@@ -60,6 +77,54 @@ namespace maps.Map3D
             if (e) cardinalCount++;
             if (s) cardinalCount++;
             if (w) cardinalCount++;
+
+            //
+            // ---- Diagonal-only configurations ----
+            //
+            if (cardinalCount == 0)
+            {
+                if (ne && !se && !sw && !nw)
+                    return (PavingPattern.OuterCorner, Rotation.R0);
+                if (se && !ne && !sw && !nw)
+                    return (PavingPattern.OuterCorner, Rotation.R90);
+                if (sw && !ne && !se && !nw)
+                    return (PavingPattern.OuterCorner, Rotation.R180);
+                if (nw && !ne && !se && !sw)
+                    return (PavingPattern.OuterCorner, Rotation.R270);
+
+                if (nw && ne && !se && !sw)
+                    return (PavingPattern.EdgeStrip, Rotation.R0);
+                if (ne && se && !sw && !nw)
+                    return (PavingPattern.EdgeStrip, Rotation.R90);
+                if (se && sw && !ne && !nw)
+                    return (PavingPattern.EdgeStrip, Rotation.R180);
+                if (sw && nw && !ne && !se)
+                    return (PavingPattern.EdgeStrip, Rotation.R270);
+            }
+
+            //
+            // ---- Inner corners (cardinal corner, missing diagonal) ----
+            //
+            if (n && e && !ne)
+                return (PavingPattern.InnerCorner, Rotation.R0);
+            if (e && s && !se)
+                return (PavingPattern.InnerCorner, Rotation.R90);
+            if (s && w && !sw)
+                return (PavingPattern.InnerCorner, Rotation.R180);
+            if (w && n && !nw)
+                return (PavingPattern.InnerCorner, Rotation.R270);
+
+            //
+            // ---- Chamfered edges (cardinal + diagonal) ----
+            //
+            if (ne && (n ^ e) && !s && !w && !se && !sw && !nw)
+                return (PavingPattern.ChamferedEdge, Rotation.R0);
+            if (se && (e ^ s) && !n && !w && !ne && !sw && !nw)
+                return (PavingPattern.ChamferedEdge, Rotation.R90);
+            if (sw && (s ^ w) && !n && !e && !ne && !se && !nw)
+                return (PavingPattern.ChamferedEdge, Rotation.R180);
+            if (nw && (w ^ n) && !e && !s && !ne && !se && !sw)
+                return (PavingPattern.ChamferedEdge, Rotation.R270);
 
             //
             //  ----  END tiles  ----
