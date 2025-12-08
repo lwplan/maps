@@ -1,40 +1,58 @@
+using System;
 using System.Collections.Generic;
-using maps.Map3D;
 using UnityEngine;
+using maps.Map3D;
 
-namespace Runtime
+[CreateAssetMenu(fileName = "TilePrefabRegistry", menuName = "Map3D/Tile Prefab Registry")]
+public class TilePrefabRegistry : ScriptableObject
 {
-    [CreateAssetMenu(fileName = "TilePrefabRegistry", menuName = "Map3D/Tile Prefab Registry")]
-    public class TilePrefabRegistry : ScriptableObject
+    [Serializable]
+    public class TilePrefabEntry
     {
-        public GameObject DefaultSandTile;
+        public PavingPattern Pattern;
+        public Rotation Rotation;
+        public BiomeType Biome;      // Optional for future use
+        public GameObject Prefab;
+    }
 
-        public List<PathPrefabEntry> PathPrefabs;
-        public List<PavingPrefabEntry> PavingPrefabs;
+    [Header("Default ground/fallback material")]
+    public Material DefaultMaterial;
 
-        [System.Serializable]
-        public struct PathPrefabEntry
+    [Header("Tile prefab mappings")]
+    public List<TilePrefabEntry> Entries = new();
+
+    private Dictionary<(PavingPattern, Rotation, BiomeType), GameObject> _lookup;
+
+    void OnEnable()
+    {
+        BuildLookup();
+    }
+
+    private void BuildLookup()
+    {
+        _lookup = new Dictionary<(PavingPattern, Rotation, BiomeType), GameObject>();
+
+        foreach (var e in Entries)
         {
-            public PathShape Shape;
-            public Rotation Rotation;
-            public GameObject Prefab;
+            var key = (e.Pattern, e.Rotation, e.Biome);
+            if (!_lookup.ContainsKey(key))
+                _lookup.Add(key, e.Prefab);
         }
+    }
 
-        [System.Serializable]
-        public struct PavingPrefabEntry
-        {
-            public PavingPattern Pattern;
-            public Rotation Rotation;
-            public GameObject Prefab;
-        }
+    /// <summary>
+    /// Get a prefab for a tile. Biome is optional for future phases.
+    /// </summary>
+    public GameObject GetPrefab(PavingPattern pattern, Rotation rot, BiomeType biome)
+    {
+        // Try exact match (pattern + rotation + biome)
+        if (_lookup.TryGetValue((pattern, rot, biome), out var prefab))
+            return prefab;
 
-        public GameObject GetPavingPrefab(PavingPattern p, Rotation r)
-        {
-            foreach (var e in PavingPrefabs)
-                if (e.Pattern == p && e.Rotation == r)
-                    return e.Prefab;
+        // Fallback: ignore biome
+        if (_lookup.TryGetValue((pattern, rot, default), out prefab))
+            return prefab;
 
-            return DefaultSandTile;
-        }
+        return null;
     }
 }

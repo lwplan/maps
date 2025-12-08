@@ -52,6 +52,7 @@
     <Compile Include="Assets/Map3D/Debug2D/TileMap2DGizmoRenderer.cs" />
     <Compile Include="Assets/Scripts/Runtime/Map3dSpawner.cs" />
     <Compile Include="Assets/Scripts/Runtime/TileChunkBuilder.cs" />
+    <Compile Include="Assets/Scripts/Runtime/TestMeshFactory.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
     <Compile Include="Assets/Map3D/Debug2D/TileMap2DRenderer.cs" />
     <Compile Include="Assets/Scripts/Runtime/TilePrefabRegistry.cs" />

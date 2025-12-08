@@ -46,6 +46,7 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Map3D/Scripts/Editor/Map3DSpawnerEditor.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Editor/ReadmeEditor.cs" />
     <Compile Include="Assets/Map3D/Scripts/Editor/UnityMapGeneratorEditor.cs" />
     <Reference Include="UnityEngine">

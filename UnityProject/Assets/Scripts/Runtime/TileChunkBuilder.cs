@@ -1,48 +1,188 @@
-using maps.Map3D;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using maps.Map3D;
+using Runtime;
+using Object = UnityEngine.Object;
 
-namespace Runtime
+public static class TileChunkBuilder
 {
-    public class TileChunkBuilder
+    public const int CHUNK_SIZE = 20;
+    public const float TILE_SIZE = 2f;
+
+    public static GameObject BuildChunks(TileInfo[,] tiles, TilePrefabRegistry registry)
     {
-        public static GameObject BuildChunks(
-            TileInfo[,] tiles,
-            TilePrefabRegistry registry,
-            float tileSize = 2f,
-            int chunkSize = 20)
+        int width  = tiles.GetLength(0);
+        int height = tiles.GetLength(1);
+
+        var root = new GameObject("TileChunks");
+
+        int chunksX = Mathf.CeilToInt(width  / (float)CHUNK_SIZE);
+        int chunksY = Mathf.CeilToInt(height / (float)CHUNK_SIZE);
+
+        for (int cx = 0; cx < chunksX; cx++)
         {
-            int w = tiles.GetLength(0);
-            int h = tiles.GetLength(1);
-
-            GameObject root = new GameObject("TileMap3D");
-
-            for (int cx = 0; cx < w; cx += chunkSize)
+            for (int cy = 0; cy < chunksY; cy++)
             {
-                for (int cy = 0; cy < h; cy += chunkSize)
-                {
-                    GameObject chunk = new GameObject($"Chunk_{cx}_{cy}");
-                    chunk.transform.parent = root.transform;
-
-                    for (int x = cx; x < Mathf.Min(cx + chunkSize, w); x++)
-                    {
-                        for (int y = cy; y < Mathf.Min(cy + chunkSize, h); y++)
-                        {
-                            TileInfo t = tiles[x, y];
-
-                            GameObject prefab =
-                                registry.GetPavingPrefab(t.PavingPattern, t.Rotation);
-
-                            Vector3 pos = new Vector3(x * tileSize, 0, y * tileSize);
-                            GameObject inst = Object.Instantiate(prefab, pos, Quaternion.Euler(0, (int)t.Rotation * 90, 0), chunk.transform);
-                        }
-                    }
-
-                    // Static batch
-                    StaticBatchingUtility.Combine(chunk);
-                }
+                BuildChunk(cx, cy, tiles, registry, root.transform);
             }
-
-            return root;
         }
+
+        return root;
+    }
+
+    private static void BuildChunk(
+        int chunkX,
+        int chunkY,
+        TileInfo[,] tiles,
+        TilePrefabRegistry registry,
+        Transform parent)
+    {
+        int width  = tiles.GetLength(0);
+        int height = tiles.GetLength(1);
+
+        int startX = chunkX * CHUNK_SIZE;
+        int startY = chunkY * CHUNK_SIZE;
+
+        int endX = Mathf.Min(startX + CHUNK_SIZE, width);
+        int endY = Mathf.Min(startY + CHUNK_SIZE, height);
+
+        // MATERIAL → LIST OF COMBINEINSTANCES
+        Dictionary<Material, List<CombineInstance>> materialBuckets =
+            new Dictionary<Material, List<CombineInstance>>();
+
+        //
+        // Collect tile meshes into material buckets
+        //
+        for (int x = startX; x < endX; x++)
+        {
+            for (int y = startY; y < endY; y++)
+            {
+                var t = tiles[x, y];
+
+                var prefab = registry.GetPrefab(t.PavingPattern, t.Rotation, t.Biome);
+                if (prefab == null)
+                    continue;
+
+                // temp instance for mesh extraction
+                var temp = GameObject.Instantiate(prefab);
+                temp.hideFlags = HideFlags.HideAndDontSave;
+
+                var meshFilter   = temp.GetComponentInChildren<MeshFilter>();
+                var meshRenderer = temp.GetComponentInChildren<MeshRenderer>();
+
+                Mesh sourceMesh = meshFilter != null ? meshFilter.sharedMesh : null;
+
+                // fallback to procedural mesh
+                if (sourceMesh == null || !sourceMesh.isReadable || sourceMesh.triangles.Length == 0)
+                {
+                    sourceMesh = TileMeshFactory.QuadTile(TILE_SIZE);
+                }
+
+                Vector3 localPos = new Vector3(
+                    (x - startX) * TILE_SIZE,
+                    t.ElevationLevel,
+                    (y - startY) * TILE_SIZE
+                );
+
+                CombineInstance ci = new CombineInstance
+                {
+                    mesh = sourceMesh,
+                    transform = Matrix4x4.TRS(
+                        localPos,
+                        Quaternion.Euler(0, RotationDegrees(t.Rotation), 0),
+                        Vector3.one
+                    )
+                };
+
+                // choose material
+                Material mat = meshRenderer != null && meshRenderer.sharedMaterial != null
+                    ? meshRenderer.sharedMaterial
+                    : registry.DefaultMaterial;
+
+                if (!materialBuckets.TryGetValue(mat, out var list))
+                {
+                    list = new List<CombineInstance>();
+                    materialBuckets[mat] = list;
+                }
+
+                list.Add(ci);
+
+#if UNITY_EDITOR
+                Object.DestroyImmediate(temp);
+#else
+                Object.Destroy(temp);
+#endif
+            }
+        }
+
+        //
+        // Build final mesh from material buckets
+        //
+        List<CombineInstance> submeshCombiners = new List<CombineInstance>();
+        List<Material> finalMaterials          = new List<Material>();
+
+        foreach (var kv in materialBuckets)
+        {
+            Material mat = kv.Key;
+            List<CombineInstance> instances = kv.Value;
+
+            Mesh submesh = new Mesh();
+            submesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+
+            // merge within same material
+            submesh.CombineMeshes(instances.ToArray(), true, true);
+
+            CombineInstance ci = new CombineInstance
+            {
+                mesh = submesh,
+                transform = Matrix4x4.identity
+            };
+
+            submeshCombiners.Add(ci);
+            finalMaterials.Add(mat);
+        }
+
+        //
+        // final combine: one submesh per material
+        //
+        Mesh finalMesh = new Mesh();
+        finalMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+
+        if (submeshCombiners.Count > 0)
+        {
+            finalMesh.CombineMeshes(submeshCombiners.ToArray(), false, true);
+        }
+
+        //
+        // Create chunk GameObject
+        //
+        var chunkGO = new GameObject($"Chunk_{chunkX}_{chunkY}");
+        chunkGO.transform.SetParent(parent, false);
+
+        float worldX = startX * TILE_SIZE;
+        float worldZ = startY * TILE_SIZE;
+
+        chunkGO.transform.localPosition = new Vector3(worldX, 0, worldZ);
+
+        var mf = chunkGO.AddComponent<MeshFilter>();
+        var mr = chunkGO.AddComponent<MeshRenderer>();
+
+        mf.sharedMesh = finalMesh;
+        mr.sharedMaterials = finalMaterials.ToArray();
+
+        chunkGO.isStatic = true;
+    }
+
+    private static float RotationDegrees(Rotation r)
+    {
+        return r switch
+        {
+            Rotation.R0   => 0f,
+            Rotation.R90  => 90f,
+            Rotation.R180 => 180f,
+            Rotation.R270 => 270f,
+            _ => 0f
+        };
     }
 }
