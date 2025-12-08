@@ -21,6 +21,7 @@ namespace maps
         public float BifurcationFactor { get; private set; }
 
         public int? MinNodeDistance { get; set; }
+        public Vector2? RegionSize { get; set; }
 
         // -------------------------------------------------
         // Biome information

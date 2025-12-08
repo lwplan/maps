@@ -48,7 +48,8 @@ public class GameMapAsset : ScriptableObject
     {
         var map = new GameMap(numLevels, minNodesPerLevel, maxNodesPerLevel, bifurcationFactor)
         {
-            MinNodeDistance = hasMinNodeDistance ? minNodeDistance : null
+            MinNodeDistance = hasMinNodeDistance ? minNodeDistance : null,
+            RegionSize = new NumericsVector2(regionSize.x, regionSize.y)
         };
 
         // Materialize nodes
@@ -119,6 +120,9 @@ public class GameMapAsset : ScriptableObject
         bifurcationFactor = map.BifurcationFactor;
         hasMinNodeDistance = map.MinNodeDistance.HasValue;
         minNodeDistance = map.MinNodeDistance ?? 0;
+        regionSize = map.RegionSize.HasValue
+            ? new UnityVector2(map.RegionSize.Value.X, map.RegionSize.Value.Y)
+            : UnityVector2.one;
 
         nodes = new List<NodeRecord>(map.Nodes.Count);
         var indexLookup = new Dictionary<Node, int>();

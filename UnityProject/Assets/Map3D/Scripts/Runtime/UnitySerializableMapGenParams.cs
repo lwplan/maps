@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using NumericsVector2 = System.Numerics.Vector2;
 
 namespace maps.Unity
 {
@@ -21,13 +22,14 @@ namespace maps.Unity
         // Convert to the real non-Unity params model
         public MapGenParams ToMapGenParams()
         {
-            return new MapGenParams(NumLevels, MinNodesPerLevel, MaxNodesPerLevel, BifurcationFactor)
-            {
-                NumLevels = NumLevels,
-                MinNodesPerLevel = MinNodesPerLevel,
-                MaxNodesPerLevel = MaxNodesPerLevel,
-                BifurcationFactor = BifurcationFactor
-            };
+            return new MapGenParams(
+                NumLevels,
+                MinNodesPerLevel,
+                MaxNodesPerLevel,
+                BifurcationFactor,
+                MinNodeDistance,
+                new NumericsVector2(regionSize.x, regionSize.y)
+            );
         }
     }
 }
