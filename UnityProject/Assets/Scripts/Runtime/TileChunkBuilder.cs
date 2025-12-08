@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using maps;
 using maps.Map3D;
 using Runtime;
 using Object = UnityEngine.Object;
 
 public static class TileChunkBuilder
 {
-    public const int CHUNK_SIZE = 20;
+    public const int CHUNK_SIZE = ChunkBuilder.DefaultChunkSize;
     public const float TILE_SIZE = 2f;
 
     public static GameObject BuildChunks(TileInfo[,] tiles, TilePrefabRegistry registry)
@@ -31,21 +32,68 @@ public static class TileChunkBuilder
         return root;
     }
 
-    private static void BuildChunk(
+    public static GameObject BuildChunk(
+        BuiltChunk builtChunk,
+        TilePrefabRegistry registry,
+        Transform parent,
+        int mapOffsetX,
+        int mapOffsetY,
+        int chunkSize = CHUNK_SIZE)
+    {
+        if (builtChunk.Tiles == null || builtChunk.Tiles.Length == 0)
+            return null;
+
+        return BuildChunk(
+            builtChunk.ChunkX,
+            builtChunk.ChunkY,
+            builtChunk.Tiles,
+            registry,
+            parent,
+            chunkSize,
+            mapOffsetX,
+            mapOffsetY);
+    }
+
+    public static GameObject BuildChunk(
         int chunkX,
         int chunkY,
+        TileInfo[,] tiles,
+        TilePrefabRegistry registry,
+        Transform parent,
+        int chunkSize = CHUNK_SIZE,
+        int mapOffsetX = 0,
+        int mapOffsetY = 0)
+    {
+        int chunkStartTileX = chunkX * chunkSize;
+        int chunkStartTileY = chunkY * chunkSize;
+
+        int startTileX = Mathf.Max(chunkStartTileX, mapOffsetX);
+        int startTileY = Mathf.Max(chunkStartTileY, mapOffsetY);
+
+        int localStartX = startTileX - mapOffsetX;
+        int localStartY = startTileY - mapOffsetY;
+
+        return BuildChunkInternal(
+            chunkX,
+            chunkY,
+            localStartX,
+            localStartY,
+            tiles,
+            registry,
+            parent);
+    }
+
+    private static GameObject BuildChunkInternal(
+        int chunkX,
+        int chunkY,
+        int localStartX,
+        int localStartY,
         TileInfo[,] tiles,
         TilePrefabRegistry registry,
         Transform parent)
     {
         int width  = tiles.GetLength(0);
         int height = tiles.GetLength(1);
-
-        int startX = chunkX * CHUNK_SIZE;
-        int startY = chunkY * CHUNK_SIZE;
-
-        int endX = Mathf.Min(startX + CHUNK_SIZE, width);
-        int endY = Mathf.Min(startY + CHUNK_SIZE, height);
 
         // MATERIAL → LIST OF COMBINEINSTANCES
         Dictionary<Material, List<CombineInstance>> materialBuckets =
@@ -54,9 +102,9 @@ public static class TileChunkBuilder
         //
         // Collect tile meshes into material buckets
         //
-        for (int x = startX; x < endX; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = startY; y < endY; y++)
+            for (int y = 0; y < height; y++)
             {
                 var t = tiles[x, y];
 
@@ -80,9 +128,9 @@ public static class TileChunkBuilder
                 }
 
                 Vector3 localPos = new Vector3(
-                    (x - startX) * TILE_SIZE,
+                    x * TILE_SIZE,
                     t.ElevationLevel,
-                    (y - startY) * TILE_SIZE
+                    y * TILE_SIZE
                 );
 
                 CombineInstance ci = new CombineInstance
@@ -160,8 +208,8 @@ public static class TileChunkBuilder
         var chunkGO = new GameObject($"Chunk_{chunkX}_{chunkY}");
         chunkGO.transform.SetParent(parent, false);
 
-        float worldX = startX * TILE_SIZE;
-        float worldZ = startY * TILE_SIZE;
+        float worldX = localStartX * TILE_SIZE;
+        float worldZ = localStartY * TILE_SIZE;
 
         chunkGO.transform.localPosition = new Vector3(worldX, 0, worldZ);
 
@@ -172,6 +220,8 @@ public static class TileChunkBuilder
         mr.sharedMaterials = finalMaterials.ToArray();
 
         chunkGO.isStatic = true;
+
+        return chunkGO;
     }
 
     private static float RotationDegrees(Rotation r)
