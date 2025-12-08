@@ -176,17 +176,15 @@ namespace maps
             TileInfo t = new TileInfo
             {
                 IsPaved = _map.PavedMask[x, y],
-                IsPath = _map.PathMask[x, y],
                 IsEventNode = _map.EventMask[x, y],
                 Biome = _biomeArray[x, y],
                 ElevationLevel = _map.Elevation?[x, y] ?? 0
             };
 
             t.PathNeighbors4 = TileNeighbors.GetPathNeighbors(_map.PathMask, x, y);
-            t.PathShape = TileClassifier.ClassifyPathShape(t.PathNeighbors4);
 
             t.PavingMask8 = TileNeighbors.GetPavingMask(_map.PavedMask, x, y);
-            (t.PavingPattern, t.Rotation) = TileClassifier.ClassifyPavingPattern(t.PavingMask8);
+            (t.PavingPattern, t.Rotation) = TileClassifier.ClassifyPaving(t.PavingMask8);
 
             return t;
         }

@@ -102,17 +102,25 @@ public static class TileChunkBuilder
         //
         // Collect tile meshes into material buckets
         //
+//
+// Collect tile meshes into material buckets
+//
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 var t = tiles[x, y];
 
+                // Attempt to load the prefab
                 var prefab = registry.GetPrefab(t.PavingPattern, t.Rotation, t.Biome);
-                if (prefab == null)
-                    continue;
 
-                // temp instance for mesh extraction
+                if (prefab == null)
+                {
+                    ReportMissingTile(chunkX, chunkY, x, y, t, registry);
+                    prefab = TileMeshFactory.DebugCube(TILE_SIZE);
+                }
+
+                // Create a temporary instance to fetch mesh + material
                 var temp = GameObject.Instantiate(prefab);
                 temp.hideFlags = HideFlags.HideAndDontSave;
 
@@ -121,17 +129,14 @@ public static class TileChunkBuilder
 
                 Mesh sourceMesh = meshFilter != null ? meshFilter.sharedMesh : null;
 
-                // fallback to procedural mesh
+                // fallback to a quad if mesh unreadable
                 if (sourceMesh == null || !sourceMesh.isReadable || sourceMesh.triangles.Length == 0)
-                {
                     sourceMesh = TileMeshFactory.QuadTile(TILE_SIZE);
-                }
 
                 Vector3 localPos = new Vector3(
                     x * TILE_SIZE,
                     t.ElevationLevel,
-                    y * TILE_SIZE
-                );
+                    y * TILE_SIZE);
 
                 CombineInstance ci = new CombineInstance
                 {
@@ -139,14 +144,13 @@ public static class TileChunkBuilder
                     transform = Matrix4x4.TRS(
                         localPos,
                         Quaternion.Euler(0, RotationDegrees(t.Rotation), 0),
-                        Vector3.one
-                    )
+                        Vector3.one)
                 };
 
-                // choose material
-                Material mat = meshRenderer != null && meshRenderer.sharedMaterial != null
-                    ? meshRenderer.sharedMaterial
-                    : registry.DefaultMaterial;
+                Material mat =
+                    meshRenderer != null && meshRenderer.sharedMaterial != null
+                        ? meshRenderer.sharedMaterial
+                        : registry.DefaultMaterial;
 
                 if (!materialBuckets.TryGetValue(mat, out var list))
                 {
@@ -159,10 +163,11 @@ public static class TileChunkBuilder
 #if UNITY_EDITOR
                 Object.DestroyImmediate(temp);
 #else
-                Object.Destroy(temp);
+        Object.Destroy(temp);
 #endif
             }
         }
+
 
         //
         // Build final mesh from material buckets
@@ -234,5 +239,55 @@ public static class TileChunkBuilder
             Rotation.R270 => 270f,
             _ => 0f
         };
+        
+        
     }
+    private static void ReportMissingTile(
+        int chunkX, int chunkY,
+        int tileX, int tileY,
+        TileInfo tile,
+        TilePrefabRegistry registry)
+    {
+        // Avoid repeated spam
+        string key = $"{tile.PavingPattern}_{tile.Rotation}_{tile.Biome}";
+        if (_reportedMissing.Contains(key))
+            return;
+
+        _reportedMissing.Add(key);
+
+        string ascii = MaskToAscii(tile.PavingMask8);
+        string bits  = Convert.ToString((int)tile.PavingMask8, 2).PadLeft(8, '0');
+
+        Debug.LogError(
+            $"[MISSING TILE PREFAB]\n" +
+            $"Pattern:   {tile.PavingPattern}\n" +
+            $"Rotation:  {tile.Rotation}\n" +
+            $"Biome:     {tile.Biome}\n" +
+            $"Chunk:     ({chunkX},{chunkY})\n" +
+            $"Tile:      ({tileX},{tileY})\n" +
+            $"8-mask:    {bits} ({(int)tile.PavingMask8})\n" +
+            $"ASCII:\n{ascii}\n" +
+            $"Prefab was requested but not found in TilePrefabRegistry.");
+    }
+    private static HashSet<string> _reportedMissing = new HashSet<string>();
+
+    private static string MaskToAscii(Neighbor8 mask)
+    {
+        char C(bool b) => b ? '#' : '.';
+
+        bool N  = mask.Has(Neighbor8.North);
+        bool NE = mask.Has(Neighbor8.NorthEast);
+        bool E  = mask.Has(Neighbor8.East);
+        bool SE = mask.Has(Neighbor8.SouthEast);
+        bool S  = mask.Has(Neighbor8.South);
+        bool SW = mask.Has(Neighbor8.SouthWest);
+        bool W  = mask.Has(Neighbor8.West);
+        bool NW = mask.Has(Neighbor8.NorthWest);
+
+        return
+            $"{C(NW)}{C(N)}{C(NE)}\n" +
+            $"{C(W)}.{C(E)}\n" +
+            $"{C(SW)}{C(S)}{C(SE)}";
+    }
+
 }

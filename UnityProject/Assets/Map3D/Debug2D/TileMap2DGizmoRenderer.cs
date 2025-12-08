@@ -19,8 +19,7 @@ public class TileMap2DGizmoRenderer : MonoBehaviour
             {
                 var t = Tiles[x, y];
 
-                Gizmos.color = t.IsPath ? Color.green : 
-                                t.IsPaved ? Color.yellow : 
+                Gizmos.color =  t.IsPaved ? Color.yellow : 
                                 Color.gray;
 
                 Vector3 pos = new Vector3(x * TileSize, 0, y * TileSize);

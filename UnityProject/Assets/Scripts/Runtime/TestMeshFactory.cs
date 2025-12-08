@@ -4,6 +4,14 @@ namespace Runtime
 {
     public static class TileMeshFactory
     {
+        
+        public static GameObject DebugCube(float size)
+        {
+            var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            go.transform.localScale = Vector3.one * size * 0.9f;
+            return go;
+        }
+        
         public static Mesh QuadTile(float size = 2f)
         {
             Mesh m = new Mesh();
@@ -38,4 +46,6 @@ namespace Runtime
             return m;
         }
     }
+    
+    
 }

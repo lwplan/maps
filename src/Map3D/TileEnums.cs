@@ -23,18 +23,7 @@ namespace maps.Map3D
         West      = 1 << 6,
         NorthWest = 1 << 7
     }
-
-    public enum PathShape : byte
-    {
-        None,
-        Center,
-        End,
-        Straight,
-        Corner,
-        TJunction,
-        Cross
-    }
-
+    
     public enum PavingPattern : byte
     {
         None,

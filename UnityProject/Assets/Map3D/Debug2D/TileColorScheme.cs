@@ -18,9 +18,7 @@ public class TileColorScheme : ScriptableObject
         // Priority: event → path → paved → biome → default
         if (t.IsEventNode)
             return EventColor;
-
-        if (t.IsPath)
-            return PathColor;
+        
 
         if (t.IsPaved)
         {
