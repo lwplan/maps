@@ -24,7 +24,7 @@ namespace maps.Map3D
         NorthWest = 1 << 7
     }
     
-    public enum PavingPattern : byte
+    public enum PavingPattern : int
     {
         None,
         Center,

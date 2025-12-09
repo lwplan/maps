@@ -11,6 +11,35 @@ public static class TileChunkBuilder
     public const int CHUNK_SIZE = ChunkBuilder.DefaultChunkSize;
     public const float TILE_SIZE = 2f;
 
+    // -------------------------------------------------------------
+    // Mesh + material cache: one entry per tile pattern
+    // -------------------------------------------------------------
+    private struct TileKey : IEquatable<TileKey>
+    {
+        public readonly PavingPattern Pattern;
+
+        public TileKey(PavingPattern pattern)
+        {
+            Pattern = pattern;
+        }
+
+        public bool Equals(TileKey other) => Pattern == other.Pattern;
+        public override bool Equals(object obj) => obj is TileKey other && Equals(other);
+        public override int GetHashCode() => (int)Pattern;
+    }
+
+
+    private class TileCacheEntry
+    {
+        public Mesh Mesh;
+        public Material Material;
+    }
+
+    private static readonly Dictionary<TileKey, TileCacheEntry> _cache =
+        new Dictionary<TileKey, TileCacheEntry>();
+
+    // -------------------------------------------------------------
+
     public static GameObject BuildChunks(TileInfo[,] tiles, TilePrefabRegistry registry)
     {
         int width  = tiles.GetLength(0);
@@ -54,6 +83,7 @@ public static class TileChunkBuilder
             mapOffsetY);
     }
 
+    
     public static GameObject BuildChunk(
         int chunkX,
         int chunkY,
@@ -83,6 +113,47 @@ public static class TileChunkBuilder
             parent);
     }
 
+    private static TileCacheEntry GetOrCreateCachedEntry(TilePrefabRegistry registry, TileInfo t)
+    {
+        var key = new TileKey(t.PavingPattern);
+
+        if (_cache.TryGetValue(key, out var cached))
+            return cached;
+
+        var prefab = registry.GetPrefab(t.PavingPattern, Rotation.R0, t.Biome);
+
+        if (prefab == null)
+        {
+            Debug.LogError($"Missing prefab for pattern={t.PavingPattern}");
+            return null;
+        }
+
+        // Instantiate ONCE, extract mesh/material, then destroy
+        var temp = Object.Instantiate(prefab);
+        temp.hideFlags = HideFlags.HideAndDontSave;
+
+        var mf = temp.GetComponentInChildren<MeshFilter>();
+        var mr = temp.GetComponentInChildren<MeshRenderer>();
+
+#if UNITY_EDITOR
+        Object.DestroyImmediate(temp);
+#else
+        Object.Destroy(temp);
+#endif
+
+        Mesh mesh = mf != null ? mf.sharedMesh : TileMeshFactory.QuadTile(TILE_SIZE);
+        Material mat = mr != null ? mr.sharedMaterial : registry.DefaultMaterial;
+
+        cached = new TileCacheEntry
+        {
+            Mesh = mesh,
+            Material = mat
+        };
+
+        _cache[key] = cached;
+        return cached;
+    }
+
     private static GameObject BuildChunkInternal(
         int chunkX,
         int chunkY,
@@ -96,84 +167,44 @@ public static class TileChunkBuilder
         int height = tiles.GetLength(1);
 
         // MATERIAL → LIST OF COMBINEINSTANCES
-        Dictionary<Material, List<CombineInstance>> materialBuckets =
-            new Dictionary<Material, List<CombineInstance>>();
+        var materialBuckets = new Dictionary<Material, List<CombineInstance>>();
 
-        //
-        // Collect tile meshes into material buckets
-        //
-//
-// Collect tile meshes into material buckets
-//
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 var t = tiles[x, y];
+                var entry = GetOrCreateCachedEntry(registry, t);
 
-                // Attempt to load the prefab
-                var prefab = registry.GetPrefab(t.PavingPattern, t.Rotation, t.Biome);
-
-                if (prefab == null)
-                {
-                    ReportMissingTile(chunkX, chunkY, x, y, t, registry);
-                    prefab = TileMeshFactory.DebugCube(TILE_SIZE);
-                }
-
-                // Create a temporary instance to fetch mesh + material
-                var temp = GameObject.Instantiate(prefab);
-                temp.hideFlags = HideFlags.HideAndDontSave;
-
-                var meshFilter   = temp.GetComponentInChildren<MeshFilter>();
-                var meshRenderer = temp.GetComponentInChildren<MeshRenderer>();
-
-                Mesh sourceMesh = meshFilter != null ? meshFilter.sharedMesh : null;
-
-                // fallback to a quad if mesh unreadable
-                if (sourceMesh == null || !sourceMesh.isReadable || sourceMesh.triangles.Length == 0)
-                    sourceMesh = TileMeshFactory.QuadTile(TILE_SIZE);
+                if (entry == null)
+                    continue;
 
                 Vector3 localPos = new Vector3(
                     x * TILE_SIZE,
                     t.ElevationLevel,
                     y * TILE_SIZE);
 
+                Quaternion rot = Quaternion.Euler(0, RotationDegrees(t.Rotation), 0);
+
                 CombineInstance ci = new CombineInstance
                 {
-                    mesh = sourceMesh,
-                    transform = Matrix4x4.TRS(
-                        localPos,
-                        Quaternion.Euler(0, RotationDegrees(t.Rotation), 0),
-                        Vector3.one)
+                    mesh = entry.Mesh,
+                    transform = Matrix4x4.TRS(localPos, rot, Vector3.one)
                 };
 
-                Material mat =
-                    meshRenderer != null && meshRenderer.sharedMaterial != null
-                        ? meshRenderer.sharedMaterial
-                        : registry.DefaultMaterial;
-
-                if (!materialBuckets.TryGetValue(mat, out var list))
+                if (!materialBuckets.TryGetValue(entry.Material, out var list))
                 {
                     list = new List<CombineInstance>();
-                    materialBuckets[mat] = list;
+                    materialBuckets[entry.Material] = list;
                 }
 
                 list.Add(ci);
-
-#if UNITY_EDITOR
-                Object.DestroyImmediate(temp);
-#else
-        Object.Destroy(temp);
-#endif
             }
         }
 
-
-        //
-        // Build final mesh from material buckets
-        //
+        // Merge per-material
         List<CombineInstance> submeshCombiners = new List<CombineInstance>();
-        List<Material> finalMaterials          = new List<Material>();
+        List<Material> finalMaterials = new List<Material>();
 
         foreach (var kv in materialBuckets)
         {
@@ -182,34 +213,25 @@ public static class TileChunkBuilder
 
             Mesh submesh = new Mesh();
             submesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-
-            // merge within same material
             submesh.CombineMeshes(instances.ToArray(), true, true);
 
-            CombineInstance ci = new CombineInstance
+            submeshCombiners.Add(new CombineInstance
             {
                 mesh = submesh,
                 transform = Matrix4x4.identity
-            };
+            });
 
-            submeshCombiners.Add(ci);
             finalMaterials.Add(mat);
         }
 
-        //
-        // final combine: one submesh per material
-        //
+        // Final mesh (1 submesh per material)
         Mesh finalMesh = new Mesh();
         finalMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 
         if (submeshCombiners.Count > 0)
-        {
             finalMesh.CombineMeshes(submeshCombiners.ToArray(), false, true);
-        }
 
-        //
         // Create chunk GameObject
-        //
         var chunkGO = new GameObject($"Chunk_{chunkX}_{chunkY}");
         chunkGO.transform.SetParent(parent, false);
 
@@ -223,7 +245,6 @@ public static class TileChunkBuilder
 
         mf.sharedMesh = finalMesh;
         mr.sharedMaterials = finalMaterials.ToArray();
-
         chunkGO.isStatic = true;
 
         return chunkGO;
@@ -239,55 +260,5 @@ public static class TileChunkBuilder
             Rotation.R270 => 270f,
             _ => 0f
         };
-        
-        
     }
-    private static void ReportMissingTile(
-        int chunkX, int chunkY,
-        int tileX, int tileY,
-        TileInfo tile,
-        TilePrefabRegistry registry)
-    {
-        // Avoid repeated spam
-        string key = $"{tile.PavingPattern}_{tile.Rotation}_{tile.Biome}";
-        if (_reportedMissing.Contains(key))
-            return;
-
-        _reportedMissing.Add(key);
-
-        string ascii = MaskToAscii(tile.PavingMask8);
-        string bits  = Convert.ToString((int)tile.PavingMask8, 2).PadLeft(8, '0');
-
-        Debug.LogError(
-            $"[MISSING TILE PREFAB]\n" +
-            $"Pattern:   {tile.PavingPattern}\n" +
-            $"Rotation:  {tile.Rotation}\n" +
-            $"Biome:     {tile.Biome}\n" +
-            $"Chunk:     ({chunkX},{chunkY})\n" +
-            $"Tile:      ({tileX},{tileY})\n" +
-            $"8-mask:    {bits} ({(int)tile.PavingMask8})\n" +
-            $"ASCII:\n{ascii}\n" +
-            $"Prefab was requested but not found in TilePrefabRegistry.");
-    }
-    private static HashSet<string> _reportedMissing = new HashSet<string>();
-
-    private static string MaskToAscii(Neighbor8 mask)
-    {
-        char C(bool b) => b ? '#' : '.';
-
-        bool N  = mask.Has(Neighbor8.North);
-        bool NE = mask.Has(Neighbor8.NorthEast);
-        bool E  = mask.Has(Neighbor8.East);
-        bool SE = mask.Has(Neighbor8.SouthEast);
-        bool S  = mask.Has(Neighbor8.South);
-        bool SW = mask.Has(Neighbor8.SouthWest);
-        bool W  = mask.Has(Neighbor8.West);
-        bool NW = mask.Has(Neighbor8.NorthWest);
-
-        return
-            $"{C(NW)}{C(N)}{C(NE)}\n" +
-            $"{C(W)}.{C(E)}\n" +
-            $"{C(SW)}{C(S)}{C(SE)}";
-    }
-
 }

@@ -78,7 +78,7 @@ public class Map3DSpawner : MonoBehaviour
                 continue;
 
             var chunkGo = TileChunkBuilder.BuildChunk(
-                built,
+                built, //   <Assembly-CSharp>\Assets\Scripts\Runtime\Map3dSpawner.cs:2275 Argument type 'maps.BuiltChunk' is not assignable to parameter type 'int'
                 Registry,
                 worldRoot.transform,
                 activeMap.OffsetX,
