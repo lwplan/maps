@@ -952,6 +952,9 @@
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
       <HintPath>/Users/lancewatson/Desktop/Unsorted/maps/UnityProject/Library/ScriptAssemblies/Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
     </Reference>

@@ -12,7 +12,7 @@ public static class TileChunkBuilder
     public const float TILE_SIZE = 2f;
 
     // -------------------------------------------------------------
-    // Mesh + material cache: one entry per tile pattern
+    // Mesh cache per PavingPattern (material is always the same)
     // -------------------------------------------------------------
     private struct TileKey : IEquatable<TileKey>
     {
@@ -28,26 +28,25 @@ public static class TileChunkBuilder
         public override int GetHashCode() => (int)Pattern;
     }
 
-
     private class TileCacheEntry
     {
         public Mesh Mesh;
-        public Material Material;
     }
 
     private static readonly Dictionary<TileKey, TileCacheEntry> _cache =
         new Dictionary<TileKey, TileCacheEntry>();
 
     // -------------------------------------------------------------
-
+    // Public API — unchanged
+    // -------------------------------------------------------------
     public static GameObject BuildChunks(TileInfo[,] tiles, TilePrefabRegistry registry)
     {
-        int width  = tiles.GetLength(0);
+        int width = tiles.GetLength(0);
         int height = tiles.GetLength(1);
 
         var root = new GameObject("TileChunks");
 
-        int chunksX = Mathf.CeilToInt(width  / (float)CHUNK_SIZE);
+        int chunksX = Mathf.CeilToInt(width / (float)CHUNK_SIZE);
         int chunksY = Mathf.CeilToInt(height / (float)CHUNK_SIZE);
 
         for (int cx = 0; cx < chunksX; cx++)
@@ -83,7 +82,6 @@ public static class TileChunkBuilder
             mapOffsetY);
     }
 
-    
     public static GameObject BuildChunk(
         int chunkX,
         int chunkY,
@@ -113,6 +111,9 @@ public static class TileChunkBuilder
             parent);
     }
 
+    // -------------------------------------------------------------
+    // Cache mesh for a given pattern (no material anymore)
+    // -------------------------------------------------------------
     private static TileCacheEntry GetOrCreateCachedEntry(TilePrefabRegistry registry, TileInfo t)
     {
         var key = new TileKey(t.PavingPattern);
@@ -128,12 +129,11 @@ public static class TileChunkBuilder
             return null;
         }
 
-        // Instantiate ONCE, extract mesh/material, then destroy
+        // Instantiate ONCE to extract mesh
         var temp = Object.Instantiate(prefab);
         temp.hideFlags = HideFlags.HideAndDontSave;
 
         var mf = temp.GetComponentInChildren<MeshFilter>();
-        var mr = temp.GetComponentInChildren<MeshRenderer>();
 
 #if UNITY_EDITOR
         Object.DestroyImmediate(temp);
@@ -141,19 +141,19 @@ public static class TileChunkBuilder
         Object.Destroy(temp);
 #endif
 
-        Mesh mesh = mf != null ? mf.sharedMesh : TileMeshFactory.QuadTile(TILE_SIZE);
-        Material mat = mr != null ? mr.sharedMaterial : registry.DefaultMaterial;
+        Mesh mesh = (mf != null && mf.sharedMesh != null)
+            ? mf.sharedMesh
+            : TileMeshFactory.QuadTile(TILE_SIZE);
 
-        cached = new TileCacheEntry
-        {
-            Mesh = mesh,
-            Material = mat
-        };
-
+        cached = new TileCacheEntry { Mesh = mesh };
         _cache[key] = cached;
+
         return cached;
     }
 
+    // -------------------------------------------------------------
+    // Main chunk builder (single material)
+    // -------------------------------------------------------------
     private static GameObject BuildChunkInternal(
         int chunkX,
         int chunkY,
@@ -163,11 +163,13 @@ public static class TileChunkBuilder
         TilePrefabRegistry registry,
         Transform parent)
     {
-        int width  = tiles.GetLength(0);
+        int width = tiles.GetLength(0);
         int height = tiles.GetLength(1);
 
-        // MATERIAL → LIST OF COMBINEINSTANCES
-        var materialBuckets = new Dictionary<Material, List<CombineInstance>>();
+        // Only ONE material → use one list
+        List<CombineInstance> combineInstances = new List<CombineInstance>(width * height);
+
+        Mesh defaultMesh = TileMeshFactory.QuadTile(TILE_SIZE);
 
         for (int x = 0; x < width; x++)
         {
@@ -175,9 +177,7 @@ public static class TileChunkBuilder
             {
                 var t = tiles[x, y];
                 var entry = GetOrCreateCachedEntry(registry, t);
-
-                if (entry == null)
-                    continue;
+                Mesh mesh = entry?.Mesh ?? defaultMesh;
 
                 Vector3 localPos = new Vector3(
                     x * TILE_SIZE,
@@ -186,52 +186,20 @@ public static class TileChunkBuilder
 
                 Quaternion rot = Quaternion.Euler(0, RotationDegrees(t.Rotation), 0);
 
-                CombineInstance ci = new CombineInstance
+                combineInstances.Add(new CombineInstance
                 {
-                    mesh = entry.Mesh,
+                    mesh = mesh,
                     transform = Matrix4x4.TRS(localPos, rot, Vector3.one)
-                };
-
-                if (!materialBuckets.TryGetValue(entry.Material, out var list))
-                {
-                    list = new List<CombineInstance>();
-                    materialBuckets[entry.Material] = list;
-                }
-
-                list.Add(ci);
+                });
             }
         }
 
-        // Merge per-material
-        List<CombineInstance> submeshCombiners = new List<CombineInstance>();
-        List<Material> finalMaterials = new List<Material>();
-
-        foreach (var kv in materialBuckets)
-        {
-            Material mat = kv.Key;
-            List<CombineInstance> instances = kv.Value;
-
-            Mesh submesh = new Mesh();
-            submesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-            submesh.CombineMeshes(instances.ToArray(), true, true);
-
-            submeshCombiners.Add(new CombineInstance
-            {
-                mesh = submesh,
-                transform = Matrix4x4.identity
-            });
-
-            finalMaterials.Add(mat);
-        }
-
-        // Final mesh (1 submesh per material)
+        // Combine into one giant mesh
         Mesh finalMesh = new Mesh();
         finalMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        finalMesh.CombineMeshes(combineInstances.ToArray(), true, true);
 
-        if (submeshCombiners.Count > 0)
-            finalMesh.CombineMeshes(submeshCombiners.ToArray(), false, true);
-
-        // Create chunk GameObject
+        // Create GameObject for the chunk
         var chunkGO = new GameObject($"Chunk_{chunkX}_{chunkY}");
         chunkGO.transform.SetParent(parent, false);
 
@@ -244,7 +212,8 @@ public static class TileChunkBuilder
         var mr = chunkGO.AddComponent<MeshRenderer>();
 
         mf.sharedMesh = finalMesh;
-        mr.sharedMaterials = finalMaterials.ToArray();
+        mr.sharedMaterial = registry.DefaultMaterial; // always sand
+
         chunkGO.isStatic = true;
 
         return chunkGO;
@@ -254,8 +223,8 @@ public static class TileChunkBuilder
     {
         return r switch
         {
-            Rotation.R0   => 0f,
-            Rotation.R90  => 90f,
+            Rotation.R0 => 0f,
+            Rotation.R90 => 90f,
             Rotation.R180 => 180f,
             Rotation.R270 => 270f,
             _ => 0f
