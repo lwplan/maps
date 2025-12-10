@@ -180,9 +180,7 @@ namespace maps
                 Biome = _biomeArray[x, y],
                 ElevationLevel = _map.Elevation?[x, y] ?? 0
             };
-
-            t.PathNeighbors4 = TileNeighbors.GetPathNeighbors(_map.PathMask, x, y);
-
+            
             t.PavingMask8 = TileNeighbors.GetPavingMask(_map.PavedMask, x, y);
             (t.PavingPattern, t.Rotation) = TileClassifier.ClassifyPaving(t.PavingMask8);
 

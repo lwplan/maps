@@ -9,7 +9,6 @@ namespace maps.Map3D
         public BiomeType Biome;
         public int ElevationLevel;
 
-        public Neighbor4 PathNeighbors4;
 
         public Neighbor8 PavingMask8;
         public PavingPattern PavingPattern;

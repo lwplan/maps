@@ -1,27 +1,20 @@
 namespace maps.Map3D
 {
-    [System.Flags]
-    public enum Neighbor4 : byte
-    {
-        None  = 0,
-        North = 1 << 0,
-        East  = 1 << 1,
-        South = 1 << 2,
-        West  = 1 << 3
-    }
+
 
     [System.Flags]
     public enum Neighbor8 : ushort
     {
         None      = 0,
-        North     = 1 << 0,
-        NorthEast = 1 << 1,
-        East      = 1 << 2,
-        SouthEast = 1 << 3,
-        South     = 1 << 4,
-        SouthWest = 1 << 5,
-        West      = 1 << 6,
-        NorthWest = 1 << 7
+        Center    = 1 << 0,
+        North     = 1 << 1,
+        NorthEast = 1 << 2,
+        East      = 1 << 3,
+        SouthEast = 1 << 4,
+        South     = 1 << 5,
+        SouthWest = 1 << 6,
+        West      = 1 << 7,
+        NorthWest = 1 << 8
     }
     
     public enum PavingPattern : int

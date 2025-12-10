@@ -134,11 +134,7 @@ public static class TileChunkBuilder
             return cached;
 
         // Get base mesh (orientation ignored here)
-        var prefab = registry.GetPrefab(t.PavingPattern, Rotation.R0, t.Biome);
-
-        Mesh baseMesh = prefab != null
-            ? prefab.GetComponentInChildren<MeshFilter>().sharedMesh
-            : TileMeshFactory.QuadTile(TILE_SIZE);
+        Mesh baseMesh =  TileMeshFactory.QuadTile(TILE_SIZE);
 
         // Clone and remap UVs
         Mesh remapped = MeshUVTools.CreateUVRemappedCopy(

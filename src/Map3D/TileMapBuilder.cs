@@ -23,9 +23,7 @@ namespace maps.Map3D {
                     t.IsEventNode = events[x, y];
                     t.Biome = biomes[x, y];
                     t.ElevationLevel = elevation[x, y];
-
-                    t.PathNeighbors4 = TileNeighbors.GetPathNeighbors(path, x, y);
-
+                    
 
                     t.PavingMask8 = TileNeighbors.GetPavingMask(paved, x, y);
                     (t.PavingPattern, t.Rotation) = TileClassifier.ClassifyPaving(t.PavingMask8);

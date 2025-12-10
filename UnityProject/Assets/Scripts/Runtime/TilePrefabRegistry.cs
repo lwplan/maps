@@ -45,27 +45,7 @@ public class TilePrefabRegistry : ScriptableObject
         }
     }
 
-    /// <summary>
-    /// Returns a prefab for the given pattern. Rotation is applied at mesh combine time.
-    /// </summary>
-    public GameObject GetPrefab(PavingPattern pattern, Rotation rot, BiomeType biome)
-    {
-        // Everything currently defaults to desert
-        if (biome != BiomeType.Desert)
-        {
-            // Debug.LogWarning($"Biome {biome} not supported yet. Using Desert prefab.");
-        }
 
-        // Basic lookup (pattern only)
-        if (_patternLookup.TryGetValue(pattern, out var prefab))
-            return prefab;
-
-        // Missing pattern
-        Debug.LogError($"TilePrefabRegistry: No prefab found for pattern {pattern}. " +
-                       $"(Rotation {rot} requested, but registry stores pattern-only.)");
-
-        return null;
-    }
 
     /// <summary>
     /// Indicates if this pattern has rotation-specific assets supplied.
@@ -82,27 +62,27 @@ public class TilePrefabRegistry : ScriptableObject
             case PavingPattern.None:
                 return 13;
             case PavingPattern.Center:
-                return 9;
+                return 10;
             case PavingPattern.End:
-                return 5;
+                return 9;
             case PavingPattern.Straight:
-                return 1;
+                return 8;
             case PavingPattern.Corner:
-                return 2;
+                return 14;
             case PavingPattern.TJunction:
                 return 4;
             case PavingPattern.Cross:
-                return 3;
+                return 5;
             case PavingPattern.Full:
                 return 0;
             case PavingPattern.EdgeStrip:
-                return 9;
+                return 15;
             case PavingPattern.InnerCorner:
-                return 7;
+                return 6;
             case PavingPattern.ChamferedEdge:
                 return 12;
             case PavingPattern.OuterCorner:
-                return 10;
+                return 11;
             default:
                 throw new ArgumentOutOfRangeException(nameof(tPavingPattern), tPavingPattern, null);
         }

@@ -1,20 +1,6 @@
 namespace maps.Map3D {
     public static class TileNeighbors
     {
-        public static Neighbor4 GetPathNeighbors(bool[,] path, int x, int y)
-        {
-            int w = path.GetLength(0);
-            int h = path.GetLength(1);
-
-            Neighbor4 n = Neighbor4.None;
-
-            if (y + 1 < h && path[x, y + 1]) n |= Neighbor4.North;
-            if (x + 1 < w && path[x + 1, y]) n |= Neighbor4.East;
-            if (y - 1 >= 0 && path[x, y - 1]) n |= Neighbor4.South;
-            if (x - 1 >= 0 && path[x - 1, y]) n |= Neighbor4.West;
-
-            return n;
-        }
 
         public static Neighbor8 GetPavingMask(bool[,] paved, int x, int y)
         {
@@ -30,6 +16,7 @@ namespace maps.Map3D {
                 return paved[xx, yy];
             }
 
+            if (N(0, 0))  m |= Neighbor8.Center;
             if (N(0, 1))  m |= Neighbor8.North;
             if (N(1, 1))  m |= Neighbor8.NorthEast;
             if (N(1, 0))  m |= Neighbor8.East;
