@@ -12,20 +12,31 @@ public static class TileChunkBuilder
     public const float TILE_SIZE = 2f;
 
     // -------------------------------------------------------------
-    // Mesh cache per PavingPattern (material is always the same)
+    // Cache key (Pattern + Rotation + AtlasIndex)
     // -------------------------------------------------------------
     private struct TileKey : IEquatable<TileKey>
     {
         public readonly PavingPattern Pattern;
+        public readonly Rotation Rotation;
+        public readonly int AtlasIndex;
 
-        public TileKey(PavingPattern pattern)
+        public TileKey(PavingPattern pattern, Rotation rotation, int atlasIndex)
         {
             Pattern = pattern;
+            Rotation = rotation;
+            AtlasIndex = atlasIndex;
         }
 
-        public bool Equals(TileKey other) => Pattern == other.Pattern;
-        public override bool Equals(object obj) => obj is TileKey other && Equals(other);
-        public override int GetHashCode() => (int)Pattern;
+        public bool Equals(TileKey other) =>
+            Pattern == other.Pattern &&
+            Rotation == other.Rotation &&
+            AtlasIndex == other.AtlasIndex;
+
+        public override bool Equals(object obj) =>
+            obj is TileKey other && Equals(other);
+
+        public override int GetHashCode() =>
+            HashCode.Combine((int)Pattern, (int)Rotation, AtlasIndex);
     }
 
     private class TileCacheEntry
@@ -37,7 +48,7 @@ public static class TileChunkBuilder
         new Dictionary<TileKey, TileCacheEntry>();
 
     // -------------------------------------------------------------
-    // Public API — unchanged
+    // Public API — unchanged externally
     // -------------------------------------------------------------
     public static GameObject BuildChunks(TileInfo[,] tiles, TilePrefabRegistry registry)
     {
@@ -112,47 +123,38 @@ public static class TileChunkBuilder
     }
 
     // -------------------------------------------------------------
-    // Cache mesh for a given pattern (no material anymore)
+    // UV-remapped mesh retrieval + caching
     // -------------------------------------------------------------
     private static TileCacheEntry GetOrCreateCachedEntry(TilePrefabRegistry registry, TileInfo t)
     {
-        var key = new TileKey(t.PavingPattern);
+        int atlasIndex = registry.GetAtlasIndex(t.PavingPattern, t.Biome);
+        var key = new TileKey(t.PavingPattern, t.Rotation, atlasIndex);
 
         if (_cache.TryGetValue(key, out var cached))
             return cached;
 
+        // Get base mesh (orientation ignored here)
         var prefab = registry.GetPrefab(t.PavingPattern, Rotation.R0, t.Biome);
 
-        if (prefab == null)
-        {
-            Debug.LogError($"Missing prefab for pattern={t.PavingPattern}");
-            return null;
-        }
-
-        // Instantiate ONCE to extract mesh
-        var temp = Object.Instantiate(prefab);
-        temp.hideFlags = HideFlags.HideAndDontSave;
-
-        var mf = temp.GetComponentInChildren<MeshFilter>();
-
-#if UNITY_EDITOR
-        Object.DestroyImmediate(temp);
-#else
-        Object.Destroy(temp);
-#endif
-
-        Mesh mesh = (mf != null && mf.sharedMesh != null)
-            ? mf.sharedMesh
+        Mesh baseMesh = prefab != null
+            ? prefab.GetComponentInChildren<MeshFilter>().sharedMesh
             : TileMeshFactory.QuadTile(TILE_SIZE);
 
-        cached = new TileCacheEntry { Mesh = mesh };
+        // Clone and remap UVs
+        Mesh remapped = MeshUVTools.CreateUVRemappedCopy(
+            baseMesh,
+            atlasIndex,
+            (int)t.Rotation
+        );
+
+        cached = new TileCacheEntry { Mesh = remapped };
         _cache[key] = cached;
 
         return cached;
     }
 
     // -------------------------------------------------------------
-    // Main chunk builder (single material)
+    // Chunk builder
     // -------------------------------------------------------------
     private static GameObject BuildChunkInternal(
         int chunkX,
@@ -166,62 +168,63 @@ public static class TileChunkBuilder
         int width = tiles.GetLength(0);
         int height = tiles.GetLength(1);
 
-        // Only ONE material → use one list
         List<CombineInstance> combineInstances = new List<CombineInstance>(width * height);
-
         Mesh defaultMesh = TileMeshFactory.QuadTile(TILE_SIZE);
 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                var t = tiles[x, y];
+                TileInfo t = tiles[x, y];
                 var entry = GetOrCreateCachedEntry(registry, t);
+
                 Mesh mesh = entry?.Mesh ?? defaultMesh;
 
-                Vector3 localPos = new Vector3(
+                Vector3 pos = new Vector3(
                     x * TILE_SIZE,
-                    t.ElevationLevel,
-                    y * TILE_SIZE);
+                    0,
+                    y * TILE_SIZE
+                );
 
-                Quaternion rot = Quaternion.Euler(0, RotationDegrees(t.Rotation), 0);
-
+                // Quaternion rot = Quaternion.Euler(0, RotationDegrees(t.Rotation), 0);
+                Quaternion rot = Quaternion.Euler(0, 0, 0);
                 combineInstances.Add(new CombineInstance
                 {
                     mesh = mesh,
-                    transform = Matrix4x4.TRS(localPos, rot, Vector3.one)
+                    transform = Matrix4x4.TRS(pos, rot, Vector3.one)
                 });
             }
         }
 
-        // Combine into one giant mesh
+        // Final combined mesh
         Mesh finalMesh = new Mesh();
         finalMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         finalMesh.CombineMeshes(combineInstances.ToArray(), true, true);
-
-        // Create GameObject for the chunk
+        if (combineInstances.Count != height * width)
+        {
+            Debug.LogError("Mesh count is " + combineInstances.Count);
+        }
         var chunkGO = new GameObject($"Chunk_{chunkX}_{chunkY}");
         chunkGO.transform.SetParent(parent, false);
 
-        float worldX = localStartX * TILE_SIZE;
-        float worldZ = localStartY * TILE_SIZE;
-
-        chunkGO.transform.localPosition = new Vector3(worldX, 0, worldZ);
+        chunkGO.transform.localPosition = new Vector3(
+            localStartX * TILE_SIZE,
+            0,
+            localStartY * TILE_SIZE
+        );
 
         var mf = chunkGO.AddComponent<MeshFilter>();
         var mr = chunkGO.AddComponent<MeshRenderer>();
 
         mf.sharedMesh = finalMesh;
-        mr.sharedMaterial = registry.DefaultMaterial; // always sand
+        mr.sharedMaterial = registry.DefaultMaterial;
 
         chunkGO.isStatic = true;
-
         return chunkGO;
     }
 
-    private static float RotationDegrees(Rotation r)
-    {
-        return r switch
+    private static float RotationDegrees(Rotation r) =>
+        r switch
         {
             Rotation.R0 => 0f,
             Rotation.R90 => 90f,
@@ -229,5 +232,4 @@ public static class TileChunkBuilder
             Rotation.R270 => 270f,
             _ => 0f
         };
-    }
 }

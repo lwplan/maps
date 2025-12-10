@@ -51,12 +51,14 @@
     <Compile Include="Assets/Map3D/Debug2D/TileColorScheme.cs" />
     <Compile Include="Assets/Map3D/Debug2D/TileMap2DGizmoRenderer.cs" />
     <Compile Include="Assets/Scripts/Runtime/Map3dSpawner.cs" />
+    <Compile Include="Assets/Scripts/Runtime/MeshUVTools.cs" />
     <Compile Include="Assets/Scripts/Runtime/TileChunkBuilder.cs" />
     <Compile Include="Assets/Scripts/Runtime/TestMeshFactory.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
     <Compile Include="Assets/Map3D/Debug2D/TileMap2DRenderer.cs" />
     <Compile Include="Assets/Scripts/Runtime/TilePrefabRegistry.cs" />
     <Compile Include="Assets/TileW/SeaScene/RockingMotion.cs" />
+    <Compile Include="Assets/Scripts/Runtime/AtlasUV.cs" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

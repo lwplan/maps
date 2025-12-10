@@ -74,4 +74,37 @@ public class TilePrefabRegistry : ScriptableObject
     {
         return _hasRotationOverrides.Contains(pattern);
     }
+
+    public int GetAtlasIndex(PavingPattern tPavingPattern, BiomeType tBiome)
+    {
+        switch (tPavingPattern)
+        {
+            case PavingPattern.None:
+                return 13;
+            case PavingPattern.Center:
+                return 9;
+            case PavingPattern.End:
+                return 5;
+            case PavingPattern.Straight:
+                return 1;
+            case PavingPattern.Corner:
+                return 2;
+            case PavingPattern.TJunction:
+                return 4;
+            case PavingPattern.Cross:
+                return 3;
+            case PavingPattern.Full:
+                return 0;
+            case PavingPattern.EdgeStrip:
+                return 9;
+            case PavingPattern.InnerCorner:
+                return 7;
+            case PavingPattern.ChamferedEdge:
+                return 12;
+            case PavingPattern.OuterCorner:
+                return 10;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(tPavingPattern), tPavingPattern, null);
+        }
+    }
 }
